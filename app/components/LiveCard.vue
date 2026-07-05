@@ -1,5 +1,5 @@
 <template>
-  <component :is="tag" class="live-card" :class="[variantClass, tagClass]" :href="live.href">
+  <component :is="tag" class="live-card" :class="variantClass" :href="live.href">
     <div class="live-card__cover">
       <img class="live-card__img" :src="live.cover" :alt="live.title">
       <div v-if="variant === 'hot'" class="live-card__gradient-mask"></div>

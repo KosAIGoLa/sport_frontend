@@ -8,7 +8,7 @@
       @click="scrollPrev"
     >
       <slot name="prev-icon">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        <Icon path="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
       </slot>
     </button>
     <button
@@ -19,7 +19,7 @@
       @click="scrollNext"
     >
       <slot name="next-icon">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg>
+        <Icon path="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z" />
       </slot>
     </button>
     <div class="carousel-viewport" :class="wrapperClass">
@@ -54,11 +54,13 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['prev', 'next'])
+const slots = useSlots()
 
 const offset = ref(0)
 const stepSize = computed(() => props.step ?? props.visibleCount)
 
-const slideCount = computed(() => props.items.length + 1)
+const hasAfterSlot = computed(() => !!slots.after)
+const slideCount = computed(() => props.items.length + (hasAfterSlot.value ? 1 : 0))
 
 const maxOffset = computed(() => {
   return Math.max(0, props.slideWidth * (slideCount.value - props.visibleCount))
