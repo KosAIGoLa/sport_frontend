@@ -61,9 +61,32 @@ pnpm dev
 
 ![首页预览](./screen/img.png)
 
-## 构建
+## 静态构建
+
+本项目使用 `nuxt generate` 输出纯静态文件，部署时只需上传 `.output/public` 目录。
 
 ```bash
-pnpm build
+pnpm generate
+```
+
+构建产物目录：`.output/public`
+
+如需本地预览静态站点：
+
+```bash
 pnpm preview
 ```
+
+## 压缩与混淆
+
+项目已内置以下优化配置，仅在 `pnpm generate` 生产构建时生效：
+
+| 功能 | 依赖 | 说明 |
+|------|------|------|
+| JS 混淆 | `vite-plugin-javascript-obfuscator` | 对 `app/` 下的 `.vue` / `.ts` 进行代码混淆 |
+| CSS 压缩 | `cssnano` + `autoprefixer` | 压缩 CSS 并自动补全浏览器前缀 |
+| 资源压缩 | `vite-plugin-compression2` | 生成 `.gz` 与 `.br` 压缩文件 |
+
+配置入口：`nuxt.config.ts`。
+
+如需调整混淆强度，可修改 `vite.plugins.obfuscatorPlugin.options` 中的 [javascript-obfuscator 选项](https://github.com/javascript-obfuscator/javascript-obfuscator#options)。
