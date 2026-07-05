@@ -6,33 +6,7 @@
     </div>
     <ul class="hot-content">
       <li v-for="(live, idx) in hotLives" :key="idx">
-        <a :href="live.href">
-          <div class="mask"></div>
-          <img class="fm live-cover" :src="live.cover" :alt="live.title">
-          <div class="live-mask"></div>
-          <i class="btn-open"></i>
-          <div class="top-tag">
-            <span class="com"><i>{{ live.tag }}</i></span>
-            <div class="living">
-              <img src="/assets/living.gif" alt="live">
-              <span>Live</span>
-            </div>
-          </div>
-          <h5 class="bottom-title">
-            <span class="name">{{ live.anchor }}</span>
-            <span class="num">
-              <img src="/assets/icon-hot-white.png" alt="">
-              <span>{{ live.viewers }}</span>
-            </span>
-          </h5>
-        </a>
-        <div class="card-info">
-          <h4 class="ellipsis">{{ live.title }}</h4>
-          <div class="card-meta">
-            <span>{{ live.anchor }}</span>
-            <strong>{{ live.viewers }}</strong>
-          </div>
-        </div>
+        <LiveCard variant="hot" :live="live" />
       </li>
     </ul>
   </section>
@@ -137,199 +111,10 @@ const hotLives = [
 .hot-content li:nth-child(4n) {
   margin-right: 0;
 }
-.hot-content li a {
-  cursor: pointer;
-  width: 100%;
-  height: 160px;
-  position: relative;
-  transition: color 0.2s ease-out;
-  float: left;
-  display: block;
-}
-.hot-content li a .mask {
-  position: absolute;
-  width: 100%;
-  height: 160px;
-  border-radius: 18px 18px 0 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0) 0, rgba(0,0,0,0.6) 100%);
-  z-index: 2;
-}
-.hot-content li a > img {
-  display: block;
-  width: 100%;
-  height: 160px;
-  border-radius: 18px 18px 0 0;
-  object-fit: cover;
-}
-.hot-content li a .live-mask {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  transition: all 0.3s ease-out;
-  opacity: 0;
-  background: #000;
-  border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
-  z-index: 3;
-}
-.hot-content li a:hover .live-mask {
-  opacity: 0.4;
-}
-.hot-content li a .btn-open {
-  opacity: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 44px;
-  height: 44px;
-  margin: -25px 0 0 -25px;
-  background: url('/assets/icon-open@2x.png') no-repeat;
-  background-size: 44px auto;
-  transform: scale(2);
-  transition: all 0.25s ease-out;
-  z-index: 4;
-}
-.hot-content li a:hover .btn-open {
-  opacity: 1;
-  transform: scale(1);
-}
-.top-tag {
-  position: absolute;
-  width: 100%;
-  top: 0;
-  left: 0;
-  padding: 0;
-  z-index: 5;
-  pointer-events: none;
-}
-.top-tag::after {
-  display: block;
-  height: 0;
-  clear: both;
-  content: "";
-  visibility: hidden;
-}
-.top-tag .com,
-.top-tag .hots,
-.top-tag .tag {
-  float: left;
-  width: 42px;
-  height: 28px;
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
-  color: #fff;
-  position: relative;
-}
-.top-tag .com {
-  background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
-}
-.top-tag .hots {
-  background: linear-gradient(135deg, #fb7185 0%, #ef4444 100%);
-}
-.top-tag .tag {
-  background: #f5a623;
-  color: #111827;
-}
-.top-tag .com::after,
-.top-tag .hots::after,
-.top-tag .tag::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: -10px;
-  width: 0;
-  height: 0;
-  border-top: 28px solid #218aff;
-  border-right: 10px solid transparent;
-}
-.top-tag .hots::after {
-  border-top-color: #f53923;
-}
-.top-tag .tag::after {
-  border-top-color: #f5a623;
-}
-.top-tag .com i,
-.top-tag .hots i,
-.top-tag .tag i {
-  position: relative;
-  z-index: 1;
-  display: block;
-  font-size: 14px;
-  font-style: normal;
-  line-height: 28px;
-  text-align: center;
-  white-space: nowrap;
-}
-.living {
-  float: right;
-  height: 18px;
-  padding: 0 4px;
-  margin-right: 8px;
-  line-height: 18px;
-  font-size: 0;
-  background: rgba(239, 68, 68, 0.92);
-  border-radius: 999px;
-}
-.living img {
-  width: 10px;
-  height: 10px;
-  margin-right: 4px;
-  vertical-align: middle;
-}
-.living span {
-  position: static;
-  font-size: 12px;
-  color: #fff;
-  border-radius: 0;
-  border-right: 0;
-  vertical-align: top;
-}
-.bottom-title {
-  font-weight: 400;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 28px;
-  line-height: 20px;
-  font-size: 14px;
-  color: #fff;
-  padding: 0 14px 8px;
-  letter-spacing: 1px;
-  background: linear-gradient(180deg, rgba(0,0,0,0) 0, rgba(0,0,0,0.8) 100%);
-  z-index: 5;
-}
-.bottom-title .name {
-  display: block;
-}
-.bottom-title .num {
-  float: right;
-}
-.bottom-title .num img {
-  width: 14px;
-  float: left;
-  padding-top: 3px;
-  padding-right: 2px;
-}
-.bottom-title .num span {
-  display: block;
-}
-.hot-content li .ellipsis {
-  background: #fff;
-  height: 40px;
-  line-height: 40px;
-  font-weight: 400;
-  padding: 0 14px;
-  font-size: 14px;
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
-  color: #000;
+.hot-content li :deep(.live-card) {
+  border-radius: 18px;
   overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  height: 100%;
 }
 
 @media screen and (max-width: 1400px) {
@@ -343,15 +128,6 @@ const hotLives = [
     height: 196px;
     width: 228px;
     margin: 0 16px 56px 0;
-  }
-  .hot-content li a {
-    height: 128px;
-  }
-  .hot-content li a .mask {
-    height: 100%;
-  }
-  .hot-content li a > img {
-    height: 100%;
   }
 }
 </style>

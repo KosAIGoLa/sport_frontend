@@ -3,22 +3,22 @@
     <div class="title-block">
       <img src="/assets/hot-zb.png" alt="热门主播">
     </div>
-    <div class="anchor-swiper-container">
-      <div class="swiper-wrapper" :style="{ transform: `translateX(${-offset}px)` }">
-        <div v-for="(anchor, idx) in anchors" :key="idx" class="swiper-slide person">
-          <a href="javascript:;">
-            <img class="avatar" :src="anchor.avatar" :alt="anchor.name">
-            <p class="ellipsis">{{ anchor.name }}</p>
-          </a>
-        </div>
-      </div>
-      <button class="swiper-btn prev" @click="prev">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-      </button>
-      <button class="swiper-btn next" @click="next">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-      </button>
-    </div>
+    <Carousel
+      :items="anchors"
+      :slide-width="178"
+      :visible-count="7"
+      :step="7"
+      container-class="anchor-carousel"
+      wrapper-class="anchor-swiper-container"
+      slide-class="person"
+    >
+      <template #slide="{ item }">
+        <a href="javascript:;">
+          <img class="avatar" :src="item.avatar" :alt="item.name">
+          <p class="ellipsis">{{ item.name }}</p>
+        </a>
+      </template>
+    </Carousel>
   </section>
 </template>
 
@@ -35,18 +35,6 @@ const anchors = [
   { name: '老李', avatar: '/assets/anchors/anchor1.png' },
   { name: '碧咸（粤語）', avatar: '/assets/anchors/anchor10.png' }
 ]
-
-const offset = ref(0)
-const visibleCount = 7
-const slideWidth = 178
-
-function prev() {
-  offset.value = Math.max(0, offset.value - visibleCount * slideWidth)
-}
-function next() {
-  const max = Math.max(0, (anchors.length - visibleCount) * slideWidth)
-  offset.value = Math.min(max, offset.value + visibleCount * slideWidth)
-}
 </script>
 
 <style scoped>
@@ -83,28 +71,21 @@ function next() {
   height: 196px;
   width: 1100px;
   padding: 48px 0 38px;
-  overflow: hidden;
   position: relative;
 }
-.swiper-wrapper {
-  display: flex;
-  transition: transform 0.3s ease;
-}
-.swiper-slide.person {
-  flex: 0 0 auto;
-  width: 138px;
+:deep(.carousel-slide.person) {
   height: 106px;
   padding: 0 20px;
   font-size: 14px;
   text-align: center;
   cursor: pointer;
 }
-.swiper-slide.person a {
+:deep(.carousel-slide.person) a {
   display: block;
   text-decoration: none;
   color: #333;
 }
-.swiper-slide.person .avatar {
+:deep(.carousel-slide.person) .avatar {
   width: 80px;
   height: 80px;
   border-radius: 50%;
@@ -115,45 +96,35 @@ function next() {
   box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
   transition: all 0.2s;
 }
-.swiper-slide.person a:hover .avatar {
+:deep(.carousel-slide.person) a:hover .avatar {
   border-color: #ffc21c;
   transform: scale(1.05);
 }
-.swiper-slide.person .ellipsis {
+:deep(.carousel-slide.person) .ellipsis {
   font-size: 14px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.swiper-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+:deep(.carousel-btn) {
   width: 30px;
   height: 30px;
-  border: none;
   background: rgba(255, 255, 255, 0.8);
   border-radius: 999px;
   box-shadow: 0 8px 22px rgba(15, 23, 42, 0.12);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-  padding: 0;
 }
-.swiper-btn svg {
+:deep(.carousel-btn) svg {
   width: 30px;
   height: 30px;
   color: #979797;
 }
-.swiper-btn:hover svg {
+:deep(.carousel-btn:hover) svg {
   color: #f8c21b;
 }
-.swiper-btn.prev {
+:deep(.carousel-prev) {
   left: 0;
 }
-.swiper-btn.next {
+:deep(.carousel-next) {
   right: 0;
 }
 
@@ -171,11 +142,10 @@ function next() {
   .anchor-swiper-container {
     width: 1100px;
   }
-  .swiper-slide.person {
-    width: 138px;
+  :deep(.carousel-slide.person) {
     padding: 0 20px;
   }
-  .swiper-slide.person .avatar {
+  :deep(.carousel-slide.person) .avatar {
     width: 80px;
     height: 80px;
   }

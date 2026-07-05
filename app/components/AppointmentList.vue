@@ -1,65 +1,54 @@
 <template>
   <section class="appoinment-list inner">
-    <div class="appoinment-swiper-container">
-      <button
-        type="button"
-        class="swiper-nav swiper-prev"
-        :class="{ disabled: offset <= 0 }"
-        @click="scrollPrev"
-      >
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-      </button>
-      <button
-        type="button"
-        class="swiper-nav swiper-next"
-        :class="{ disabled: offset >= maxOffset }"
-        @click="scrollNext"
-      >
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg>
-      </button>
-      <div class="swiper-wrapper" :style="{ transform: `translateX(${-offset}px)` }">
-        <div
-          v-for="(game, idx) in games"
-          :key="idx"
-          class="swiper-slide game"
-          @click="goRoom(game.href)"
-        >
+    <Carousel
+      :items="games"
+      :slide-width="252"
+      :visible-count="4"
+      :step="1"
+      container-class="appoinment-carousel"
+      wrapper-class="appoinment-swiper-container"
+      slide-class="game"
+    >
+      <template #slide="{ item }">
+        <div class="game-card" @click="goRoom(item.href)">
           <div class="title">
-            <div class="fl">
-              <img :src="game.leagueIcon" class="icon" alt="">
-              <span>{{ game.league }}</span>
+            <div class="league-info">
+              <img :src="item.leagueIcon" class="icon" alt="">
+              <span>{{ item.league }}</span>
             </div>
-            <div class="fr match-time">
-              <span>{{ game.date }}</span>
-              {{ game.time }}
+            <div class="match-time">
+              <span>{{ item.date }}</span>
+              {{ item.time }}
             </div>
             <div class="match-status">即将开始</div>
           </div>
           <div class="box">
-            <div class="battle-team fl">
+            <div class="battle-team">
               <p>
-                <img class="logo match-cover" :src="game.team1Icon" alt="">
-                <span class="ellipsis">{{ game.team1 }}</span>
+                <img class="logo match-cover" :src="item.team1Icon" alt="">
+                <span class="ellipsis">{{ item.team1 }}</span>
               </p>
               <p>
-                <img class="logo match-cover" :src="game.team2Icon" alt="">
-                <span class="ellipsis">{{ game.team2 }}</span>
+                <img class="logo match-cover" :src="item.team2Icon" alt="">
+                <span class="ellipsis">{{ item.team2 }}</span>
               </p>
             </div>
-            <button type="button" class="appoinment" :class="{ use: game.appointed }" @click.stop="game.appointed = !game.appointed">
+            <button type="button" class="appoinment" :class="{ use: item.appointed }" @click.stop="item.appointed = !item.appointed">
               <span class="already-appoinment">已预约</span>
               <span class="no-appoinment">预约</span>
             </button>
           </div>
         </div>
-        <div class="swiper-slide more-match">
+      </template>
+      <template #after>
+        <div class="carousel-slide more-match">
           <a href="/match.html">
             <img src="/assets/more.png" alt="">
             <p class="match-text">更多赛程</p>
           </a>
         </div>
-      </div>
-    </div>
+      </template>
+    </Carousel>
   </section>
 </template>
 
@@ -73,23 +62,6 @@ const games = ref([
   { league: '哈萨克超', leagueIcon: '/assets/league2', date: '今天', time: '10:00', team1: '阿迪拿奥', team1Icon: '/assets/teams/team5.png', team2: '卡斯比阿克套', team2Icon: '/assets/teams/team6.png', appointed: false, href: '/room/506605?scheduleId=undefined' },
   { league: '挪甲', leagueIcon: '/assets/league2', date: '今天', time: '10:00', team1: '奥德', team1Icon: '/assets/teams/team1.png', team2: '海于格松', team2Icon: '/assets/teams/team2.png', appointed: false, href: '/room/506605?scheduleId=undefined' }
 ])
-
-const offset = ref(0)
-const slideWidth = 252
-const visibleSlides = 4
-
-const maxOffset = computed(() => {
-  const totalSlides = games.value.length + 1
-  return Math.max(0, slideWidth * (totalSlides - visibleSlides))
-})
-
-function scrollPrev() {
-  offset.value = Math.max(0, offset.value - slideWidth)
-}
-
-function scrollNext() {
-  offset.value = Math.min(maxOffset.value, offset.value + slideWidth)
-}
 
 function goRoom(href) {
   window.location.href = href
@@ -119,53 +91,36 @@ function goRoom(href) {
   padding: 0;
   overflow: hidden;
 }
-.swiper-nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
+:deep(.carousel-btn) {
   width: 34px;
   height: 34px;
-  border: 0;
   border-radius: 50%;
   background: #fff;
   color: #0f172a;
   box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
 }
-.swiper-nav svg {
+:deep(.carousel-btn) svg {
   width: 20px;
   height: 20px;
 }
-.swiper-prev {
+:deep(.carousel-prev) {
   left: 12px;
 }
-.swiper-next {
+:deep(.carousel-next) {
   right: 12px;
 }
-.swiper-nav:hover {
+:deep(.carousel-btn:hover) {
   background: #f59e0b;
   color: #fff;
   transform: translateY(-50%) scale(1.08);
   box-shadow: 0 6px 18px rgba(251, 191, 36, 0.35);
 }
-.swiper-nav.disabled {
+:deep(.carousel-btn.disabled) {
   opacity: 0;
   pointer-events: none;
   transform: translateY(-50%) scale(0.9);
 }
-.swiper-wrapper {
-  height: 100%;
-  display: flex;
-  transition: transform 0.3s ease;
-}
-.swiper-slide.game {
-  flex: 0 0 auto;
-  width: 252px;
+:deep(.carousel-slide.game) {
   height: 100%;
   position: relative;
   text-align: center;
@@ -178,11 +133,14 @@ function goRoom(href) {
   text-decoration: none;
   cursor: pointer;
 }
-.swiper-slide.game:hover {
+:deep(.carousel-slide.game):hover {
   background: rgba(255, 248, 221, 0.72);
   transform: translateY(-2px);
 }
 .title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   color: #64748b;
   font-size: 12px;
   margin: 0 0 18px;
@@ -190,28 +148,14 @@ function goRoom(href) {
   line-height: 17px;
   position: relative;
 }
-.title::after {
-  display: block;
-  height: 0;
-  clear: both;
-  content: "";
-  visibility: hidden;
+.league-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
-.title .fl {
-  float: left;
-}
-.title .fl .icon {
+.league-info .icon {
   width: 12px;
   height: 12px;
-  vertical-align: middle;
-}
-.title .fl span {
-  display: inline-block;
-  vertical-align: middle;
-  margin-left: 4px;
-}
-.title .fr {
-  float: right;
 }
 .match-time {
   color: #0f172a;
@@ -234,33 +178,30 @@ function goRoom(href) {
   line-height: 20px;
   font-weight: 700;
 }
-.box::after {
-  display: block;
-  height: 0;
-  clear: both;
-  content: "";
-  visibility: hidden;
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .battle-team {
   width: 150px;
   overflow: hidden;
-  display: inline-block;
-  float: left;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 .battle-team p {
-  float: left;
-  padding-bottom: 10px;
+  display: flex;
+  align-items: center;
   text-align: left;
 }
 .battle-team p .logo {
   width: 26px;
   height: 26px;
-  vertical-align: middle;
-  float: left;
+  flex: 0 0 26px;
   object-fit: contain;
 }
 .battle-team p .ellipsis {
-  display: inline-block;
   width: 112px;
   margin: 0 0 0 6px;
   font-size: 14px;
@@ -276,7 +217,6 @@ function goRoom(href) {
   border: 0;
   padding: 0;
   display: inline-block;
-  margin-top: 24px;
   width: 52px;
   height: 25px;
   line-height: 25px;
@@ -303,16 +243,14 @@ function goRoom(href) {
 .appoinment.use .no-appoinment {
   display: none;
 }
-.swiper-slide.more-match {
-  flex: 0 0 auto;
-  width: 252px;
+:deep(.carousel-slide.more-match) {
   height: 100%;
   position: relative;
   text-align: center;
   font-size: 14px;
   color: #777;
 }
-.swiper-slide.more-match a {
+:deep(.carousel-slide.more-match) a {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -321,12 +259,12 @@ function goRoom(href) {
   text-decoration: none;
   color: #777;
 }
-.swiper-slide.more-match a img {
+:deep(.carousel-slide.more-match) a img {
   width: 29px;
   height: 26px;
   margin: 0 auto 4px;
 }
-.swiper-slide.more-match a .match-text {
+:deep(.carousel-slide.more-match) a .match-text {
   margin-top: 4px;
   font-size: 12px;
 }
