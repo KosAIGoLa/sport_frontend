@@ -64,13 +64,19 @@ pnpm dev
 
 ## 静态构建
 
-本项目使用 `nuxt generate` 输出纯静态文件，部署时只需上传 `.output/public` 目录。
+本项目使用 `nuxt build` 输出纯静态文件，部署时只需上传 `dist` 目录。
 
 ```bash
-pnpm generate
+pnpm build
 ```
 
-构建产物目录：`.output/public`
+构建产物目录：`dist`
+
+如需快速构建（跳过 JS 混淆与 Gzip/Brotli 压缩）：
+
+```bash
+pnpm build:fast
+```
 
 如需本地预览静态站点：
 
@@ -80,7 +86,7 @@ pnpm preview
 
 ## 压缩与混淆
 
-项目已内置以下优化配置，仅在 `pnpm generate` 生产构建时生效：
+项目已内置以下优化配置，默认在 `pnpm build` 生产构建时生效：
 
 | 功能 | 依赖 | 说明 |
 |------|------|------|

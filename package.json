@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "nuxt build",
+    "build:fast": "FAST_BUILD=1 nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
