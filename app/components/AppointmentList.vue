@@ -64,7 +64,8 @@ const games = ref([
 ])
 
 function goRoom(href) {
-  window.location.href = href
+  if (typeof href !== 'string' || !href.startsWith('/')) return
+  navigateTo(href)
 }
 </script>
 

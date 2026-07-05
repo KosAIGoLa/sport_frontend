@@ -9,7 +9,7 @@
           <a href="/">首页</a>
           <a href="/liveType.html">全部直播</a>
           <a class="active" href="/match.html">赛程</a>
-          <a class="download" href="/download" target="_blank">
+          <a class="download" href="/download" target="_blank" rel="noopener noreferrer">
             下载APP
             <img src="/assets/hot.png" alt="hot">
           </a>

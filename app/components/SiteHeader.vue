@@ -12,7 +12,7 @@
             <li class="live-menu" :class="{ active: activeMenu === 'live' }" @click="goLiveType"><span>全部直播</span></li>
             <li class="match-menu" :class="{ active: activeMenu === 'schedule' }" @click="goMatch"><span>赛程</span></li>
             <li class="download-menu">
-              <span><a href="/download" target="_blank">下载APP</a></span>
+              <span><a href="/download" target="_blank" rel="noopener noreferrer">下载APP</a></span>
               <img class="hot" src="/assets/hot.png" alt="hot">
               <div class="submenu download-submenu">
                 <div class="submenu-box download-submenu-box">

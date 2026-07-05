@@ -28,6 +28,7 @@
 ├── public/                # 静态资源
 ├── nuxt.config.ts         # Nuxt 配置
 ├── package.json
+├── LICENSE                # 开源协议
 └── README.md
 ```
 
@@ -90,3 +91,9 @@ pnpm preview
 配置入口：`nuxt.config.ts`。
 
 如需调整混淆强度，可修改 `vite.plugins.obfuscatorPlugin.options` 中的 [javascript-obfuscator 选项](https://github.com/javascript-obfuscator/javascript-obfuscator#options)。
+
+## 协议
+
+本项目采用 [MIT License](LICENSE) 开源。使用、修改或分发本项目时，必须保留原作者版权声明和许可声明。
+
+Copyright (c) 2026 kboy <kosbox101@gmail.com>
