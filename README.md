@@ -62,6 +62,8 @@ pnpm dev
 
 ![首页预览](./screen/img.png)
 
+![赛事详情预览](./screen/img_1.png)
+
 ## 静态构建
 
 本项目使用 `nuxt build` 输出纯静态文件，部署时只需上传 `dist` 目录。
