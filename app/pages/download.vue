@@ -7,26 +7,27 @@
     </header>
     <main class="download-main">
       <div class="download-card">
-        <img class="download-qr" src="/assets/code.png" alt="扫码下载">
-        <h1>下载 857 直播 APP</h1>
-        <p class="download-desc">请使用手机浏览器扫描上方二维码，或前往官方应用商店下载。</p>
+        <img class="download-qr" src="/assets/code.png" :alt="t('page.downloadTitle')">
+        <h1>{{ t('page.downloadTitle') }}</h1>
+        <p class="download-desc">{{ t('page.downloadDesc') }}</p>
         <div class="download-tips">
-          <p><strong>安全提示：</strong></p>
+          <p><strong>{{ t('page.safetyNotice') }}</strong></p>
           <ul>
-            <li>请勿通过非官方渠道下载安装包，谨防木马与钓鱼软件。</li>
-            <li>安装前请核对应用名称、开发者签名与版本号。</li>
-            <li>如遇到诱导添加私人账号、转账充值等请求，请立即举报。</li>
+            <li>{{ t('page.safetyTip1') }}</li>
+            <li>{{ t('page.safetyTip2') }}</li>
+            <li>{{ t('page.safetyTip3') }}</li>
           </ul>
         </div>
-        <a class="download-back" href="/">返回首页</a>
+        <a class="download-back" href="/">{{ t('page.backToHome') }}</a>
       </div>
     </main>
   </div>
 </template>
 
 <script setup>
+const { t } = useI18n()
 useHead({
-  title: '下载 857 直播 APP'
+  title: t('page.downloadTitle')
 })
 </script>
 

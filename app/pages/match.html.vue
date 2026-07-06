@@ -72,7 +72,7 @@
                 <div class="name ellipsis">{{ match.league }}</div>
                 <div class="time">{{ match.time }}</div>
               </div>
-              <MobileOnly tag="button" class="mobile-bell" type="button" aria-label="预约提醒" @click.stop>
+              <MobileOnly tag="button" class="mobile-bell" type="button" :aria-label="t('page.bookingReminder')" @click.stop>
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a5 5 0 0 0-5 5v2.3c0 .7-.2 1.4-.6 2L5 14.6V16h14v-1.4l-1.4-2.3c-.4-.6-.6-1.3-.6-2V8a5 5 0 0 0-5-5Zm0 18a2.5 2.5 0 0 0 2.4-2h-4.8A2.5 2.5 0 0 0 12 21Z" /></svg>
               </MobileOnly>
               <div class="team">
@@ -102,7 +102,7 @@
               </div>
               <div class="living-box" :class="{ 'living-box--pending': match.status !== '开始' }">
                 <img v-if="match.status === '开始'" src="https://sta.ncctrials.com/857web/assets/857/img/triangle.png" alt="">
-                <span>{{ match.status || '未开始' }}</span>
+                <span>{{ statusText(match.status) }}</span>
               </div>
             </div>
           </article>
@@ -140,13 +140,13 @@ const matchTab = computed(() => {
 })
 
 const days = [
-  { day: '今天', date: '07.05' },
-  { day: '周一', date: '07.06' },
-  { day: '周二', date: '07.07' },
-  { day: '周三', date: '07.08' },
-  { day: '周四', date: '07.09' },
-  { day: '周五', date: '07.10' },
-  { day: '周六', date: '07.11' }
+  { day: t('page.today'), date: '07.05' },
+  { day: t('page.mon'), date: '07.06' },
+  { day: t('page.tue'), date: '07.07' },
+  { day: t('page.wed'), date: '07.08' },
+  { day: t('page.thu'), date: '07.09' },
+  { day: t('page.fri'), date: '07.10' },
+  { day: t('page.sat'), date: '07.11' }
 ]
 
 const matches = [
@@ -341,6 +341,11 @@ function openLogin(type) {
   followVisible.value = false
   loginType.value = type
   loginVisible.value = true
+}
+
+function statusText(status) {
+  if (status === '开始') return t('page.statusStarted')
+  return t('page.statusNotStarted')
 }
 
 function openMatchDetail(match) {

@@ -10,8 +10,8 @@
       <AppointmentList id="schedule" />
       <HotLives />
       <HotAnchors />
-      <LiveCategory id="football-live" title-image="/assets/football-live.png" title-alt="足球直播" :lives="footballLives" />
-      <LiveCategory id="all-live" title-image="/assets/hot-live.png" title-alt="全部直播" more-link="/liveType.html" :lives="allLives" />
+      <LiveCategory id="football-live" title-image="/assets/football-live.png" :title-alt="t('page.footballLive')" :lives="footballLives" />
+      <LiveCategory id="all-live" title-image="/assets/hot-live.png" :title-alt="t('page.allLive')" more-link="/liveType.html" :lives="allLives" />
     </main>
     <RightFix />
     <SiteFooter />
@@ -33,6 +33,7 @@
 </template>
 
 <script setup>
+const { t } = useI18n()
 const isLoggedIn = ref(false)
 const loginVisible = ref(false)
 const loginType = ref('login')

@@ -3,7 +3,7 @@
     <div class="section-head">
       <img class="section-title" :src="titleImage" :alt="titleAlt">
       <a class="section-more" :href="moreLink">
-        <span>查看更多</span>
+        <span>{{ t('page.viewMore') }}</span>
         <img src="/assets/more.png" alt="">
       </a>
     </div>
@@ -27,7 +27,7 @@
           <div class="noData-img">
             <img src="/assets/none.png" alt="">
           </div>
-          <div class="noData-text">列表空空如也~</div>
+          <div class="noData-text">{{ t('common.empty') }}</div>
         </div>
       </div>
     </div>
@@ -35,6 +35,7 @@
 </template>
 
 <script setup>
+const { t } = useI18n()
 const props = defineProps({
   titleImage: { type: String, default: '/assets/football-live.png' },
   titleAlt: { type: String, default: '足球直播' },

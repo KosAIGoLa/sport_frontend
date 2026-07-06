@@ -18,14 +18,14 @@
                 <h1>{{ roomInfo.name }}</h1>
                 <p>
                   <span>{{ roomInfo.anchor }}</span>
-                  <span>房间号:{{ roomId }}</span>
+                  <span>{{ t('page.roomNumber') }}:{{ roomId }}</span>
                   <em>{{ roomInfo.hot }}</em>
-                  <a href="/download/" target="_blank" rel="noopener noreferrer">下载APP可投屏电视</a>
+                  <a href="/download/" target="_blank" rel="noopener noreferrer">{{ t('page.castToTV') }}</a>
                 </p>
               </div>
             </div>
             <div class="anchor-actions">
-              <button type="button">关注</button>
+              <button type="button">{{ t('page.follow') }}</button>
               <img class="code-icon" src="/assets/icon-code.png" alt="">
               <span class="down-arrow"></span>
             </div>
@@ -37,10 +37,10 @@
                 <div id="xgplayer-container" class="xgplayer-container"></div>
                 <div class="video-live-badge">
                   <span class="live-pulse"></span>
-                  正在直播
+                  {{ t('page.liveNow') }}
                 </div>
                 <div class="video-meta">
-                  <span class="video-tag">体育直播</span>
+                  <span class="video-tag">{{ t('page.sportsLive') }}</span>
                   <h2>瑞典超 埃尔夫斯堡-哈马比 主黄</h2>
                   <p>实时比分 <strong>2-0</strong></p>
                 </div>
@@ -51,7 +51,7 @@
                 <span>23:30</span>
                 <strong>瑞典超 埃尔夫斯堡-哈马比 主黄</strong>
                 <b>2-0</b>
-                <em>体育直播</em>
+                <em>{{ t('page.sportsLive') }}</em>
               </div>
               <div v-for="(row, idx) in scoreRows" :key="idx" class="score-row">
                 <span>{{ row.time }}</span>
@@ -60,17 +60,17 @@
                 <b>{{ row.score }}</b>
                 <strong>{{ row.away }}</strong>
                 <small>{{ row.half }}</small>
-                <button type="button">{{ row.live }}</button>
+                <button type="button">{{ liveStatusText(row.live) }}</button>
               </div>
             </DesktopOnly>
             <DesktopOnly tag="div" class="player-ad">
-              <span class="ad-badge">推荐</span>
+              <span class="ad-badge">{{ t('page.recommended') }}</span>
               <span class="ad-text">浏览器输入66chat8.cc下载66APP，添加主播助理66号：C99999，备注老万领取每日电子波胆进V</span>
             </DesktopOnly>
             <DesktopOnly tag="div" class="coin-bar">
               <div class="coin-count">
                 <strong>0</strong>
-                <span>我的金币</span>
+                <span>{{ t('page.myCoins') }}</span>
               </div>
               <div class="coin-icons">
                 <button type="button" class="coin-btn"><img src="/assets/icon-code.png" alt=""></button>
@@ -79,7 +79,7 @@
                 </button>
                 <button type="button" class="coin-btn"><img src="/assets/face.png" alt=""></button>
               </div>
-              <a href="javascript:;">如何获取金币?</a>
+              <a href="javascript:;">{{ t('page.howToGetCoins') }}</a>
             </DesktopOnly>
           </div>
         </div>
@@ -87,36 +87,36 @@
         <aside :class="['chat-room', `mobile-panel-${activeMobilePanel}`]">
           <MobileOnly tag="div" class="mobile-room-tabs">
             <div class="mobile-room-tabs__list">
-              <button :class="{ active: activeMobilePanel === 'chat' }" type="button" @click="setMobilePanel('chat')">聊天</button>
-              <button :class="{ active: activeMobilePanel === 'rank' }" type="button" @click="setMobilePanel('rank')">排行榜</button>
-              <button :class="{ active: activeMobilePanel === 'schedule' }" type="button" @click="setMobilePanel('schedule')">赛程</button>
+              <button :class="{ active: activeMobilePanel === 'chat' }" type="button" @click="setMobilePanel('chat')">{{ t('page.chat') }}</button>
+              <button :class="{ active: activeMobilePanel === 'rank' }" type="button" @click="setMobilePanel('rank')">{{ t('page.rank') }}</button>
+              <button :class="{ active: activeMobilePanel === 'schedule' }" type="button" @click="setMobilePanel('schedule')">{{ t('page.schedule') }}</button>
             </div>
             <button type="button" class="mobile-room-tabs__follow" @click="followVisible = true">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.1 21.35l-1.1-1.02C5.14 14.9 2 12.06 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.56-3.14 6.4-8.9 11.83l-1 .92z"/></svg>
-              关注
+              {{ t('nav.follow') }}
             </button>
           </MobileOnly>
           <div class="notice">
             <div class="notice-badge">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-              公告
+              {{ t('page.notice') }}
             </div>
             <span>硬核实力认证 老万值得你信赖 深度干货分析解盘，对临场数据变化极为敏锐，熟悉机构与盘口。</span>
           </div>
           <DesktopOnly tag="div" class="chat-tabs">
             <button :class="{ active: activeChatTab === 'chat' }" type="button" @click="activeChatTab = 'chat'">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
-              聊天室
+              {{ t('page.chatRoom') }}
             </button>
             <button :class="{ active: activeChatTab === 'rank' }" type="button" @click="activeChatTab = 'rank'">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7.5 21H2V9h5.5v12zm7.25-18h-5.5v18h5.5V3zM22 11h-5.5v10H22V11z"/></svg>
-              排行榜
+              {{ t('page.rank') }}
             </button>
           </DesktopOnly>
           <div v-show="activeChatTab === 'chat'" ref="chatListRef" class="chat-list">
             <div class="chat-topic">
               <span class="topic-dot"></span>
-              24小时主播互动跟单收米
+              {{ t('page.liveInteraction') }}
             </div>
             <div
               v-for="(item, idx) in chatMessages"
@@ -128,16 +128,16 @@
               <div class="msg-content">
                 <div class="msg-head">
                   <span class="msg-name">{{ item.name }}</span>
-                  <span v-if="item.name.includes('助理') || item.assistant" class="assistant-badge">小助理</span>
-                  <span class="msg-lv" :class="`lv-${item.lv}`">{{ item.name.includes('助理') || item.assistant ? '小助理' : `Lv.${item.lv}` }}</span>
-                  <span class="msg-time">{{ item.time || '刚刚' }}</span>
+                  <span v-if="item.name.includes('助理') || item.assistant" class="assistant-badge">{{ t('page.assistant') }}</span>
+                  <span class="msg-lv" :class="`lv-${item.lv}`">{{ item.name.includes('助理') || item.assistant ? t('page.assistant') : t('page.level') + item.lv }}</span>
+                  <span class="msg-time">{{ item.time || t('page.justNow') }}</span>
                 </div>
                 <div v-if="item.type === 'announcement'" class="announcement-card">
                   <div class="announcement-icon">
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
                   </div>
                   <div class="announcement-info">
-                    <div class="announcement-title">{{ item.title || '群管公告' }}</div>
+                    <div class="announcement-title">{{ item.title || t('page.adminNotice') }}</div>
                     <div class="announcement-text">{{ item.text }}</div>
                   </div>
                 </div>
@@ -146,9 +146,9 @@
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
                   </div>
                   <div class="activity-info">
-                    <div class="activity-title">{{ item.title || '活动链接' }}</div>
+                    <div class="activity-title">{{ item.title || t('page.activity') }}</div>
                     <div class="activity-text">{{ item.text }}</div>
-                    <div class="activity-link">{{ item.linkText || '点击参与' }} →</div>
+                    <div class="activity-link">{{ item.linkText || t('page.participate') }} →</div>
                   </div>
                 </a>
                 <div v-else-if="item.type === 'redpacket'" class="redpacket-card" :class="{ opened: item.opened }" @click="openRedPacket(item)">
@@ -157,7 +157,7 @@
                   </div>
                   <div class="redpacket-info">
                     <div class="redpacket-title">{{ item.text }}</div>
-                    <div class="redpacket-label">{{ item.opened ? '已领取' : '点击领取红包' }}</div>
+                    <div class="redpacket-label">{{ item.opened ? t('page.opened') : t('page.grabRedPacket') }}</div>
                   </div>
                 </div>
                 <div v-else-if="item.type === 'entry'" class="entry-card" :class="`entry-lv-${item.lv}`">
@@ -176,8 +176,8 @@
           </div>
           <div v-show="activeChatTab === 'rank'" class="rank-list">
             <div class="rank-header">
-              <span>🏆 贡献排行榜</span>
-              <small>实时更新</small>
+              <span>🏆 {{ t('page.rankTitle') }}</span>
+              <small>{{ t('page.liveRank') }}</small>
             </div>
             <div v-for="user in rankUsers" :key="user.rank" class="rank-row" :class="{ top: user.rank <= 3 }">
               <div class="rank-no" :class="{ medal: user.rank <= 3 }">
@@ -190,9 +190,9 @@
               <div class="rank-info">
                 <div class="rank-name">
                   <span>{{ user.name }}</span>
-                  <span class="rank-lv" :class="`lv-${user.lv}`">Lv.{{ user.lv }}</span>
+                  <span class="rank-lv" :class="`lv-${user.lv}`">{{ t('page.level') }}{{ user.lv }}</span>
                 </div>
-                <div class="rank-meta">今日活跃</div>
+                <div class="rank-meta">{{ t('page.activeToday') }}</div>
               </div>
               <div class="rank-score">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-1.97 4.8-4.8 4.8z"/></svg>
@@ -214,7 +214,7 @@
                   <span>{{ game.away }}</span>
                 </div>
               </div>
-              <button type="button" class="mobile-schedule-card__btn">预约</button>
+              <button type="button" class="mobile-schedule-card__btn">{{ t('page.book') }}</button>
             </div>
           </MobileOnly>
           <div class="chat-toolbar">
@@ -242,24 +242,24 @@
           </div>
           <div class="chat-send">
             <div class="send-input-wrap">
-              <span class="send-login">登录</span>
-              <input type="text" placeholder="登录后才可以发送消息哦~~">
+              <span class="send-login">{{ t('page.loginToChat') }}</span>
+              <input type="text" :placeholder="t('page.chatPlaceholder')">
             </div>
             <button type="button" class="send-btn">
               <img class="send-gift-icon" src="/assets/gift.png" alt="">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-              <span class="send-btn__label">发送</span>
+              <span class="send-btn__label">{{ t('page.send') }}</span>
             </button>
           </div>
           <button type="button" class="gift-test-btn" @click="sendGift">
             <img src="/assets/gift.png" alt="">
-            测试送礼特效
+            {{ t('page.testGiftEffect') }}
           </button>
         </aside>
       </section>
 
       <DesktopOnly tag="section" class="schedule-section">
-        <h2>主播日程</h2>
+        <h2>{{ t('page.anchorSchedule') }}</h2>
         <div class="schedule-row">
           <div v-for="game in schedules" :key="game.title" class="schedule-card">
             <div class="schedule-date">
@@ -275,12 +275,12 @@
               </div>
               <div class="schedule-status">
                 <span class="status-dot"></span>
-                <span>{{ game.date === '今天' ? '即将开始' : '待开播' }}</span>
+                <span>{{ scheduleStatusText(game.date) }}</span>
               </div>
             </div>
             <button type="button" class="schedule-btn">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 16H6c-.55 0-1-.45-1-1V8h14v10c0 .55-.45 1-1 1zM7 10h5v5H7z"/></svg>
-              预约
+              {{ t('page.book') }}
             </button>
           </div>
           <button class="schedule-next" type="button"></button>
@@ -288,7 +288,7 @@
       </DesktopOnly>
 
       <DesktopOnly tag="section" class="video-section">
-        <h2>视频推荐</h2>
+        <h2>{{ t('page.videoRecommend') }}</h2>
         <ul class="video-list">
           <li v-for="live in recommendedLives" :key="live.title">
             <a :href="live.href">
@@ -349,6 +349,7 @@
 
 <script setup>
 import Player from 'xgplayer'
+const { t } = useI18n()
 import 'xgplayer/dist/index.min.css'
 
 const route = useRoute()
@@ -448,7 +449,7 @@ function sendRedPacket() {
     text: '主播红包',
     type: 'redpacket',
     opened: false,
-    time: '刚刚'
+    time: t('page.justNow')
   })
 }
 
@@ -459,7 +460,7 @@ function sendAnnouncement() {
     title: '群管公告',
     text: '请大家文明发言，禁止发布广告和违规内容',
     type: 'announcement',
-    time: '刚刚'
+    time: t('page.justNow')
   })
 }
 
@@ -472,7 +473,7 @@ function sendActivity() {
     link: 'https://example.com/activity',
     linkText: '立即参与',
     type: 'activity',
-    time: '刚刚'
+    time: t('page.justNow')
   })
 }
 
@@ -483,13 +484,23 @@ function sendImage() {
     text: '分享了一张图片',
     image: 'https://sta.ncctrials.com/file/common/20251112/0ad9a7fd9d4860c0380a068d29e284db_wh320.jpg',
     type: 'image',
-    time: '刚刚'
+    time: t('page.justNow')
   })
 }
 
 function entryIcon(lv) {
   const map = { 1: '🌱', 2: '🌟', 3: '💎', 4: '🚀', 5: '👑', 6: '💜', 7: '🌹', 8: '🔥' }
   return map[lv] || '✨'
+}
+
+function liveStatusText(status) {
+  if (status === '直播') return t('page.live')
+  if (status === '动画') return t('page.animation')
+  return status
+}
+
+function scheduleStatusText(date) {
+  return date === '今天' ? t('page.startingSoon') : t('page.waitingToLive')
 }
 
 function safeLink(link) {
@@ -577,16 +588,16 @@ const chatMessages = ref([
   { lv: 3, name: '琳子', text: '不是呀我说的是直播间没说中途有什么***什么时候去' },
   { lv: 2, name: '大果头', text: '英格兰呢' },
   { lv: 3, name: '我', text: '我觉得英格兰这场稳了，主场优势很大', self: true },
-  { lv: 8, name: '💖精彩💖', text: '主播红包', type: 'redpacket', opened: false, time: '刚刚' },
+  { lv: 8, name: '💖精彩💖', text: '主播红包', type: 'redpacket', opened: false, time: t('page.justNow') },
   { lv: 2, name: '大果头', text: '墨西哥怎么看' },
-  { lv: 8, name: '群管理', title: '群管公告', text: '请大家文明发言，禁止发布广告和违规内容', type: 'announcement', time: '刚刚' },
-  { lv: 8, name: '活动助手', title: '充值返现活动', text: '今日充值满100送20，限时活动先到先得', link: 'https://example.com/activity', linkText: '立即参与', type: 'activity', time: '刚刚' },
+  { lv: 8, name: '群管理', title: '群管公告', text: '请大家文明发言，禁止发布广告和违规内容', type: 'announcement', time: t('page.justNow') },
+  { lv: 8, name: '活动助手', title: '充值返现活动', text: '今日充值满100送20，限时活动先到先得', link: 'https://example.com/activity', linkText: '立即参与', type: 'activity', time: t('page.justNow') },
   { lv: 3, name: '琳子', text: '瞌睡来了 😂' },
   { lv: 5, name: '帅帅🔥C99999', text: '领取包赔、体育链接、添加66号：C99999🔥' },
   { lv: 2, name: '大果头', text: '墨西哥几比几' },
   { lv: 3, name: '我', text: '墨西哥应该能赢一球', self: true },
   { lv: 3, name: '琳子', text: '睡了拜拜' },
-  { lv: 5, name: '小助理', text: '欢迎来到直播间，有问题随时咨询我哦', assistant: true },
+  { lv: 5, name: t('page.assistant'), text: '欢迎来到直播间，有问题随时咨询我哦', assistant: true },
   { lv: 1, name: '新手小白', text: '第一次来，多多关照' },
   { lv: 6, name: '紫霞仙子', image: 'https://sta.ncctrials.com/file/common/20251112/0ad9a7fd9d4860c0380a068d29e284db_wh320.jpg', text: '看看这张图', type: 'image' },
   { lv: 6, name: '紫霞仙子', text: '这场节奏不错，继续跟' },

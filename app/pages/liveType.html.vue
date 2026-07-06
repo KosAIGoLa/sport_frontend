@@ -23,7 +23,7 @@
           <NuxtLink to="/match.html">{{ t('nav.schedule') }}</NuxtLink>
           <a class="download" href="/download" target="_blank" rel="noopener noreferrer">
             <span>
-              下载APP
+              {{ t('nav.downloadApp') }}
               <img src="/assets/hot.png" alt="hot">
             </span>
           </a>
@@ -37,11 +37,11 @@
     <main class="live-type-main">
       <LiveCategory
         title-image="/assets/hot-live.png"
-        title-alt="全部直播"
+        :title-alt="t('page.allLive')"
         more-link="/liveType.html"
         :lives="allLives"
         :show-filter="!isMobileView"
-        :categories="['全部', '足球', '篮球', '分析']"
+        :categories="[t('nav.all'), t('nav.football'), t('nav.basketball'), t('nav.analysis')]"
         :initial-category="initialCategory"
       />
     </main>
