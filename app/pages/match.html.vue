@@ -128,9 +128,9 @@ definePageMeta({
 })
 
 const { t } = useI18n()
-useHead({
+useHead(() => ({
   title: t('page.titleSchedule')
-})
+}))
 const route = useRoute()
 const activeDay = ref(0)
 const loginVisible = ref(false)

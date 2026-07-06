@@ -26,9 +26,9 @@
 
 <script setup>
 const { t } = useI18n()
-useHead({
+useHead(() => ({
   title: t('page.titleDownload')
-})
+}))
 </script>
 
 <style scoped>
