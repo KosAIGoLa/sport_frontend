@@ -124,6 +124,11 @@ export default {
     thu: 'Thu',
     fri: 'Fri',
     sat: 'Sat',
-    sun: 'Sun'
+    sun: 'Sun',
+    titleHome: '857 Live - Sports Live Platform',
+    titleLive: 'All Live',
+    titleSchedule: 'Schedule',
+    titleRoom: 'Live Room',
+    titleDownload: 'Download 857 Live APP'
   }
 }

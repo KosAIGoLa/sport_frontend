@@ -34,6 +34,9 @@
 
 <script setup>
 const { t } = useI18n()
+useHead({
+  title: t('page.titleHome')
+})
 const isLoggedIn = ref(false)
 const loginVisible = ref(false)
 const loginType = ref('login')

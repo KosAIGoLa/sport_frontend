@@ -358,6 +358,10 @@ const transitionName = computed(() => {
   const prefix = route.query.vt === 'anchor' ? 'anchor-cover' : 'room-cover'
   return `${prefix}-${roomId.value}`
 })
+const pageTitle = computed(() => `${t('page.titleRoom')} ${roomId.value}`)
+useHead({
+  title: pageTitle
+})
 const isLoggedIn = ref(false)
 const loginVisible = ref(false)
 const loginType = ref('login')

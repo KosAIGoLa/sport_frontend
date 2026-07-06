@@ -124,6 +124,11 @@ export default {
     thu: '周四',
     fri: '周五',
     sat: '周六',
-    sun: '周日'
+    sun: '周日',
+    titleHome: '857直播 - 体育直播平台',
+    titleLive: '全部直播',
+    titleSchedule: '赛程',
+    titleRoom: '直播间',
+    titleDownload: '下载 857 直播 APP'
   }
 }
