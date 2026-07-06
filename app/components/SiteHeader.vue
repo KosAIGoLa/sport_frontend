@@ -1,19 +1,30 @@
 <template>
   <header class="header-wrapper" :class="{ active: isScrolled || forceSolid }">
     <div class="header-inner clearfix">
-      <div class="mobile-header only-mobile">
+      <MobileOnly tag="div" class="mobile-header">
         <div class="mobile-header__top">
+          <button
+            v-if="back"
+            type="button"
+            class="mobile-header__back"
+            aria-label="返回"
+            @click="goBack"
+          >
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+            </svg>
+          </button>
           <img class="mobile-header__logo" src="/assets/logo-mobile-wap.png" alt="857直播">
           <a class="mobile-header__download" href="/download" target="_blank" rel="noopener noreferrer">下载APP</a>
         </div>
-        <nav class="mobile-header__tabs" aria-label="首页分类">
+        <nav v-if="!back" class="mobile-header__tabs" aria-label="首页分类">
           <a href="/" class="active">推荐</a>
           <a href="/liveType.html?tab=足球">足球</a>
           <a href="/liveType.html?tab=篮球">篮球</a>
           <a href="/liveType.html?tab=分析">分析</a>
         </nav>
-      </div>
-      <div class="header-left only-desktop">
+      </MobileOnly>
+      <DesktopOnly tag="div" class="header-left">
         <div class="header-logo-box">
           <img class="header-logo" src="/assets/logo.png" alt="857直播">
           <img class="header-logo-active" src="/assets/logo2.png" alt="857直播">
@@ -36,8 +47,8 @@
             </li>
           </ul>
         </nav>
-      </div>
-      <div class="header-right only-desktop">
+      </DesktopOnly>
+      <DesktopOnly tag="div" class="header-right">
         <div v-if="!isLoggedIn" class="no-login">
           <button type="button" class="header-btn header-login" @click="openLogin('login')">
             <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
@@ -123,7 +134,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </DesktopOnly>
     </div>
   </header>
 </template>
@@ -132,7 +143,8 @@
 const props = defineProps({
   isLoggedIn: { type: Boolean, default: false },
   activeMenu: { type: String, default: 'home' },
-  forceSolid: { type: Boolean, default: false }
+  forceSolid: { type: Boolean, default: false },
+  back: { type: Boolean, default: false }
 })
 const emit = defineEmits(['login', 'logout'])
 
@@ -178,6 +190,14 @@ function goLiveType() {
 
 function goMatch() {
   router.push('/match.html')
+}
+
+function goBack() {
+  if (window.history.length > 1) {
+    router.back()
+  } else {
+    router.push('/')
+  }
 }
 </script>
 
@@ -639,6 +659,25 @@ function goMatch() {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .mobile-header__back {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    margin-right: 12px;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-header__back svg {
+    width: 28px;
+    height: 28px;
+    display: block;
   }
 
   .mobile-header__tabs {

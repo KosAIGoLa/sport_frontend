@@ -4,13 +4,14 @@
       :is-logged-in="isLoggedIn"
       active-menu=""
       force-solid
+      back
       @login="openLogin"
       @logout="isLoggedIn = false"
     />
     <main class="room-main">
       <section class="room-shell">
         <div class="room-left">
-          <div class="anchor-bar only-desktop">
+          <DesktopOnly tag="div" class="anchor-bar">
             <div class="anchor-profile">
               <img class="anchor-avatar" :src="roomInfo.avatar" alt="">
               <div class="anchor-copy">
@@ -28,7 +29,7 @@
               <img class="code-icon" src="/assets/icon-code.png" alt="">
               <span class="down-arrow"></span>
             </div>
-          </div>
+          </DesktopOnly>
 
           <div class="match-player">
             <div class="video-stage">
@@ -45,7 +46,7 @@
                 </div>
               </div>
             </div>
-            <div class="score-board only-desktop">
+            <DesktopOnly tag="div" class="score-board">
               <div class="score-row title-row">
                 <span>23:30</span>
                 <strong>瑞典超 埃尔夫斯堡-哈马比 主黄</strong>
@@ -61,12 +62,12 @@
                 <small>{{ row.half }}</small>
                 <button type="button">{{ row.live }}</button>
               </div>
-            </div>
-            <div class="player-ad only-desktop">
+            </DesktopOnly>
+            <DesktopOnly tag="div" class="player-ad">
               <span class="ad-badge">推荐</span>
               <span class="ad-text">浏览器输入66chat8.cc下载66APP，添加主播助理66号：C99999，备注老万领取每日电子波胆进V</span>
-            </div>
-            <div class="coin-bar only-desktop">
+            </DesktopOnly>
+            <DesktopOnly tag="div" class="coin-bar">
               <div class="coin-count">
                 <strong>0</strong>
                 <span>我的金币</span>
@@ -79,15 +80,14 @@
                 <button type="button" class="coin-btn"><img src="/assets/face.png" alt=""></button>
               </div>
               <a href="javascript:;">如何获取金币?</a>
-            </div>
+            </DesktopOnly>
           </div>
         </div>
 
         <aside :class="['chat-room', `mobile-panel-${activeMobilePanel}`]">
-          <div class="mobile-room-tabs only-mobile">
+          <MobileOnly tag="div" class="mobile-room-tabs">
             <div class="mobile-room-tabs__list">
               <button :class="{ active: activeMobilePanel === 'chat' }" type="button" @click="setMobilePanel('chat')">聊天</button>
-              <button :class="{ active: activeMobilePanel === 'anchor' }" type="button" @click="setMobilePanel('anchor')">主播</button>
               <button :class="{ active: activeMobilePanel === 'rank' }" type="button" @click="setMobilePanel('rank')">排行榜</button>
               <button :class="{ active: activeMobilePanel === 'schedule' }" type="button" @click="setMobilePanel('schedule')">赛程</button>
             </div>
@@ -95,7 +95,7 @@
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.1 21.35l-1.1-1.02C5.14 14.9 2 12.06 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.56-3.14 6.4-8.9 11.83l-1 .92z"/></svg>
               关注
             </button>
-          </div>
+          </MobileOnly>
           <div class="notice">
             <div class="notice-badge">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
@@ -103,7 +103,7 @@
             </div>
             <span>硬核实力认证 老万值得你信赖 深度干货分析解盘，对临场数据变化极为敏锐，熟悉机构与盘口。</span>
           </div>
-          <div class="chat-tabs only-desktop">
+          <DesktopOnly tag="div" class="chat-tabs">
             <button :class="{ active: activeChatTab === 'chat' }" type="button" @click="activeChatTab = 'chat'">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
               聊天室
@@ -112,7 +112,7 @@
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7.5 21H2V9h5.5v12zm7.25-18h-5.5v18h5.5V3zM22 11h-5.5v10H22V11z"/></svg>
               排行榜
             </button>
-          </div>
+          </DesktopOnly>
           <div v-show="activeChatTab === 'chat'" class="chat-list">
             <div class="chat-topic">
               <span class="topic-dot"></span>
@@ -200,35 +200,7 @@
               </div>
             </div>
           </div>
-          <div class="mobile-anchor-panel only-mobile">
-            <div class="mobile-anchor-panel__head">
-              <img class="mobile-anchor-panel__avatar" :src="roomInfo.avatar" alt="">
-              <div class="mobile-anchor-panel__copy">
-                <h3>{{ roomInfo.anchor }}</h3>
-                <p>{{ roomInfo.name }}</p>
-              </div>
-            </div>
-            <div class="mobile-anchor-panel__stats">
-              <div>
-                <strong>{{ roomId }}</strong>
-                <span>房间号</span>
-              </div>
-              <div>
-                <strong>{{ roomInfo.hot }}</strong>
-                <span>热度</span>
-              </div>
-              <div>
-                <strong>体育直播</strong>
-                <span>类型</span>
-              </div>
-            </div>
-            <div class="mobile-anchor-panel__notice">
-              <h4>主播简介</h4>
-              <p>硬核实力认证，临场数据变化反应快，擅长赛事节奏判断与盘口分析。</p>
-            </div>
-            <a class="mobile-anchor-panel__download" href="/download/" target="_blank" rel="noopener noreferrer">下载APP可投屏电视</a>
-          </div>
-          <div class="mobile-schedule-panel only-mobile">
+          <MobileOnly tag="div" class="mobile-schedule-panel">
             <div v-for="game in schedules" :key="`mobile-${game.title}`" class="mobile-schedule-card">
               <div class="mobile-schedule-card__time">
                 <strong>{{ game.date }}</strong>
@@ -244,7 +216,7 @@
               </div>
               <button type="button" class="mobile-schedule-card__btn">预约</button>
             </div>
-          </div>
+          </MobileOnly>
           <div class="chat-toolbar">
             <button type="button" class="tool-btn">
               <img src="/assets/face.png" alt="">
@@ -274,8 +246,9 @@
               <input type="text" placeholder="登录后才可以发送消息哦~~">
             </div>
             <button type="button" class="send-btn">
+              <img class="send-gift-icon" src="/assets/gift.png" alt="">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-              发送
+              <span class="send-btn__label">发送</span>
             </button>
           </div>
           <button type="button" class="gift-test-btn" @click="sendGift">
@@ -285,7 +258,7 @@
         </aside>
       </section>
 
-      <section class="schedule-section only-desktop">
+      <DesktopOnly tag="section" class="schedule-section">
         <h2>主播日程</h2>
         <div class="schedule-row">
           <div v-for="game in schedules" :key="game.title" class="schedule-card">
@@ -312,9 +285,9 @@
           </div>
           <button class="schedule-next" type="button"></button>
         </div>
-      </section>
+      </DesktopOnly>
 
-      <section class="video-section">
+      <DesktopOnly tag="section" class="video-section">
         <h2>视频推荐</h2>
         <ul class="video-list">
           <li v-for="live in recommendedLives" :key="live.title">
@@ -344,7 +317,7 @@
             </a>
           </li>
         </ul>
-      </section>
+      </DesktopOnly>
     </main>
 
     <SiteFooter />
@@ -352,12 +325,6 @@
       v-model:visible="loginVisible"
       :type="loginType"
       @success="isLoggedIn = true"
-    />
-    <MobileStickyBar
-      :is-logged-in="isLoggedIn"
-      active-tab="live"
-      @login="openLogin"
-      @follow="followVisible = true"
     />
     <MobileFollowPanel :visible="followVisible" @login="openLogin" />
 
@@ -1094,7 +1061,6 @@ const recommendedLives = [
 }
 
 .mobile-room-tabs,
-.mobile-anchor-panel,
 .mobile-schedule-panel {
   display: none;
 }
@@ -2081,6 +2047,13 @@ const recommendedLives = [
   height: 16px;
 }
 
+.send-gift-icon {
+  display: none;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
 .gift-test-btn {
   width: 100%;
   height: 38px;
@@ -2487,19 +2460,21 @@ const recommendedLives = [
 
 @media (max-width: 768px) {
   .room-page {
-    padding-top: 124px;
+    padding-top: 68px;
     background:
       linear-gradient(180deg, rgba(255, 198, 26, 0.12) 0%, rgba(255, 198, 26, 0.03) 26%, #f8fafc 100%);
   }
 
   .room-main {
     width: 100%;
-    padding: 14px 16px 132px;
+    padding: 14px 16px 0;
   }
 
   .room-shell {
-    display: block;
-    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 82px);
+    margin-bottom: 0;
   }
 
   .room-left,
@@ -2508,6 +2483,7 @@ const recommendedLives = [
   }
 
   .room-left {
+    flex: 0 0 auto;
     overflow: visible;
     background: transparent;
     box-shadow: none;
@@ -2515,11 +2491,17 @@ const recommendedLives = [
   }
 
   .chat-room {
+    position: relative;
     margin-top: 0;
     overflow: hidden;
     background: #fff;
     box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
     border-radius: 0 0 18px 18px;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    height: auto;
+    min-height: 0;
   }
 
   .mobile-room-tabs {
@@ -2535,7 +2517,7 @@ const recommendedLives = [
     min-width: 0;
     flex: 1;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .mobile-room-tabs__list button {
@@ -2634,7 +2616,6 @@ const recommendedLives = [
     line-height: 1.5;
   }
 
-  .mobile-anchor-panel,
   .mobile-schedule-panel {
     display: none;
   }
@@ -2645,7 +2626,6 @@ const recommendedLives = [
 
   .chat-list,
   .rank-list,
-  .mobile-anchor-panel,
   .mobile-schedule-panel,
   .chat-toolbar,
   .chat-send,
@@ -2656,9 +2636,11 @@ const recommendedLives = [
 
   .chat-list,
   .rank-list {
-    height: calc(100vh - 360px);
-    min-height: 280px;
+    flex: 1 1 auto;
+    height: auto;
+    min-height: 220px;
     padding: 12px 14px;
+    overflow-y: auto;
   }
 
   .chat-msg {
@@ -2685,10 +2667,7 @@ const recommendedLives = [
   }
 
   .chat-toolbar {
-    padding: 10px 14px;
-    gap: 10px;
-    overflow-x: auto;
-    border-top: 1px solid rgba(226, 232, 240, 0.86);
+    display: none !important;
   }
 
   .tool-btn {
@@ -2698,123 +2677,64 @@ const recommendedLives = [
   }
 
   .chat-send {
-    padding: 10px 14px 14px;
+    flex: 0 0 auto;
+    padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0));
     gap: 10px;
+    align-items: center;
+    background: #fff;
+    border-top: 1px solid rgba(226, 232, 240, 0.9);
+    box-shadow: 0 -6px 16px rgba(15, 23, 42, 0.05);
   }
 
   .send-input-wrap {
-    min-height: 46px;
+    flex: 1 1 auto;
+    min-height: 48px;
+    padding: 0 16px;
+    border-radius: 999px;
+    background: #f3f4f6;
   }
 
   .send-login,
   .send-input-wrap input,
   .send-btn {
-    font-size: 14px;
+    font-size: 15px;
   }
 
   .send-btn {
-    height: 46px;
-    padding: 0 16px;
+    flex: 0 0 48px;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border-radius: 14px;
+    background: transparent;
+    box-shadow: none;
+    font-size: 0;
+    justify-content: center;
+  }
+
+  .send-btn:hover {
+    transform: none;
+  }
+
+  .send-btn svg {
+    display: none;
+  }
+
+  .send-gift-icon {
+    display: block;
+    width: 32px;
+    height: 32px;
+  }
+
+  .send-btn__label {
+    display: none;
   }
 
   .gift-test-btn {
+    display: none !important;
     margin: 0 14px 14px;
     height: 44px;
     font-size: 14px;
-  }
-
-  .mobile-anchor-panel {
-    padding: 16px 14px 18px;
-  }
-
-  .mobile-anchor-panel__head {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 16px;
-  }
-
-  .mobile-anchor-panel__avatar {
-    width: 54px;
-    height: 54px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-
-  .mobile-anchor-panel__copy h3 {
-    margin: 0 0 4px;
-    color: #111827;
-    font-size: 18px;
-    font-weight: 800;
-  }
-
-  .mobile-anchor-panel__copy p {
-    margin: 0;
-    color: #64748b;
-    font-size: 14px;
-  }
-
-  .mobile-anchor-panel__stats {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px;
-    margin-bottom: 16px;
-  }
-
-  .mobile-anchor-panel__stats div {
-    padding: 12px 10px;
-    border-radius: 14px;
-    background: #f8fafc;
-    text-align: center;
-  }
-
-  .mobile-anchor-panel__stats strong {
-    display: block;
-    margin-bottom: 4px;
-    color: #111827;
-    font-size: 14px;
-    font-weight: 800;
-    line-height: 1.4;
-    word-break: break-word;
-  }
-
-  .mobile-anchor-panel__stats span {
-    color: #94a3b8;
-    font-size: 12px;
-  }
-
-  .mobile-anchor-panel__notice {
-    padding: 14px;
-    border-radius: 16px;
-    background: #fffbeb;
-    color: #92400e;
-  }
-
-  .mobile-anchor-panel__notice h4 {
-    margin: 0 0 8px;
-    font-size: 15px;
-    font-weight: 800;
-  }
-
-  .mobile-anchor-panel__notice p {
-    margin: 0;
-    font-size: 14px;
-    line-height: 1.7;
-  }
-
-  .mobile-anchor-panel__download {
-    margin-top: 14px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 46px;
-    border-radius: 999px;
-    background: linear-gradient(135deg, #ffe178 0%, #ffc21c 100%);
-    color: #111827;
-    font-size: 15px;
-    font-weight: 800;
-    text-decoration: none;
   }
 
   .mobile-schedule-panel {
@@ -2881,8 +2801,7 @@ const recommendedLives = [
   }
 
   .mobile-panel-chat .notice,
-  .mobile-panel-chat .chat-list,
-  .mobile-panel-chat .gift-test-btn {
+  .mobile-panel-chat .chat-list {
     display: block;
   }
 
@@ -2891,16 +2810,26 @@ const recommendedLives = [
     display: flex;
   }
 
-  .mobile-panel-anchor .mobile-anchor-panel {
-    display: block;
+  .mobile-panel-chat .mobile-schedule-panel {
+    display: flex;
+    flex: 0 0 auto;
+    order: 10;
+    max-height: 160px;
+    overflow-y: auto;
   }
 
   .mobile-panel-rank .rank-list {
     display: block;
   }
 
-  .mobile-panel-schedule .mobile-schedule-panel {
-    display: flex;
+  .mobile-schedule-panel.only-mobile {
+    display: none !important;
+  }
+
+  .mobile-panel-schedule .mobile-schedule-panel.only-mobile {
+    display: flex !important;
+    flex: 1 1 auto;
+    overflow-y: auto;
   }
 
   .schedule-section,

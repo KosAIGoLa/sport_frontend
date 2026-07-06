@@ -2,7 +2,7 @@
   <div class="live-type-page">
     <header class="live-header">
       <div class="live-header-inner">
-        <div class="live-mobile-head only-mobile">
+        <MobileOnly tag="div" class="live-mobile-head">
           <div class="live-mobile-top">
             <img class="live-mobile-logo" src="/assets/logo-mobile-wap.png" alt="857直播">
             <a class="live-mobile-download" href="/download" target="_blank" rel="noopener noreferrer">下载APP</a>
@@ -13,11 +13,11 @@
             <a :class="{ active: mobileTab === '篮球' }" href="/liveType.html?tab=篮球">篮球</a>
             <a :class="{ active: mobileTab === '分析' }" href="/liveType.html?tab=分析">分析</a>
           </nav>
-        </div>
-        <a class="live-logo only-desktop" href="/">
+        </MobileOnly>
+        <DesktopOnly tag="a" class="live-logo" href="/">
           <img src="/assets/logo2.png" alt="857直播">
-        </a>
-        <nav class="live-nav only-desktop">
+        </DesktopOnly>
+        <DesktopOnly tag="nav" class="live-nav">
           <a href="/">首页</a>
           <a class="active" href="/liveType.html">全部直播</a>
           <a href="/match.html">赛程</a>
@@ -25,11 +25,11 @@
             下载APP
             <img src="/assets/hot.png" alt="hot">
           </a>
-        </nav>
-        <div class="live-auth only-desktop">
+        </DesktopOnly>
+        <DesktopOnly tag="div" class="live-auth">
           <button type="button" class="login-btn" @click="openLogin('login')">登录</button>
           <button type="button" @click="openLogin('register')">注册</button>
-        </div>
+        </DesktopOnly>
       </div>
     </header>
     <main class="live-type-main">
@@ -43,25 +43,7 @@
         :initial-category="initialCategory"
       />
     </main>
-    <footer class="live-footer only-desktop">
-      <div class="live-footer-inner">
-        <img class="footer-logo" src="/assets/logo-footer.png" alt="857直播">
-        <div class="footer-links">
-          <a href="javascript:;" @click="openTip('guide')">新手主播教程</a>
-          <a href="javascript:;" @click="openTip('faq')">直播常见问题</a>
-          <a href="javascript:;" @click="openTip('agreement')">用户协议说明</a>
-        </div>
-        <p>Copyright © 2020 , All rights reserved.</p>
-      </div>
-    </footer>
-
-    <div v-if="tipVisible" class="footer-tip-mask" @click="tipVisible = false">
-      <div class="footer-tip" @click.stop>
-        <div class="footer-tip-head">{{ tipTitle }}</div>
-        <div class="footer-tip-body">{{ tipContent }}</div>
-        <button type="button" class="footer-tip-close" @click="tipVisible = false">知道了</button>
-      </div>
-    </div>
+    <SiteFooter />
     <LoginModal
       v-model:visible="loginVisible"
       :type="loginType"
@@ -76,10 +58,6 @@
 definePageMeta({
   path: '/liveType.html'
 })
-
-const tipVisible = ref(false)
-const tipTitle = ref('')
-const tipContent = ref('')
 
 const isLoggedIn = ref(false)
 const loginVisible = ref(false)
@@ -126,29 +104,6 @@ const allLives = [
   { title: '粉丝连麦互动分析', cover: 'https://sta.ncctrials.com/file/common/20260617/05cbb9832bf92bb680f116b1627b38fd_wh320.png', avatar: 'https://sta.ncctrials.com/file/head/20260505/ec8e8b84c119776b0cd89ee656926636.png', anchor: '蓝狐', viewers: '0.90w', tag: '分析' }
 ]
 
-const tipMap = {
-  guide: {
-    title: '新手主播教程',
-    content: '1. 注册并实名认证后申请主播权限。\n2. 准备清晰摄像头、稳定网络与安静环境。\n3. 开播前填写标题、分类与封面。\n4. 开播后保持互动，遵守平台规范。'
-  },
-  faq: {
-    title: '直播常见问题',
-    content: 'Q: 开播卡顿怎么办？\nA: 请降低分辨率或切换网络。\n\nQ: 无法观看直播？\nA: 建议更换浏览器或刷新页面。\n\nQ: 如何预约比赛？\nA: 在赛程页点击「预约」按钮即可。'
-  },
-  agreement: {
-    title: '用户协议说明',
-    content: '用户使用本平台服务需遵守相关法律法规，禁止传播违法违规内容。主播内容版权归平台与主播共有，违规行为将受到警告、封禁或法律追责。'
-  }
-}
-
-function openTip(key) {
-  const item = tipMap[key]
-  if (item) {
-    tipTitle.value = item.title
-    tipContent.value = item.content
-    tipVisible.value = true
-  }
-}
 </script>
 
 <style scoped>
@@ -299,109 +254,10 @@ function openTip(key) {
   font-size: 14px;
 }
 
-.live-footer {
-  background: linear-gradient(135deg, #111827 0%, #25284d 100%);
-}
-
-.live-footer-inner {
-  width: 1200px;
-  height: 240px;
-  margin: 0 auto;
-  text-align: center;
-  padding-top: 25px;
-}
-
-.footer-logo {
-  width: 52px;
-  height: 52px;
-  display: block;
-  margin: 0 auto 34px;
-}
-
-.footer-links {
-  display: flex;
-  justify-content: center;
-  gap: 68px;
-  margin-bottom: 17px;
-}
-
-.footer-links a {
-  color: #c7d2fe;
-  font-size: 16px;
-  text-decoration: none;
-}
-
-.footer-links a:hover {
-  color: #ffc21c;
-}
-
-.live-footer p {
-  margin: 0;
-  color: #818cf8;
-  font-size: 14px;
-}
-
-.footer-tip-mask {
-  position: fixed;
-  inset: 0;
-  z-index: 999;
-  background: rgba(2, 6, 23, 0.72);
-  backdrop-filter: blur(10px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.footer-tip {
-  width: 460px;
-  max-width: calc(100vw - 40px);
-  background: rgba(255, 255, 255, 0.96);
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  border-radius: 24px;
-  box-shadow: 0 28px 70px rgba(15, 23, 42, 0.22);
-  padding: 28px 32px 24px;
-  color: #111827;
-  animation: tipFade 0.22s ease-out;
-}
-
-@keyframes tipFade {
-  from { opacity: 0; transform: translateY(20px) scale(0.96); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-.footer-tip-head {
-  font-size: 20px;
-  font-weight: 800;
-  margin-bottom: 14px;
-  color: #0f172a;
-}
-
-.footer-tip-body {
-  font-size: 15px;
-  line-height: 1.8;
-  color: #334155;
-  white-space: pre-line;
-  margin-bottom: 22px;
-}
-
-.footer-tip-close {
-  width: 100%;
-  height: 44px;
-  border: 0;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #ffe178 0%, #ffc21c 100%);
-  color: #111827;
-  font-size: 15px;
-  font-weight: 800;
-  cursor: pointer;
-  box-shadow: 0 8px 22px rgba(248, 194, 27, 0.28);
-}
-
 @media screen and (max-width: 1400px) {
   .live-header-inner,
   .live-type-main::before,
-  .live-type-main::after,
-  .live-footer-inner {
+  .live-type-main::after {
     width: 960px;
   }
 }
@@ -496,7 +352,6 @@ function openTip(key) {
   .live-logo,
   .live-nav,
   .live-auth,
-  .live-footer,
   .live-type-main::before,
   .live-type-main::after {
     display: none;

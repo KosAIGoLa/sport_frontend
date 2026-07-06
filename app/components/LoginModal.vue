@@ -6,15 +6,15 @@
       <div class="modal-top-deco"></div>
       <img class="close" src="/assets/close.png" alt="" @click="close">
       <div class="window-inner">
-        <button type="button" class="mobile-back" @click="close" aria-label="返回">
+        <MobileOnly tag="button" type="button" class="mobile-back" @click="close" aria-label="返回">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7" /></svg>
-        </button>
+        </MobileOnly>
         <div class="modal-header">
-          <div class="modal-tabs">
+          <DesktopOnly tag="div" class="modal-tabs">
             <button type="button" :class="{ active: mode === 'login' }" @click="mode = 'login'">登录</button>
             <button type="button" :class="{ active: mode === 'register' }" @click="mode = 'register'">注册</button>
-          </div>
-          <div class="modal-accent">{{ mode === 'login' ? '欢迎回来，请登录您的账号' : '创建账号，开启精彩直播之旅' }}</div>
+          </DesktopOnly>
+          <DesktopOnly tag="div" class="modal-accent">{{ mode === 'login' ? '欢迎回来，请登录您的账号' : '创建账号，开启精彩直播之旅' }}</DesktopOnly>
         </div>
         <div class="type-content">
           <div class="phone-box">
@@ -121,10 +121,10 @@
               <span v-if="mode === 'login'">还没有账号？<span class="login-jump" @click="mode = 'register'">去注册</span></span>
               <span v-else>已有账号？<span class="login-jump" @click="mode = 'login'">去登录</span></span>
             </div>
-            <div v-if="mode === 'login'" class="mobile-bottom-actions">
+            <MobileOnly v-if="mode === 'login'" tag="div" class="mobile-bottom-actions">
               <button type="button" class="mobile-link-btn">忘记密码</button>
               <button type="button" class="mobile-link-btn mobile-link-btn--primary" @click="mode = 'register'">快速注册</button>
-            </div>
+            </MobileOnly>
           </div>
           <SocialLogin label="其他登录方式" :compact="mode === 'register'" />
         </div>

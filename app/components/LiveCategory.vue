@@ -18,7 +18,7 @@
     </div>
     <div class="category">
       <ul class="category-list">
-        <li v-for="(live, idx) in filteredLives" :key="idx">
+        <li v-for="(live, idx) in displayLives" :key="idx">
           <LiveCard :live="live" variant="category" />
         </li>
       </ul>
@@ -58,6 +58,13 @@ const filteredLives = computed(() => {
   if (!props.showFilter || activeCategory.value === '全部') return lives.value
   return lives.value.filter(item => item.tag === activeCategory.value)
 })
+
+const displayLives = computed(() => filteredLives.value.map((live, idx) => {
+  if (live.href) return live
+  const roomId = live.roomId || 990645
+  const scheduleId = live.id || (1000000 + idx)
+  return { ...live, href: `/room/${roomId}?scheduleId=${scheduleId}` }
+}))
 
 watch(() => props.initialCategory, (val) => {
   activeCategory.value = val || '全部'

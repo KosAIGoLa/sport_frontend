@@ -30,7 +30,6 @@
         </span>
         <span>赛程</span>
       </a>
-      <button type="button" class="mobile-follow-panel__login-pill" @click="$emit('login', 'login')">登录</button>
       <button type="button" class="mobile-follow-panel__item mobile-follow-panel__item--active">
         <span class="mobile-follow-panel__icon mobile-follow-panel__icon--active">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.6 4.9 13.8A4.7 4.7 0 0 1 11.7 7L12 7.3l.3-.3a4.7 4.7 0 0 1 6.8 6.8L12 20.6Zm0-2.8 5.7-5.4a2.7 2.7 0 1 0-3.9-3.7L12 10.6l-1.8-1.9a2.7 2.7 0 1 0-3.9 3.7l5.7 5.4Z" /></svg>
@@ -173,7 +172,7 @@ defineEmits(['login'])
     border-top: 1px solid rgba(226, 232, 240, 0.95);
     background: rgba(255, 255, 255, 0.98);
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     align-items: center;
     padding-bottom: env(safe-area-inset-bottom, 0);
   }
@@ -212,18 +211,6 @@ defineEmits(['login'])
   .mobile-follow-panel__item--active .mobile-follow-panel__icon {
     background: rgba(244, 180, 0, 0.22);
     color: #f4b400;
-  }
-
-  .mobile-follow-panel__login-pill {
-    width: 96px;
-    height: 44px;
-    margin: 0 auto;
-    border: 0;
-    border-radius: 999px;
-    background: linear-gradient(135deg, #ffe178 0%, #ffc21c 100%);
-    color: #111827;
-    font-size: 15px;
-    font-weight: 800;
   }
 }
 </style>
