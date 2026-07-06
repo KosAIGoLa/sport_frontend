@@ -19,6 +19,7 @@ export default defineNuxtConfig({
   },
   app: {
     pageTransition: { name: 'page', mode: 'out-in' },
+    buildAssetsDir: '/build-assets/',
     head: {
       meta: [
         { name: 'viewport', content: 'maximum-scale=1,minimum-scale=1,user-scalable=0,width=device-width,initial-scale=1' },
