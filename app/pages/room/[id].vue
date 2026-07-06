@@ -113,7 +113,7 @@
               排行榜
             </button>
           </DesktopOnly>
-          <div v-show="activeChatTab === 'chat'" class="chat-list">
+          <div v-show="activeChatTab === 'chat'" ref="chatListRef" class="chat-list">
             <div class="chat-topic">
               <span class="topic-dot"></span>
               24小时主播互动跟单收米
@@ -383,7 +383,7 @@ const giftEffects = ref([])
 
 const levelStats = computed(() => {
   const stats = {}
-  chatMessages.forEach(item => {
+  chatMessages.value.forEach(item => {
     if (item.lv) {
       stats[item.lv] = (stats[item.lv] || 0) + 1
     }
@@ -393,25 +393,52 @@ const levelStats = computed(() => {
     .sort((a, b) => b.lv - a.lv)
 })
 
-function sendGift() {
+const chatListRef = ref(null)
+
+function scrollChatToBottom() {
+  nextTick(() => {
+    const list = chatListRef.value
+    if (list) list.scrollTop = list.scrollHeight
+  })
+}
+
+function pushChatMessage(message) {
+  chatMessages.value.push(message)
+  scrollChatToBottom()
+}
+
+function spawnGiftEffects({ count, delay, minDuration, durationRange, minScale, scaleRange, leftMin, leftMax, text, icon }) {
   const baseId = Date.now()
-  const count = 5 + Math.floor(Math.random() * 4)
   for (let i = 0; i < count; i++) {
     setTimeout(() => {
       const id = baseId + i + Math.random()
-      const left = 80 + Math.random() * (window.innerWidth - 240)
-      const duration = 2.2 + Math.random() * 1.2
-      const scale = 0.8 + Math.random() * 0.5
-      giftEffects.value.push({ id, left, duration, scale, text: '送了一个礼物' })
+      const left = leftMin + Math.random() * (leftMax - leftMin)
+      const duration = minDuration + Math.random() * durationRange
+      const scale = minScale + Math.random() * scaleRange
+      giftEffects.value.push({ id, left, duration, scale, text, icon })
       setTimeout(() => {
         giftEffects.value = giftEffects.value.filter(g => g.id !== id)
       }, duration * 1000)
-    }, i * 120)
+    }, i * delay)
   }
 }
 
+function sendGift() {
+  spawnGiftEffects({
+    count: 5 + Math.floor(Math.random() * 4),
+    delay: 120,
+    minDuration: 2.2,
+    durationRange: 1.2,
+    minScale: 0.8,
+    scaleRange: 0.5,
+    leftMin: 80,
+    leftMax: window.innerWidth - 240,
+    text: '送了一个礼物'
+  })
+}
+
 function sendRedPacket() {
-  chatMessages.push({
+  pushChatMessage({
     lv: 8,
     name: '💖精彩💖',
     text: '主播红包',
@@ -419,14 +446,10 @@ function sendRedPacket() {
     opened: false,
     time: '刚刚'
   })
-  setTimeout(() => {
-    const list = document.querySelector('.chat-list')
-    if (list) list.scrollTop = list.scrollHeight
-  }, 50)
 }
 
 function sendAnnouncement() {
-  chatMessages.push({
+  pushChatMessage({
     lv: 8,
     name: '群管理',
     title: '群管公告',
@@ -434,14 +457,10 @@ function sendAnnouncement() {
     type: 'announcement',
     time: '刚刚'
   })
-  setTimeout(() => {
-    const list = document.querySelector('.chat-list')
-    if (list) list.scrollTop = list.scrollHeight
-  }, 50)
 }
 
 function sendActivity() {
-  chatMessages.push({
+  pushChatMessage({
     lv: 8,
     name: '活动助手',
     title: '充值返现活动',
@@ -451,14 +470,10 @@ function sendActivity() {
     type: 'activity',
     time: '刚刚'
   })
-  setTimeout(() => {
-    const list = document.querySelector('.chat-list')
-    if (list) list.scrollTop = list.scrollHeight
-  }, 50)
 }
 
 function sendImage() {
-  chatMessages.push({
+  pushChatMessage({
     lv: 3,
     name: '琳子',
     text: '分享了一张图片',
@@ -466,10 +481,6 @@ function sendImage() {
     type: 'image',
     time: '刚刚'
   })
-  setTimeout(() => {
-    const list = document.querySelector('.chat-list')
-    if (list) list.scrollTop = list.scrollHeight
-  }, 50)
 }
 
 function entryIcon(lv) {
@@ -490,19 +501,18 @@ function safeLink(link) {
 function openRedPacket(item) {
   if (item.opened) return
   item.opened = true
-  const baseId = Date.now()
-  for (let i = 0; i < 6; i++) {
-    setTimeout(() => {
-      const id = baseId + i + Math.random()
-      const left = 100 + Math.random() * (window.innerWidth - 280)
-      const duration = 1.8 + Math.random() * 0.8
-      const scale = 0.7 + Math.random() * 0.4
-      giftEffects.value.push({ id, left, duration, scale, text: '+金币', icon: 'coin' })
-      setTimeout(() => {
-        giftEffects.value = giftEffects.value.filter(g => g.id !== id)
-      }, duration * 1000)
-    }, i * 100)
-  }
+  spawnGiftEffects({
+    count: 6,
+    delay: 100,
+    minDuration: 1.8,
+    durationRange: 0.8,
+    minScale: 0.7,
+    scaleRange: 0.4,
+    leftMin: 100,
+    leftMax: window.innerWidth - 280,
+    text: '+金币',
+    icon: 'coin'
+  })
 }
 
 let player = null
@@ -550,7 +560,7 @@ const scoreRows = [
   { time: '00:00', status: '14’', home: '波士顿河女足', score: '0-1', away: '海湾女足', half: '0-1', live: '动画' }
 ]
 
-const chatMessages = [
+const chatMessages = ref([
   { lv: 3, name: '琳子', text: '哦，都是在群里分享的' },
   { lv: 2, name: '大果头', text: '初盘英格兰怎么看' },
   { lv: 3, name: '琳子', text: '这是没有说明' },
@@ -578,7 +588,7 @@ const chatMessages = [
   { lv: 6, name: '紫霞仙子', text: '进入直播间', type: 'entry' },
   { lv: 7, name: '玫瑰骑士', text: '进入直播间', type: 'entry' },
   { lv: 8, name: '💖精彩💖', text: '进入直播间', type: 'entry' }
-]
+])
 
 const rankUsers = [
   { rank: 1, name: '💖精彩💖', lv: 8, score: '13810', avatar: 'https://sta.ncctrials.com/file/head/20221025/fd6967ccf7f83828c033c6b7a9358733.jpeg' },

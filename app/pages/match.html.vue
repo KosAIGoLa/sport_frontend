@@ -101,7 +101,7 @@
                 <button type="button" class="avatar-arrow next" aria-label="下一组"></button>
               </div>
               <div class="living-box" :class="{ 'living-box--pending': match.status !== '开始' }">
-                <img src="https://sta.ncctrials.com/857web/assets/857/img/triangle.png" alt="">
+                <img v-if="match.status === '开始'" src="https://sta.ncctrials.com/857web/assets/857/img/triangle.png" alt="">
                 <span>{{ match.status || '未开始' }}</span>
               </div>
             </div>
@@ -504,6 +504,9 @@ function openMatchDetail(match) {
 .living-box img {
   @apply w-[11px] h-3 mr-1.5 object-contain;
 }
+.living-box--pending {
+  @apply w-auto bg-none bg-transparent text-[#9a9a9a] shadow-none rounded-none;
+}
 .match-none {
   @apply h-[380px] bg-white/[0.92] border border-slate-200/[0.82] rounded-[24px] shadow-[0_14px_36px_rgba(15,23,42,0.08)] flex flex-col items-center justify-center text-slate-400 text-sm;
 }
@@ -678,7 +681,7 @@ function openMatchDetail(match) {
     @apply w-[9px] h-[9px] mr-1;
   }
   .living-box--pending {
-    @apply bg-transparent text-[#9a9a9a] min-w-0 p-0;
+    @apply bg-none bg-transparent text-[#9a9a9a] min-w-0 p-0;
   }
   .living-box--pending img {
     @apply hidden;
