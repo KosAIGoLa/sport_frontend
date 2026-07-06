@@ -58,7 +58,7 @@ useHead({
 }
 
 .download-qr {
-  @apply w-[140px] h-[140px] mb-6 rounded-xl;
+  @apply w-[140px] h-[140px] mb-6 rounded-xl mx-auto block;
 }
 
 .download-card h1 {
