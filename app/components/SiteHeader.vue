@@ -15,13 +15,13 @@
             </svg>
           </button>
           <img class="mobile-header__logo" src="/assets/logo2.png" alt="857直播">
-          <a class="mobile-header__download" href="/download" target="_blank" rel="noopener noreferrer">下载APP</a>
+          <a class="mobile-header__download" href="/download" target="_blank" rel="noopener noreferrer">{{ t('nav.downloadApp') }}</a>
         </div>
         <nav v-if="!back" class="mobile-header__tabs" aria-label="首页分类">
-          <NuxtLink to="/liveType.html" class="active">全部</NuxtLink>
-          <NuxtLink to="/liveType.html?tab=足球">足球</NuxtLink>
-          <NuxtLink to="/liveType.html?tab=篮球">篮球</NuxtLink>
-          <NuxtLink to="/liveType.html?tab=分析">分析</NuxtLink>
+          <NuxtLink to="/liveType.html" class="active">{{ t('nav.all') }}</NuxtLink>
+          <NuxtLink to="/liveType.html?tab=足球">{{ t('nav.football') }}</NuxtLink>
+          <NuxtLink to="/liveType.html?tab=篮球">{{ t('nav.basketball') }}</NuxtLink>
+          <NuxtLink to="/liveType.html?tab=分析">{{ t('nav.analysis') }}</NuxtLink>
         </nav>
       </MobileOnly>
       <DesktopOnly tag="div" class="header-left">
@@ -31,13 +31,13 @@
         </div>
         <nav class="header-menu">
           <ul>
-            <li class="home-menu" :class="{ active: activeMenu === 'home' }" @click="scrollToHomeSection('#living-room')"><span>首页</span></li>
-            <li class="live-menu" :class="{ active: activeMenu === 'live' }" @click="goLiveType"><span>全部直播</span></li>
-            <li class="match-menu" :class="{ active: activeMenu === 'schedule' }" @click="goMatch"><span>赛程</span></li>
+            <li class="home-menu" :class="{ active: activeMenu === 'home' }" @click="scrollToHomeSection('#living-room')"><span>{{ t('nav.home') }}</span></li>
+            <li class="live-menu" :class="{ active: activeMenu === 'live' }" @click="goLiveType"><span>{{ t('nav.allLive') }}</span></li>
+            <li class="match-menu" :class="{ active: activeMenu === 'schedule' }" @click="goMatch"><span>{{ t('nav.schedule') }}</span></li>
             <li class="download-menu">
               <span>
                 <a href="/download" target="_blank" rel="noopener noreferrer">
-                  下载APP
+                  {{ t('nav.downloadApp') }}
                   <img class="hot" src="/assets/hot.png" alt="hot">
                 </a>
               </span>
@@ -56,34 +56,34 @@
         <div v-if="!isLoggedIn" class="no-login">
           <button type="button" class="header-btn header-login" @click="openLogin('login')">
             <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-            <span>登录</span>
+            <span>{{ t('auth.login') }}</span>
           </button>
           <button type="button" class="header-btn header-register" @click="openLogin('register')">
             <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-            <span>注册</span>
+            <span>{{ t('auth.register') }}</span>
           </button>
         </div>
         <div v-else class="had-login">
           <div class="header-subscribe">
             <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM9 10H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2z"/></svg>
-            <span>预约</span>
+            <span>{{ t('nav.appointment') }}</span>
             <div class="submenu subscribe-submenu">
               <div class="submenu-box">
                 <div class="subscribe-none">
                   <img src="/assets/none.png" alt="">
-                  <span>预约列表空空如也~</span>
+                  <span>{{ t('common.empty') }}</span>
                 </div>
               </div>
             </div>
           </div>
           <div class="header-concern">
             <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-            <span>关注</span>
+            <span>{{ t('nav.follow') }}</span>
             <div class="submenu concern-submenu">
               <div class="submenu-box">
                 <div class="concern-none">
                   <img src="/assets/none.png" alt="">
-                  <span>关注列表空空如也~</span>
+                  <span>{{ t('common.empty') }}</span>
                 </div>
               </div>
             </div>
@@ -98,7 +98,7 @@
                     <img class="avatar" src="/assets/avatar.png" alt="">
                     <span class="nickname ellipsis">DH0ZGW</span>
                     <div class="identity">主播</div>
-                    <div class="btn-logout" @click="logout">退出登录</div>
+                    <div class="btn-logout" @click="logout">{{ t('auth.logout') }}</div>
                   </div>
                   <div class="top-down">
                     <progress class="grow-progress" value="1" max="200"></progress>
@@ -144,6 +144,7 @@
 </template>
 
 <script setup>
+const { t } = useI18n()
 const props = defineProps({
   isLoggedIn: { type: Boolean, default: false },
   activeMenu: { type: String, default: 'home' },

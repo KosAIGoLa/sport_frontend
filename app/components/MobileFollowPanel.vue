@@ -3,18 +3,18 @@
     <header class="mobile-follow-panel__header">
       <div class="mobile-follow-panel__top">
         <img class="mobile-follow-panel__logo" src="/assets/logo-mobile-wap.png" alt="857直播">
-        <a class="mobile-follow-panel__download" href="/download" target="_blank" rel="noopener noreferrer">下载APP</a>
+        <a class="mobile-follow-panel__download" href="/download" target="_blank" rel="noopener noreferrer">{{ t('nav.downloadApp') }}</a>
       </div>
       <nav class="mobile-follow-panel__tabs" aria-label="关注预约">
-        <button type="button" :class="{ active: activeTab === 'follow' }" @click="activeTab = 'follow'">关注</button>
-        <button type="button" :class="{ active: activeTab === 'appointment' }" @click="activeTab = 'appointment'">预约</button>
+        <button type="button" :class="{ active: activeTab === 'follow' }" @click="activeTab = 'follow'">{{ t('nav.follow') }}</button>
+        <button type="button" :class="{ active: activeTab === 'appointment' }" @click="activeTab = 'appointment'">{{ t('nav.appointment') }}</button>
       </nav>
     </header>
 
     <main class="mobile-follow-panel__body" :class="{ 'mobile-follow-panel__body--appointment': activeTab === 'appointment' }">
       <img class="mobile-follow-panel__empty" src="/assets/none.png" alt="">
-      <p>登录账号关注喜欢的主播</p>
-      <button type="button" class="mobile-follow-panel__login" @click="$emit('login', 'login')">登录</button>
+      <p>{{ t('auth.loginToFollow') }}</p>
+      <button type="button" class="mobile-follow-panel__login" @click="$emit('login', 'login')">{{ t('auth.login') }}</button>
     </main>
 
     <nav class="mobile-follow-panel__footer" aria-label="底部导航">
@@ -22,25 +22,25 @@
         <span class="mobile-follow-panel__icon">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2 3 9.4v10.1c0 .8.6 1.5 1.5 1.5h15c.8 0 1.5-.6 1.5-1.5V9.4l-9-6.2Zm0 2.5 6.5 4.5v8.8H5.5v-8.8L12 5.7Z" /></svg>
         </span>
-        <span>直播</span>
+        <span>{{ t('nav.live') }}</span>
       </a>
       <a href="/match.html" class="mobile-follow-panel__item" :class="{ 'mobile-follow-panel__item--active': activeFooterTab === 'schedule' }" @click="activeFooterTab = 'schedule'">
         <span class="mobile-follow-panel__icon">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2v2H5.8A2.8 2.8 0 0 0 3 6.8v11.4A2.8 2.8 0 0 0 5.8 21h12.4a2.8 2.8 0 0 0 2.8-2.8V6.8A2.8 2.8 0 0 0 18.2 4H17V2h-2v2H9V2H7Zm11.2 7H5.8v9.2h12.4V9Z" /></svg>
         </span>
-        <span>赛程</span>
+        <span>{{ t('nav.schedule') }}</span>
       </a>
       <button type="button" class="mobile-follow-panel__item" :class="{ 'mobile-follow-panel__item--active': activeFooterTab === 'follow' }" @click="activeFooterTab = 'follow'">
         <span class="mobile-follow-panel__icon mobile-follow-panel__icon--active">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.6 4.9 13.8A4.7 4.7 0 0 1 11.7 7L12 7.3l.3-.3a4.7 4.7 0 0 1 6.8 6.8L12 20.6Zm0-2.8 5.7-5.4a2.7 2.7 0 1 0-3.9-3.7L12 10.6l-1.8-1.9a2.7 2.7 0 1 0-3.9 3.7l5.7 5.4Z" /></svg>
         </span>
-        <span>关注</span>
+        <span>{{ t('nav.follow') }}</span>
       </button>
       <button type="button" class="mobile-follow-panel__item" :class="{ 'mobile-follow-panel__item--active': activeFooterTab === 'profile' }" @click="handleProfileClick">
         <span class="mobile-follow-panel__icon">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-4.1 0-7.5 2.2-7.5 5v1.5h15V19c0-2.8-3.4-5-7.5-5Z" /></svg>
         </span>
-        <span>我的</span>
+        <span>{{ t('nav.profile') }}</span>
       </button>
     </nav>
   </div>
@@ -51,6 +51,7 @@ defineProps({
   visible: { type: Boolean, default: false }
 })
 
+const { t } = useI18n()
 const emit = defineEmits(['login'])
 const activeTab = ref('follow')
 const activeFooterTab = ref('follow')

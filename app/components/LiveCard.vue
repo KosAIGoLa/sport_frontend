@@ -31,7 +31,7 @@
         </span>
         <span class="live-card__viewers-count">{{ live.viewers }}</span>
       </h6>
-      <div class="live-card__action">立即观看</div>
+      <div class="live-card__action">{{ t('common.enterLiveRoom') }}</div>
     </div>
     <div v-if="variant === 'hot'" class="live-card__info">
       <h4 class="live-card__title ellipsis">{{ live.title }}</h4>
@@ -45,6 +45,7 @@
 
 <script setup>
 import { NuxtLink } from '#components'
+const { t } = useI18n()
 const props = defineProps({
   live: {
     type: Object,

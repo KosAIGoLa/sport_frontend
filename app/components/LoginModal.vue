@@ -6,15 +6,15 @@
       <div class="modal-top-deco"></div>
       <img class="close" src="/assets/close.png" alt="" @click="close">
       <div class="window-inner">
-        <MobileOnly tag="button" type="button" class="mobile-back" @click="close" aria-label="返回">
+        <MobileOnly tag="button" type="button" class="mobile-back" @click="close" :aria-label="t('nav.home')">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7" /></svg>
         </MobileOnly>
         <div class="modal-header">
           <DesktopOnly tag="div" class="modal-tabs">
-            <button type="button" :class="{ active: mode === 'login' }" @click="mode = 'login'">登录</button>
-            <button type="button" :class="{ active: mode === 'register' }" @click="mode = 'register'">注册</button>
+            <button type="button" :class="{ active: mode === 'login' }" @click="mode = 'login'">{{ t('auth.login') }}</button>
+            <button type="button" :class="{ active: mode === 'register' }" @click="mode = 'register'">{{ t('auth.register') }}</button>
           </DesktopOnly>
-          <DesktopOnly tag="div" class="modal-accent">{{ mode === 'login' ? '欢迎回来，请登录您的账号' : '创建账号，开启精彩直播之旅' }}</DesktopOnly>
+          <DesktopOnly tag="div" class="modal-accent">{{ mode === 'login' ? t('auth.welcomeBack') : t('auth.createAccount') }}</DesktopOnly>
         </div>
         <div class="type-content">
           <div class="phone-box">
@@ -22,7 +22,7 @@
               <FormInput
                 v-model="phone"
                 type="tel"
-                placeholder="请输入手机号码"
+                :placeholder="t('auth.phonePlaceholder')"
                 maxlength="11"
                 icon="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"
                 :compact="mode === 'register'"
@@ -50,13 +50,13 @@
             <FormInput
               v-model="verifyCode"
               type="tel"
-              placeholder="获取并输入验证码"
+              :placeholder="t('auth.codePlaceholder')"
               maxlength="4"
               icon="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
               compact
             >
               <template #suffix>
-                <div class="btn-verify" @click="getVerify">{{ counting ? count + 's' : '获取验证码' }}</div>
+                <div class="btn-verify" @click="getVerify">{{ counting ? count + 's' : t('auth.getCode') }}</div>
               </template>
             </FormInput>
             <div class="error-tip"></div>
@@ -64,7 +64,7 @@
           <div class="nickname-box" v-if="mode === 'register'">
             <FormInput
               type="text"
-              placeholder="请输入用户名"
+              :placeholder="t('auth.usernamePlaceholder')"
               maxlength="15"
               icon="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
               compact
@@ -75,7 +75,7 @@
             <FormInput
               v-model="password"
               :type="showPassword ? 'text' : 'password'"
-              placeholder="请输入6-16位登录密码"
+              :placeholder="t('auth.passwordPlaceholder')"
               maxlength="16"
               icon="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"
               :compact="mode === 'register'"
@@ -92,7 +92,7 @@
           <div class="check-box" v-if="mode === 'register'">
             <FormInput
               type="text"
-              placeholder="请输入图片上的验证码"
+              :placeholder="t('auth.captchaPlaceholder')"
               maxlength="5"
               icon="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
               compact
@@ -102,31 +102,31 @@
           <div class="agreement" v-if="mode === 'register'">
             <div class="agreement-row">
               <span class="gou" :class="{ active: agreed }" @click="agreed = !agreed"></span>
-              <span>我已阅读并同意</span>
-              <span class="highlight">《用户服务协议》</span>
+              <span>{{ t('auth.agreeRead') }}</span>
+              <span class="highlight">{{ t('auth.userAgreement') }}</span>
             </div>
             <div class="error-tip" v-if="agreeError">{{ agreeError }}</div>
           </div>
           <div class="agreement" v-else>
             <div class="agreement-row">
               <span class="gou" :class="{ active: agreed }" @click="agreed = !agreed"></span>
-              <span>登录即代表你已同意</span>
-              <span class="highlight">《用户服务协议》</span>
-              <span class="forget">忘记密码</span>
+              <span>{{ t('auth.loginAgree') }}</span>
+              <span class="highlight">{{ t('auth.userAgreement') }}</span>
+              <span class="forget">{{ t('auth.forgotPassword') }}</span>
             </div>
           </div>
           <div class="bottom">
-            <div class="submit" :class="{ active: canSubmit }" @click="submit">{{ mode === 'register' ? '立即注册' : '立即登录' }}</div>
+            <div class="submit" :class="{ active: canSubmit }" @click="submit">{{ mode === 'register' ? t('auth.submitRegister') : t('auth.submitLogin') }}</div>
             <div class="bottom-hint">
-              <span v-if="mode === 'login'">还没有账号？<span class="login-jump" @click="mode = 'register'">去注册</span></span>
-              <span v-else>已有账号？<span class="login-jump" @click="mode = 'login'">去登录</span></span>
+              <span v-if="mode === 'login'">{{ t('auth.noAccount') }}<span class="login-jump" @click="mode = 'register'">{{ t('auth.goRegister') }}</span></span>
+              <span v-else>{{ t('auth.hasAccount') }}<span class="login-jump" @click="mode = 'login'">{{ t('auth.goLogin') }}</span></span>
             </div>
             <MobileOnly v-if="mode === 'login'" tag="div" class="mobile-bottom-actions">
-              <button type="button" class="mobile-link-btn">忘记密码</button>
-              <button type="button" class="mobile-link-btn mobile-link-btn--primary" @click="mode = 'register'">快速注册</button>
+              <button type="button" class="mobile-link-btn">{{ t('auth.forgotPassword') }}</button>
+              <button type="button" class="mobile-link-btn mobile-link-btn--primary" @click="mode = 'register'">{{ t('auth.quickRegister') }}</button>
             </MobileOnly>
           </div>
-          <SocialLogin label="其他登录方式" :compact="mode === 'register'" />
+          <SocialLogin :label="t('auth.otherLogin')" :compact="mode === 'register'" />
         </div>
       </div>
     </div>
@@ -134,6 +134,7 @@
 </template>
 
 <script setup>
+const { t } = useI18n()
 const props = defineProps({
   visible: { type: Boolean, default: false },
   type: { type: String, default: 'login' }
@@ -165,7 +166,7 @@ function selectCode(code) {
 function getVerify() {
   if (counting.value) return
   if (!phone.value) {
-    phoneError.value = '请输入手机号'
+    phoneError.value = t('auth.phoneRequired')
     return
   }
   counting.value = true
@@ -185,9 +186,9 @@ function submit() {
   phoneError.value = ''
   passwordError.value = ''
   agreeError.value = ''
-  if (!phone.value) phoneError.value = '请输入手机号'
-  if (!password.value) passwordError.value = '请输入密码'
-  if (mode.value === 'register' && !agreed.value) agreeError.value = '请仔细阅读并勾选协议'
+  if (!phone.value) phoneError.value = t('auth.phoneRequired')
+  if (!password.value) passwordError.value = t('auth.passwordRequired')
+  if (mode.value === 'register' && !agreed.value) agreeError.value = t('auth.agreeRequired')
   if (canSubmit.value) {
     emit('success')
     close()

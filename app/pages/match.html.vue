@@ -1,26 +1,26 @@
 <template>
-  <div class="match-page">
+  <div class="match-page" :style="{ '--match-title': `'${t('page.matchCenterTitle')}'`, '--match-subtitle': `'${t('page.matchCenterSubtitle')}'` }">
     <header class="match-header">
       <div class="match-header-inner">
         <MobileOnly tag="div" class="match-mobile-head">
           <div class="match-mobile-top">
             <img class="match-mobile-logo" src="/assets/logo-mobile-wap.png" alt="857直播">
-            <a class="match-mobile-download" href="/download" target="_blank" rel="noopener noreferrer">下载APP</a>
+            <a class="match-mobile-download" href="/download" target="_blank" rel="noopener noreferrer">{{ t('nav.downloadApp') }}</a>
           </div>
           <nav class="match-mobile-tabs" aria-label="赛程分类">
-            <NuxtLink :class="{ active: matchTab === '全部' }" to="/match.html">全部</NuxtLink>
-            <NuxtLink :class="{ active: matchTab === '足球' }" to="/match.html?tab=足球">足球</NuxtLink>
-            <NuxtLink :class="{ active: matchTab === '篮球' }" to="/match.html?tab=篮球">篮球</NuxtLink>
-            <NuxtLink :class="{ active: matchTab === '分析' }" to="/match.html?tab=分析">分析</NuxtLink>
+            <NuxtLink :class="{ active: matchTab === '全部' }" to="/match.html">{{ t('nav.all') }}</NuxtLink>
+            <NuxtLink :class="{ active: matchTab === '足球' }" to="/match.html?tab=足球">{{ t('nav.football') }}</NuxtLink>
+            <NuxtLink :class="{ active: matchTab === '篮球' }" to="/match.html?tab=篮球">{{ t('nav.basketball') }}</NuxtLink>
+            <NuxtLink :class="{ active: matchTab === '分析' }" to="/match.html?tab=分析">{{ t('nav.analysis') }}</NuxtLink>
           </nav>
         </MobileOnly>
         <DesktopOnly tag="a" class="match-logo" href="/">
           <img src="/assets/logo2.png" alt="857直播">
         </DesktopOnly>
         <DesktopOnly tag="nav" class="match-nav">
-          <NuxtLink to="/">首页</NuxtLink>
-          <NuxtLink to="/liveType.html">全部直播</NuxtLink>
-          <NuxtLink class="active" to="/match.html">赛程</NuxtLink>
+          <NuxtLink to="/">{{ t('nav.home') }}</NuxtLink>
+          <NuxtLink to="/liveType.html">{{ t('nav.allLive') }}</NuxtLink>
+          <NuxtLink class="active" to="/match.html">{{ t('nav.schedule') }}</NuxtLink>
           <a class="download" href="/download" target="_blank" rel="noopener noreferrer">
             <span>
               下载APP
@@ -29,14 +29,14 @@
           </a>
         </DesktopOnly>
         <DesktopOnly tag="div" class="match-auth">
-          <button type="button" class="login-btn" @click="openLogin('login')">登录</button>
-          <button type="button" @click="openLogin('register')">注册</button>
+          <button type="button" class="login-btn" @click="openLogin('login')">{{ t('auth.login') }}</button>
+          <button type="button" @click="openLogin('register')">{{ t('auth.register') }}</button>
         </DesktopOnly>
       </div>
     </header>
 
     <main class="match-wrapper">
-      <MobileOnly tag="div" class="match-mobile-day-title">今天</MobileOnly>
+      <MobileOnly tag="div" class="match-mobile-day-title">{{ t('page.today') }}</MobileOnly>
       <section class="date-list">
         <button
           v-for="(day, index) in days"
@@ -54,7 +54,7 @@
       <section class="match-box">
         <div v-if="activeDay !== 0" class="match-none">
           <img src="https://sta.ncctrials.com/857web/assets/857/img/none2.png" alt="">
-          <span>列表空空如也~</span>
+          <span>{{ t('common.empty') }}</span>
         </div>
 
         <div v-else class="match-data">
@@ -127,6 +127,7 @@ definePageMeta({
   path: '/match.html'
 })
 
+const { t } = useI18n()
 const route = useRoute()
 const activeDay = ref(0)
 const loginVisible = ref(false)
@@ -411,10 +412,12 @@ function openMatchDetail(match) {
   @apply w-[1200px] min-h-[calc(100vh-312px)] mx-auto pt-[42px] pb-16;
 }
 .match-wrapper::before {
-  @apply content-['赛程中心'] block mb-2 text-slate-900 text-[30px] font-[850] tracking-[-0.4px];
+  content: var(--match-title);
+  @apply block mb-2 text-slate-900 text-[30px] font-[850] tracking-[-0.4px];
 }
 .match-wrapper::after {
-  @apply content-['实时赛事安排，快速预约你关注的比赛'] block -mt-0.5 mb-5 text-slate-500 text-sm;
+  content: var(--match-subtitle);
+  @apply block -mt-0.5 mb-5 text-slate-500 text-sm;
 }
 .date-list {
   @apply h-24 mb-6 p-2.5 bg-white/[0.88] border border-white/[0.92] rounded-[24px] shadow-[0_22px_60px_rgba(15,23,42,0.1)] backdrop-blur-[14px] grid grid-cols-7 gap-2;

@@ -3,14 +3,14 @@
     <div class="video-inner inner">
       <div class="video-box">
         <div class="hero-status">
-          <span class="live-dot"></span> 正在热播
+          <span class="live-dot"></span> {{ t('common.liveNow') }}
         </div>
         <div class="hero-meta">
           <div>
-            <span class="meta-label">赛事直播</span>
+            <span class="meta-label">{{ t('common.liveStream') }}</span>
             <strong>{{ rooms[currentRoom].title }}</strong>
           </div>
-          <span class="meta-count">{{ rooms[currentRoom].viewers }}观看</span>
+          <span class="meta-count">{{ rooms[currentRoom].viewers }}{{ t('common.watching') }}</span>
         </div>
         <div class="video-player">
           <div id="hero-xgplayer" class="xgplayer-container"></div>
@@ -18,10 +18,10 @@
           <div v-if="isLoading" class="loading" id="videoLoading">
             <img class="imgRotate" src="/assets/loading.png" alt="">
             <img class="loading-logo" src="/assets/loading-logo.png" alt="">
-            <p>加载中...</p>
+            <p>{{ t('common.loading') }}</p>
           </div>
         </div>
-        <div class="inLiveRoom" role="button" tabindex="0" @click="goRoom" @keydown.enter.prevent="goRoom">进入直播间</div>
+        <div class="inLiveRoom" role="button" tabindex="0" @click="goRoom" @keydown.enter.prevent="goRoom">{{ t('common.enterLiveRoom') }}</div>
         <div class="live-title" aria-hidden="true">
           <img class="live-cover" :src="rooms[currentRoom].cover" alt="">
           <div class="info">
@@ -48,6 +48,8 @@
 <script setup>
 import Player from 'xgplayer'
 import 'xgplayer/dist/index.min.css'
+
+const { t } = useI18n()
 
 const rooms = [
   { title: '🔥世欧预  丹麦  VS  乌克兰', cover: '/assets/covers/hot1.png', poster: '/assets/covers/main-poster-bright.png', anchor: '初六', viewers: '5.39w', roomId: '3150351' },

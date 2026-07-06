@@ -1,26 +1,26 @@
 <template>
-  <div class="live-type-page">
+  <div class="live-type-page" :style="{ '--live-title': `'${t('page.liveCenterTitle')}'`, '--live-subtitle': `'${t('page.liveCenterSubtitle')}'` }">
     <header class="live-header">
       <div class="live-header-inner">
         <MobileOnly tag="div" class="live-mobile-head">
           <div class="live-mobile-top">
             <img class="live-mobile-logo" src="/assets/logo-mobile-wap.png" alt="857直播">
-            <a class="live-mobile-download" href="/download" target="_blank" rel="noopener noreferrer">下载APP</a>
+            <a class="live-mobile-download" href="/download" target="_blank" rel="noopener noreferrer">{{ t('nav.downloadApp') }}</a>
           </div>
           <nav class="live-mobile-tabs" aria-label="直播分类">
-            <NuxtLink :class="{ active: mobileTab === '全部' }" to="/liveType.html">全部</NuxtLink>
-            <NuxtLink :class="{ active: mobileTab === '足球' }" to="/liveType.html?tab=足球">足球</NuxtLink>
-            <NuxtLink :class="{ active: mobileTab === '篮球' }" to="/liveType.html?tab=篮球">篮球</NuxtLink>
-            <NuxtLink :class="{ active: mobileTab === '分析' }" to="/liveType.html?tab=分析">分析</NuxtLink>
+            <NuxtLink :class="{ active: mobileTab === '全部' }" to="/liveType.html">{{ t('nav.all') }}</NuxtLink>
+            <NuxtLink :class="{ active: mobileTab === '足球' }" to="/liveType.html?tab=足球">{{ t('nav.football') }}</NuxtLink>
+            <NuxtLink :class="{ active: mobileTab === '篮球' }" to="/liveType.html?tab=篮球">{{ t('nav.basketball') }}</NuxtLink>
+            <NuxtLink :class="{ active: mobileTab === '分析' }" to="/liveType.html?tab=分析">{{ t('nav.analysis') }}</NuxtLink>
           </nav>
         </MobileOnly>
         <DesktopOnly tag="a" class="live-logo" href="/">
           <img src="/assets/logo2.png" alt="857直播">
         </DesktopOnly>
         <DesktopOnly tag="nav" class="live-nav">
-          <NuxtLink to="/">首页</NuxtLink>
-          <NuxtLink class="active" to="/liveType.html">全部直播</NuxtLink>
-          <NuxtLink to="/match.html">赛程</NuxtLink>
+          <NuxtLink to="/">{{ t('nav.home') }}</NuxtLink>
+          <NuxtLink class="active" to="/liveType.html">{{ t('nav.allLive') }}</NuxtLink>
+          <NuxtLink to="/match.html">{{ t('nav.schedule') }}</NuxtLink>
           <a class="download" href="/download" target="_blank" rel="noopener noreferrer">
             <span>
               下载APP
@@ -29,8 +29,8 @@
           </a>
         </DesktopOnly>
         <DesktopOnly tag="div" class="live-auth">
-          <button type="button" class="login-btn" @click="openLogin('login')">登录</button>
-          <button type="button" @click="openLogin('register')">注册</button>
+          <button type="button" class="login-btn" @click="openLogin('login')">{{ t('auth.login') }}</button>
+          <button type="button" @click="openLogin('register')">{{ t('auth.register') }}</button>
         </DesktopOnly>
       </div>
     </header>
@@ -61,6 +61,7 @@ definePageMeta({
   path: '/liveType.html'
 })
 
+const { t } = useI18n()
 const isLoggedIn = ref(false)
 const loginVisible = ref(false)
 const loginType = ref('login')
@@ -179,11 +180,13 @@ const allLives = [
 }
 
 .live-type-main::before {
-  @apply content-['全部直播'] block w-[1200px] mx-auto mb-2 text-slate-900 text-[30px] font-[850] tracking-[-0.4px];
+  content: var(--live-title);
+  @apply block w-[1200px] mx-auto mb-2 text-slate-900 text-[30px] font-[850] tracking-[-0.4px];
 }
 
 .live-type-main::after {
-  @apply content-['精选赛事直播间，热门主播实时开播'] block w-[1200px] -mt-0.5 mx-auto mb-1 text-slate-500 text-sm;
+  content: var(--live-subtitle);
+  @apply block w-[1200px] -mt-0.5 mx-auto mb-1 text-slate-500 text-sm;
 }
 
 @media screen and (max-width: 1400px) {
