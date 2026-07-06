@@ -65,7 +65,7 @@ footer .inner .logo-footer {
   @apply h-[84px] pt-4 mx-auto;
 }
 footer .inner .logo-footer img {
-  @apply h-full;
+  @apply h-full block mx-auto;
 }
 footer .inner .guide {
   @apply pt-[47px];

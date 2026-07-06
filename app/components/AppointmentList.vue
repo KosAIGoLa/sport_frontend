@@ -1,13 +1,16 @@
 <template>
   <section class="appoinment-list inner">
     <Carousel
+      ref="carouselRef"
       :items="games"
       :slide-width="252"
       :visible-count="4"
       :step="1"
       container-class="appoinment-carousel"
-      wrapper-class="appoinment-swiper-container"
+      :wrapper-class="carouselWrapperClass"
       slide-class="game"
+      @prev="onCarouselScroll"
+      @next="onCarouselScroll"
     >
       <template #slide="{ item }">
         <div class="game-card" @click="goRoom(item.href)">
@@ -63,6 +66,27 @@ const games = ref([
   { league: '挪甲', leagueIcon: '/assets/league2', date: '今天', time: '10:00', team1: '奥德', team1Icon: '/assets/teams/team1.png', team2: '海于格松', team2Icon: '/assets/teams/team2.png', appointed: false, href: '/room/506605?scheduleId=undefined' }
 ])
 
+const carouselRef = ref()
+const carouselOffset = ref(0)
+const carouselMaxOffset = ref(0)
+
+const carouselWrapperClass = computed(() => {
+  const classes = ['appoinment-swiper-container']
+  if (carouselOffset.value <= 0) classes.push('no-left-pad')
+  if (carouselOffset.value >= carouselMaxOffset.value) classes.push('no-right-pad')
+  return classes.join(' ')
+})
+
+function onCarouselScroll(newOffset) {
+  carouselOffset.value = newOffset
+  carouselMaxOffset.value = carouselRef.value?.maxOffset ?? 0
+}
+
+onMounted(() => {
+  carouselOffset.value = carouselRef.value?.offset ?? 0
+  carouselMaxOffset.value = carouselRef.value?.maxOffset ?? 0
+})
+
 function goRoom(href) {
   if (typeof href !== 'string' || !href.startsWith('/')) return
   navigateTo(href)
@@ -76,8 +100,14 @@ function goRoom(href) {
 .appoinment-list {
   @apply relative mt-7 z-[3];
 }
-.appoinment-swiper-container {
-  @apply w-full h-[150px] bg-white/[0.88] rounded-[22px] border border-white/[0.9] shadow-[0_22px_60px_rgba(15,23,42,0.12)] backdrop-blur-[16px] relative list-none p-0 overflow-hidden;
+:deep(.appoinment-swiper-container) {
+  @apply w-full h-[150px] bg-white/[0.88] rounded-[22px] border border-white/[0.9] shadow-[0_22px_60px_rgba(15,23,42,0.12)] backdrop-blur-[16px] relative list-none px-24 py-0 overflow-hidden justify-start;
+}
+:deep(.appoinment-swiper-container.no-left-pad) {
+  @apply pl-0;
+}
+:deep(.appoinment-swiper-container.no-right-pad) {
+  @apply pr-0;
 }
 :deep(.carousel-btn) {
   @apply w-[34px] h-[34px] rounded-full bg-white text-slate-900 shadow-[0_4px_14px_rgba(15,23,42,0.12)];
@@ -182,7 +212,7 @@ function goRoom(href) {
     @apply mt-3.5 px-4;
   }
 
-  .appoinment-swiper-container {
+  :deep(.appoinment-swiper-container) {
     @apply h-auto p-0 bg-transparent border-0 rounded-none shadow-none backdrop-blur-none overflow-x-auto;
   }
 

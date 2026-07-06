@@ -1,0 +1,107 @@
+/* View Transitions API 全局动画样式
+ * 配合 Nuxt experimental.viewTransition 使用
+ */
+
+::view-transition-group(*) {
+  animation-duration: 0.4s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.4s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+::view-transition-old(root) {
+  animation-name: vt-root-out;
+}
+
+::view-transition-new(root) {
+  animation-name: vt-root-in;
+}
+
+@keyframes vt-root-out {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0) brightness(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.97) translateY(-10px);
+    filter: blur(3px) brightness(0.96);
+  }
+}
+
+@keyframes vt-root-in {
+  from {
+    opacity: 0;
+    transform: scale(1.02) translateY(10px);
+    filter: blur(3px) brightness(1.04);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0) brightness(1);
+  }
+}
+
+/* 直播间封面共享元素 morph */
+::view-transition-group(room-cover-*) {
+  animation-duration: 0.55s;
+  animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 100;
+  box-shadow: 0 28px 70px rgba(15, 23, 42, 0.45);
+  border-radius: 18px;
+}
+
+::view-transition-image-pair(room-cover-*) {
+  overflow: hidden;
+  border-radius: 18px;
+}
+
+::view-transition-old(room-cover-*),
+::view-transition-new(room-cover-*) {
+  animation-duration: 0.55s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+::view-transition-old(room-cover-*) {
+  animation-name: vt-cover-out;
+}
+
+::view-transition-new(room-cover-*) {
+  animation-name: vt-cover-in;
+}
+
+@keyframes vt-cover-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes vt-cover-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-duration: 0.01ms !important;
+    animation-timing-function: ease !important;
+  }
+}

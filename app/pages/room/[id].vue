@@ -33,7 +33,7 @@
 
           <div class="match-player">
             <div class="video-stage">
-              <div class="video-player-wrap">
+              <div class="video-player-wrap" :style="{ 'view-transition-name': `room-cover-${roomId}` }">
                 <div id="xgplayer-container" class="xgplayer-container"></div>
                 <div class="video-live-badge">
                   <span class="live-pulse"></span>
@@ -641,16 +641,19 @@ const recommendedLives = [
 .anchor-avatar {
   @apply w-[60px] h-[60px] mr-4 rounded-full object-cover;
 }
+.anchor-copy {
+  @apply min-w-0;
+}
 .anchor-copy h1 {
-  @apply m-0 mb-3 text-[#222] text-xl font-bold leading-6;
+  @apply m-0 mb-3 text-[#222] text-xl font-bold leading-6 truncate;
 }
 .anchor-copy p {
-  @apply m-0 text-[#777] text-sm;
+  @apply m-0 text-[#777] text-sm truncate flex items-center gap-3.5;
 }
 .anchor-copy span,
 .anchor-copy em,
 .anchor-copy a {
-  @apply mr-3.5;
+  @apply mr-0;
 }
 .anchor-copy em {
   @apply pl-[18px] not-italic bg-[url('/assets/icon-hot-gray.png')] bg-no-repeat bg-left bg-[length:12px_auto];

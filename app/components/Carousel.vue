@@ -95,15 +95,18 @@ function reset() {
   offset.value = 0
 }
 
-defineExpose({ reset, scrollPrev, scrollNext })
+defineExpose({ reset, scrollPrev, scrollNext, offset, maxOffset })
 </script>
 
 <style scoped>
+.anchor {
+  margin: 10px;
+}
 .carousel {
   @apply relative;
 }
 .carousel-viewport {
-  @apply overflow-hidden;
+  @apply overflow-hidden flex items-center justify-center;
 }
 .carousel-track {
   @apply flex transition-transform duration-300 ease-in-out;

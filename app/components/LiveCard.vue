@@ -1,7 +1,7 @@
 <template>
   <component :is="tag" class="live-card" :class="variantClass" :href="live.href">
     <div class="live-card__cover">
-      <img class="live-card__img" :src="live.cover" :alt="live.title">
+      <img class="live-card__img" :src="live.cover" :alt="live.title" :style="coverTransitionStyle">
       <div v-if="variant === 'hot'" class="live-card__gradient-mask"></div>
       <div class="live-card__hover-mask"></div>
       <i class="live-card__play"></i>
@@ -62,6 +62,15 @@ const props = defineProps({
 })
 
 const variantClass = computed(() => `live-card--${props.variant}`)
+
+const roomId = computed(() => {
+  const match = props.live.href?.match(/\/room\/(\d+)/)
+  return match ? match[1] : ''
+})
+
+const coverTransitionStyle = computed(() => {
+  return roomId.value ? { 'view-transition-name': `room-cover-${roomId.value}` } : {}
+})
 
 const tagClass = computed(() => {
   const t = props.live.tag

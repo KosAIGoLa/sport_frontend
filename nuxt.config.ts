@@ -10,6 +10,9 @@ const fastBuild = process.env.FAST_BUILD === '1'
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: false },
+  experimental: {
+    viewTransition: true
+  },
   sourcemap: {
     server: false,
     client: false
@@ -44,7 +47,7 @@ export default defineNuxtConfig({
       }
     }
   },
-  css: ['~/assets/css/tailwind.css'],
+  css: ['~/assets/css/tailwind.css', '~/assets/css/view-transitions.css'],
   postcss: {
     plugins: {
       tailwindcss: {},

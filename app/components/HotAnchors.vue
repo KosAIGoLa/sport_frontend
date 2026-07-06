@@ -42,16 +42,16 @@ const anchors = [
   @apply w-[1200px] mx-auto;
 }
 .anchor {
-  @apply relative mt-12 bg-white/[0.9] h-[196px] border border-white/[0.92] rounded-[24px] shadow-[0_22px_60px_rgba(15,23,42,0.1)] backdrop-blur-[14px];
+  @apply relative mt-12 bg-white/[0.9] h-[240px] border border-white/[0.92] rounded-[24px] shadow-[0_22px_60px_rgba(15,23,42,0.1)] backdrop-blur-[14px];
 }
 .title-block {
   @apply absolute z-10 w-full -top-[31px] text-center pointer-events-none;
 }
 .title-block img {
-  @apply w-full h-auto block;
+  @apply h-auto block mx-auto max-w-full;
 }
-.anchor-swiper-container {
-  @apply mx-auto border-0 h-[196px] w-[1100px] pt-12 px-0 pb-[38px] relative;
+:deep(.anchor-swiper-container) {
+  @apply mx-auto border-0 h-[240px] w-[1100px] pt-20 px-0 pb-[54px] relative justify-start;
 }
 :deep(.carousel-slide.person) {
   @apply h-[106px] px-5 text-sm text-center cursor-pointer;
@@ -89,12 +89,12 @@ const anchors = [
     @apply w-[1200px];
   }
   .anchor {
-    @apply mt-[58px] h-[196px];
+    @apply mt-[58px] h-[240px];
   }
   .title-block {
     @apply -top-[31px];
   }
-  .anchor-swiper-container {
+  :deep(.anchor-swiper-container) {
     @apply w-[1100px];
   }
   :deep(.carousel-slide.person) {
