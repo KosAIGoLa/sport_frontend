@@ -8,19 +8,19 @@
             <a class="match-mobile-download" href="/download" target="_blank" rel="noopener noreferrer">下载APP</a>
           </div>
           <nav class="match-mobile-tabs" aria-label="赛程分类">
-            <a class="active" href="/match.html">全部</a>
-            <a href="/liveType.html?tab=足球">足球</a>
-            <a href="/liveType.html?tab=篮球">篮球</a>
-            <a href="/liveType.html?tab=分析">分析</a>
+            <NuxtLink :class="{ active: matchTab === '全部' }" to="/match.html">全部</NuxtLink>
+            <NuxtLink :class="{ active: matchTab === '足球' }" to="/match.html?tab=足球">足球</NuxtLink>
+            <NuxtLink :class="{ active: matchTab === '篮球' }" to="/match.html?tab=篮球">篮球</NuxtLink>
+            <NuxtLink :class="{ active: matchTab === '分析' }" to="/match.html?tab=分析">分析</NuxtLink>
           </nav>
         </MobileOnly>
         <DesktopOnly tag="a" class="match-logo" href="/">
           <img src="/assets/logo2.png" alt="857直播">
         </DesktopOnly>
         <DesktopOnly tag="nav" class="match-nav">
-          <a href="/">首页</a>
-          <a href="/liveType.html">全部直播</a>
-          <a class="active" href="/match.html">赛程</a>
+          <NuxtLink to="/">首页</NuxtLink>
+          <NuxtLink to="/liveType.html">全部直播</NuxtLink>
+          <NuxtLink class="active" to="/match.html">赛程</NuxtLink>
           <a class="download" href="/download" target="_blank" rel="noopener noreferrer">
             <span>
               下载APP
@@ -127,10 +127,16 @@ definePageMeta({
   path: '/match.html'
 })
 
+const route = useRoute()
 const activeDay = ref(0)
 const loginVisible = ref(false)
 const loginType = ref('login')
 const followVisible = ref(false)
+
+const matchTab = computed(() => {
+  const tab = typeof route.query.tab === 'string' ? route.query.tab : ''
+  return ['足球', '篮球', '分析'].includes(tab) ? tab : '全部'
+})
 
 const days = [
   { day: '今天', date: '07.05' },

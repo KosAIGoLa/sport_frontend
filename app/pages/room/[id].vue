@@ -33,7 +33,7 @@
 
           <div class="match-player">
             <div class="video-stage">
-              <div class="video-player-wrap" :style="{ 'view-transition-name': `room-cover-${roomId}` }">
+              <div class="video-player-wrap" :style="{ 'view-transition-name': transitionName }">
                 <div id="xgplayer-container" class="xgplayer-container"></div>
                 <div class="video-live-badge">
                   <span class="live-pulse"></span>
@@ -353,6 +353,10 @@ import 'xgplayer/dist/index.min.css'
 
 const route = useRoute()
 const roomId = computed(() => route.params.id || '990645')
+const transitionName = computed(() => {
+  const prefix = route.query.vt === 'anchor' ? 'anchor-cover' : 'room-cover'
+  return `${prefix}-${roomId.value}`
+})
 const isLoggedIn = ref(false)
 const loginVisible = ref(false)
 const loginType = ref('login')
@@ -517,6 +521,12 @@ function openRedPacket(item) {
 
 let player = null
 onMounted(() => {
+  if (route.query.vt) {
+    const query = { ...route.query }
+    delete query.vt
+    const queryString = Object.keys(query).length ? '?' + new URLSearchParams(query).toString() : ''
+    window.history.replaceState(null, '', route.path + queryString)
+  }
   player = new Player({
     id: 'xgplayer-container',
     url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
@@ -690,7 +700,7 @@ const recommendedLives = [
   @apply relative h-[484px] bg-slate-900 overflow-hidden rounded-t-3xl;
 }
 .video-player-wrap {
-  @apply relative w-full h-full;
+  @apply relative w-full h-full isolate;
 }
 .xgplayer-container {
   @apply w-full h-full bg-slate-900;

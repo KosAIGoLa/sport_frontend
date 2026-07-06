@@ -8,19 +8,19 @@
             <a class="live-mobile-download" href="/download" target="_blank" rel="noopener noreferrer">下载APP</a>
           </div>
           <nav class="live-mobile-tabs" aria-label="直播分类">
-            <a :class="{ active: mobileTab === '推荐' }" href="/">推荐</a>
-            <a :class="{ active: mobileTab === '足球' }" href="/liveType.html?tab=足球">足球</a>
-            <a :class="{ active: mobileTab === '篮球' }" href="/liveType.html?tab=篮球">篮球</a>
-            <a :class="{ active: mobileTab === '分析' }" href="/liveType.html?tab=分析">分析</a>
+            <NuxtLink :class="{ active: mobileTab === '全部' }" to="/liveType.html">全部</NuxtLink>
+            <NuxtLink :class="{ active: mobileTab === '足球' }" to="/liveType.html?tab=足球">足球</NuxtLink>
+            <NuxtLink :class="{ active: mobileTab === '篮球' }" to="/liveType.html?tab=篮球">篮球</NuxtLink>
+            <NuxtLink :class="{ active: mobileTab === '分析' }" to="/liveType.html?tab=分析">分析</NuxtLink>
           </nav>
         </MobileOnly>
         <DesktopOnly tag="a" class="live-logo" href="/">
           <img src="/assets/logo2.png" alt="857直播">
         </DesktopOnly>
         <DesktopOnly tag="nav" class="live-nav">
-          <a href="/">首页</a>
-          <a class="active" href="/liveType.html">全部直播</a>
-          <a href="/match.html">赛程</a>
+          <NuxtLink to="/">首页</NuxtLink>
+          <NuxtLink class="active" to="/liveType.html">全部直播</NuxtLink>
+          <NuxtLink to="/match.html">赛程</NuxtLink>
           <a class="download" href="/download" target="_blank" rel="noopener noreferrer">
             <span>
               下载APP
@@ -70,7 +70,7 @@ const isMobileView = ref(false)
 
 const mobileTab = computed(() => {
   const tab = typeof route.query.tab === 'string' ? route.query.tab : ''
-  return ['足球', '篮球', '分析'].includes(tab) ? tab : '推荐'
+  return ['足球', '篮球', '分析'].includes(tab) ? tab : '全部'
 })
 
 const initialCategory = computed(() => {

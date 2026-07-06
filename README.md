@@ -64,6 +64,18 @@ pnpm dev
 
 ![赛事详情预览](./screen/img_1.png)
 
+## 页面转场说明
+
+项目已启用 Nuxt View Transitions 与页面淡入淡出 fallback：
+
+- `nuxt.config.ts` 中开启 `experimental.viewTransition: true`
+- `nuxt.config.ts` 中配置 `app.pageTransition: { name: 'page', mode: 'out-in' }`
+- `app/assets/css/view-transitions.css` 负责旧页面淡出、新页面淡入，以及直播间封面共享元素过渡
+
+内部页面跳转需要使用 Nuxt 客户端路由，例如 `NuxtLink`、`navigateTo()` 或 `router.push()`。不要把站内跳转写成普通 `<a href="/...">`，否则会触发整页刷新，View Transition 和页面淡入淡出不会生效。
+
+外部链接、下载链接、备用网址等仍可使用普通 `<a>` 并保留 `target="_blank"`。
+
 ## 静态构建
 
 本项目使用 `nuxt build` 输出纯静态文件，部署时只需上传 `dist` 目录。

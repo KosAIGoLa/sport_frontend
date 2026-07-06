@@ -13,8 +13,8 @@
       slide-class="person"
     >
       <template #slide="{ item }">
-        <a href="javascript:;">
-          <img class="avatar" :src="item.avatar" :alt="item.name">
+        <a href="javascript:;" @click="goRoom(item)">
+          <img class="avatar" :src="item.avatar" :alt="item.name" :style="{ 'view-transition-name': `anchor-cover-${item.roomId}` }">
           <p class="ellipsis">{{ item.name }}</p>
         </a>
       </template>
@@ -24,17 +24,22 @@
 
 <script setup>
 const anchors = [
-  { name: '阿信聊球', avatar: '/assets/anchors/anchor2.jpg' },
-  { name: '高圆圆', avatar: '/assets/anchors/anchor3.jpg' },
-  { name: '金爷（粤语）', avatar: '/assets/anchors/anchor4.jpg' },
-  { name: '小鹿姐', avatar: '/assets/anchors/anchor5' },
-  { name: '八💥佰', avatar: '/assets/anchors/anchor6.png' },
-  { name: '稳哥', avatar: '/assets/anchors/anchor7.jpg' },
-  { name: '迪哥聊球', avatar: '/assets/anchors/anchor8.jpeg' },
-  { name: '评述员阿虎', avatar: '/assets/anchors/anchor9.jpg' },
-  { name: '老李', avatar: '/assets/anchors/anchor1.png' },
-  { name: '碧咸（粤語）', avatar: '/assets/anchors/anchor10.png' }
+  { name: '阿信聊球', avatar: '/assets/anchors/anchor2.jpg', roomId: '374391' },
+  { name: '高圆圆', avatar: '/assets/anchors/anchor3.jpg', roomId: '5435118' },
+  { name: '金爷（粤语）', avatar: '/assets/anchors/anchor4.jpg', roomId: '765648' },
+  { name: '小鹿姐', avatar: '/assets/anchors/anchor5', roomId: '896956' },
+  { name: '八💥佰', avatar: '/assets/anchors/anchor6.png', roomId: '308116' },
+  { name: '稳哥', avatar: '/assets/anchors/anchor7.jpg', roomId: '551893' },
+  { name: '迪哥聊球', avatar: '/assets/anchors/anchor8.jpeg', roomId: '774913' },
+  { name: '评述员阿虎', avatar: '/assets/anchors/anchor9.jpg', roomId: '506605' },
+  { name: '老李', avatar: '/assets/anchors/anchor1.png', roomId: '346346' },
+  { name: '碧咸（粤語）', avatar: '/assets/anchors/anchor10.png', roomId: '1573951' }
 ]
+
+function goRoom(item) {
+  if (!item.roomId) return
+  navigateTo(`/room/${item.roomId}?vt=anchor`)
+}
 </script>
 
 <style scoped>

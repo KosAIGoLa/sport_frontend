@@ -1,5 +1,5 @@
 <template>
-  <component :is="tag" class="live-card" :class="variantClass" :href="live.href">
+  <component :is="componentTag" class="live-card" :class="variantClass" :to="componentTag === NuxtLink ? live.href : undefined" :href="componentTag === NuxtLink ? undefined : live.href">
     <div class="live-card__cover">
       <img class="live-card__img" :src="live.cover" :alt="live.title" :style="coverTransitionStyle">
       <div v-if="variant === 'hot'" class="live-card__gradient-mask"></div>
@@ -44,6 +44,7 @@
 </template>
 
 <script setup>
+import { NuxtLink } from '#components'
 const props = defineProps({
   live: {
     type: Object,
@@ -61,6 +62,7 @@ const props = defineProps({
   tag: { type: String, default: 'a' }
 })
 
+const componentTag = computed(() => props.tag === 'a' ? NuxtLink : props.tag)
 const variantClass = computed(() => `live-card--${props.variant}`)
 
 const roomId = computed(() => {
@@ -95,7 +97,7 @@ const tagClass = computed(() => {
   @apply rounded-t-[18px] h-[160px];
 }
 .live-card__img {
-  @apply block w-full h-full object-cover rounded-t-[18px];
+  @apply block w-full h-full object-cover rounded-t-[18px] isolate;
 }
 .live-card__gradient-mask {
   @apply absolute w-full h-full top-0 left-0 rounded-t-[18px] bg-[linear-gradient(180deg,rgba(0,0,0,0)_0,rgba(0,0,0,0.6)_100%)] z-[2];

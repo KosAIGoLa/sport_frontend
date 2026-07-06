@@ -18,10 +18,10 @@
           <a class="mobile-header__download" href="/download" target="_blank" rel="noopener noreferrer">下载APP</a>
         </div>
         <nav v-if="!back" class="mobile-header__tabs" aria-label="首页分类">
-          <a href="/" class="active">推荐</a>
-          <a href="/liveType.html?tab=足球">足球</a>
-          <a href="/liveType.html?tab=篮球">篮球</a>
-          <a href="/liveType.html?tab=分析">分析</a>
+          <NuxtLink to="/liveType.html" class="active">全部</NuxtLink>
+          <NuxtLink to="/liveType.html?tab=足球">足球</NuxtLink>
+          <NuxtLink to="/liveType.html?tab=篮球">篮球</NuxtLink>
+          <NuxtLink to="/liveType.html?tab=分析">分析</NuxtLink>
         </nav>
       </MobileOnly>
       <DesktopOnly tag="div" class="header-left">
