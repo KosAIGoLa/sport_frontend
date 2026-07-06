@@ -138,13 +138,13 @@ const tagClass = computed(() => {
   @apply border-t-[#f5a623];
 }
 .live-card__living {
-  @apply float-right h-[18px] px-1 mr-2 leading-[18px] text-[0] bg-red-500/[0.92] rounded-full;
+  @apply float-right h-[18px] px-1 mr-2 bg-red-500/[0.92] rounded-full flex items-center gap-1;
 }
 .live-card__living img {
-  @apply w-[10px] h-[10px] mr-1 align-middle;
+  @apply w-[10px] h-[10px];
 }
 .live-card__living span {
-  @apply static text-xs text-white rounded-none border-r-0 align-top;
+  @apply text-xs text-white;
 }
 
 .live-card__bottom-title {

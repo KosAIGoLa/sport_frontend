@@ -1,13 +1,13 @@
 <template>
   <svg
-    :viewBox="viewBox"
-    :width="size"
-    :height="size"
-    :fill="fill"
+    :viewBox.attr="viewBox"
+    :width.attr="size"
+    :height.attr="size"
+    :fill.attr="fill"
     :class="iconClass"
     aria-hidden="true"
   >
-    <path :d="path" />
+    <path :d.attr="path" />
   </svg>
 </template>
 
