@@ -99,4 +99,10 @@ function scrollToTop() {
   font-size: 12px;
   color: #333;
 }
+
+@media (max-width: 768px) {
+  .right-fix {
+    display: none;
+  }
+}
 </style>

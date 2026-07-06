@@ -130,4 +130,75 @@ const hotLives = [
     margin: 0 16px 56px 0;
   }
 }
+
+@media (max-width: 768px) {
+  .inner {
+    width: 100%;
+  }
+
+  .hot {
+    margin-top: 24px;
+    padding: 0 16px;
+  }
+
+  .hot-title {
+    margin-bottom: 14px;
+  }
+
+  .hot-live img {
+    width: 146px;
+  }
+
+  .hot-title .more {
+    display: none;
+  }
+
+  .hot-content {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .hot-content li,
+  .hot-content li:nth-child(4n) {
+    width: auto;
+    height: auto;
+    margin: 0;
+    border-radius: 14px;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  }
+
+  .hot-content li:hover {
+    transform: none;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  }
+
+  .hot-content li :deep(.live-card__cover) {
+    border-radius: 14px 14px 0 0;
+    height: 122px;
+  }
+
+  .hot-content li :deep(.live-card__img) {
+    border-radius: 14px 14px 0 0;
+  }
+
+  .hot-content li :deep(.live-card__info) {
+    padding: 10px 10px 12px;
+    background: #fff;
+  }
+
+  .hot-content li :deep(.live-card__title) {
+    font-size: 13px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    white-space: normal;
+  }
+
+  .hot-content li :deep(.live-card__info-meta) {
+    margin-top: 6px;
+    font-size: 12px;
+  }
+}
 </style>

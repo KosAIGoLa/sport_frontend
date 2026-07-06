@@ -2,7 +2,7 @@
   <div class="download-page">
     <header class="download-header">
       <a class="download-logo" href="/">
-        <img src="/assets/logo2.png" alt="857直播">
+        <img src="/assets/logo-mobile-wap.png" alt="857直播">
       </a>
     </header>
     <main class="download-main">
@@ -134,5 +134,81 @@ useHead({
 
 .download-back:hover {
   transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .download-page {
+    background:
+      linear-gradient(180deg, rgba(255, 198, 26, 0.12) 0%, rgba(255, 198, 26, 0.03) 32%, rgba(248, 250, 252, 0.98) 100%),
+      #f8fafc;
+  }
+
+  .download-header {
+    height: 68px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(32, 33, 36, 0.9);
+    backdrop-filter: blur(14px);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+
+  .download-logo img {
+    width: 158px;
+  }
+
+  .download-main {
+    padding: 24px 16px 40px;
+    align-items: stretch;
+  }
+
+  .download-card {
+    width: 100%;
+    padding: 28px 20px;
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  }
+
+  .download-qr {
+    width: 168px;
+    height: 168px;
+    margin-bottom: 20px;
+  }
+
+  .download-card h1 {
+    font-size: 28px;
+    line-height: 1.2;
+  }
+
+  .download-desc {
+    margin-bottom: 20px;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  .download-tips {
+    padding: 16px;
+    margin-bottom: 22px;
+    border-radius: 16px;
+  }
+
+  .download-tips p {
+    font-size: 15px;
+  }
+
+  .download-tips ul {
+    padding-left: 20px;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .download-back {
+    width: 100%;
+    height: 50px;
+    font-size: 16px;
+  }
 }
 </style>

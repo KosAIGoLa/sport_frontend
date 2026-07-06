@@ -2,10 +2,22 @@
   <div class="match-page">
     <header class="match-header">
       <div class="match-header-inner">
-        <a class="match-logo" href="/">
+        <div class="match-mobile-head only-mobile">
+          <div class="match-mobile-top">
+            <img class="match-mobile-logo" src="/assets/logo-mobile-wap.png" alt="857直播">
+            <a class="match-mobile-download" href="/download" target="_blank" rel="noopener noreferrer">下载APP</a>
+          </div>
+          <nav class="match-mobile-tabs" aria-label="赛程分类">
+            <a class="active" href="/match.html">全部</a>
+            <a href="/liveType.html?tab=足球">足球</a>
+            <a href="/liveType.html?tab=篮球">篮球</a>
+            <a href="/liveType.html?tab=分析">分析</a>
+          </nav>
+        </div>
+        <a class="match-logo only-desktop" href="/">
           <img src="/assets/logo2.png" alt="857直播">
         </a>
-        <nav class="match-nav">
+        <nav class="match-nav only-desktop">
           <a href="/">首页</a>
           <a href="/liveType.html">全部直播</a>
           <a class="active" href="/match.html">赛程</a>
@@ -14,7 +26,7 @@
             <img src="/assets/hot.png" alt="hot">
           </a>
         </nav>
-        <div class="match-auth">
+        <div class="match-auth only-desktop">
           <button type="button" class="login-btn" @click="openLogin('login')">登录</button>
           <button type="button" @click="openLogin('register')">注册</button>
         </div>
@@ -22,6 +34,7 @@
     </header>
 
     <main class="match-wrapper">
+      <div class="match-mobile-day-title only-mobile">今天</div>
       <section class="date-list">
         <button
           v-for="(day, index) in days"
@@ -43,18 +56,30 @@
         </div>
 
         <div v-else class="match-data">
-          <article v-for="match in matches" :key="match.id" class="match-card">
+          <article
+            v-for="match in matches"
+            :key="match.id"
+            class="match-card"
+            role="link"
+            tabindex="0"
+            @click="openMatchDetail(match)"
+            @keydown.enter.prevent="openMatchDetail(match)"
+          >
             <div class="left">
               <div class="info">
                 <div class="name ellipsis">{{ match.league }}</div>
                 <div class="time">{{ match.time }}</div>
               </div>
+              <button type="button" class="mobile-bell only-mobile" aria-label="预约提醒" @click.stop>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a5 5 0 0 0-5 5v2.3c0 .7-.2 1.4-.6 2L5 14.6V16h14v-1.4l-1.4-2.3c-.4-.6-.6-1.3-.6-2V8a5 5 0 0 0-5-5Zm0 18a2.5 2.5 0 0 0 2.4-2h-4.8A2.5 2.5 0 0 0 12 21Z" /></svg>
+              </button>
               <div class="team">
-                <div class="team-row">
+                <div class="team-row team-row--host">
                   <img class="match-cover" :src="match.hostLogo" alt="">
                   <span class="ellipsis">{{ match.host }}</span>
                 </div>
-                <div class="team-row">
+                <div class="team-vs">VS</div>
+                <div class="team-row team-row--guest">
                   <img class="match-cover" :src="match.guestLogo" alt="">
                   <span class="ellipsis">{{ match.guest }}</span>
                 </div>
@@ -73,9 +98,9 @@
                 </div>
                 <button type="button" class="avatar-arrow next" aria-label="下一组"></button>
               </div>
-              <div class="living-box">
+              <div class="living-box" :class="{ 'living-box--pending': match.status !== '开始' }">
                 <img src="https://sta.ncctrials.com/857web/assets/857/img/triangle.png" alt="">
-                <span>直播中...</span>
+                <span>{{ match.status || '未开始' }}</span>
               </div>
             </div>
           </article>
@@ -83,7 +108,7 @@
       </section>
     </main>
 
-    <footer class="match-footer">
+    <footer class="match-footer only-desktop">
       <div class="match-footer-inner">
         <img class="footer-logo" src="/assets/logo-footer.png" alt="857直播">
         <div class="footer-links">
@@ -108,6 +133,8 @@
       :type="loginType"
       @success="loginVisible = false"
     />
+    <MobileStickyBar active-tab="schedule" hide-ad @follow="followVisible = true" @login="openLogin" />
+    <MobileFollowPanel :visible="followVisible" @login="openLogin" />
   </div>
 </template>
 
@@ -119,6 +146,7 @@ definePageMeta({
 const activeDay = ref(0)
 const loginVisible = ref(false)
 const loginType = ref('login')
+const followVisible = ref(false)
 
 const days = [
   { day: '今天', date: '07.05' },
@@ -133,8 +161,10 @@ const days = [
 const matches = [
   {
     id: 1383744,
+    roomId: 374391,
     league: '哈萨克超',
     time: '07-05 10:00',
+    status: '开始',
     host: '阿克托比',
     hostLogo: 'https://sta.ncctrials.com/file/imgs/team/football/1gzq8pzdweg.png',
     guest: '斯咸迪苏',
@@ -146,8 +176,10 @@ const matches = [
   },
   {
     id: 1383746,
+    roomId: 238362,
     league: '哈萨克超',
     time: '07-05 10:00',
+    status: '开始',
     host: '阿迪拿奥',
     hostLogo: 'https://sta.ncctrials.com/file/imgs/team/football/1hxb3x0nwt10.png',
     guest: '卡斯比阿克套',
@@ -159,8 +191,10 @@ const matches = [
   },
   {
     id: 1384090,
+    roomId: 534857,
     league: '挪甲',
     time: '07-05 10:00',
+    status: '开始',
     host: '奥德',
     hostLogo: 'https://sta.ncctrials.com/file/imgs/team/football/1hw70bzw2q11.png',
     guest: '海于格松',
@@ -172,8 +206,10 @@ const matches = [
   },
   {
     id: 1384555,
+    roomId: 525429,
     league: '世欧预',
     time: '07-05 10:00',
+    status: '开始',
     host: '英国',
     hostLogo: 'https://sta.ncctrials.com/file/imgs/team/basketball/20190124184431.jpg',
     guest: '冰岛',
@@ -185,8 +221,10 @@ const matches = [
   },
   {
     id: 1384056,
+    roomId: 506605,
     league: '瑞典超',
     time: '07-05 10:30',
+    status: '开始',
     host: '埃尔夫斯堡',
     hostLogo: 'https://sta.ncctrials.com/file/imgs/team/football/1h8wtxnzmc2g.png',
     guest: '哈马比',
@@ -199,8 +237,10 @@ const matches = [
   },
   {
     id: 1015951,
+    roomId: 491355,
     league: '一起来聊球',
     time: '07-05 11:00',
+    status: '未开始',
     host: '一起来聊球',
     hostLogo: 'https://sta.ncctrials.com/file/common/20250212/d4699c881388a67425b6a1a5136492cd.png',
     guest: '一起来聊球',
@@ -213,8 +253,10 @@ const matches = [
   },
   {
     id: 1383748,
+    roomId: 765648,
     league: '哈萨克超',
     time: '07-05 11:00',
+    status: '未开始',
     host: '卡萨尔',
     hostLogo: 'https://sta.ncctrials.com/file/imgs/team/football/1gs99xcwg62a.png',
     guest: '伊特什',
@@ -227,8 +269,10 @@ const matches = [
   },
   {
     id: 1383751,
+    roomId: 896956,
     league: '哈萨克超',
     time: '07-05 11:00',
+    status: '未开始',
     host: '奥达巴斯',
     hostLogo: 'https://sta.ncctrials.com/file/imgs/team/football/1gt31y86jpw.png',
     guest: '乌利塔哲兹卡兹甘',
@@ -241,8 +285,10 @@ const matches = [
   },
   {
     id: 1384080,
+    roomId: 551893,
     league: '欧青U19',
     time: '07-05 11:00',
+    status: '未开始',
     host: '乌克兰U19',
     hostLogo: 'https://sta.ncctrials.com/file/imgs/team/football/1gw4ahja8g2k.png',
     guest: '意大利U19',
@@ -254,8 +300,10 @@ const matches = [
   },
   {
     id: 1384081,
+    roomId: 774913,
     league: '欧青U19',
     time: '07-05 11:00',
+    status: '未开始',
     host: '塞尔维亚U19',
     hostLogo: 'https://sta.ncctrials.com/file/imgs/team/football/1h4320ns6a2y.png',
     guest: '克罗地亚U19',
@@ -267,8 +315,10 @@ const matches = [
   },
   {
     id: 1384084,
+    roomId: 346346,
     league: '芬甲',
     time: '07-05 11:30',
+    status: '未开始',
     host: 'MP米克力',
     hostLogo: 'https://sta.ncctrials.com/file/imgs/team/football/1hxdga205x10.png',
     guest: '哈卡',
@@ -280,8 +330,10 @@ const matches = [
   },
   {
     id: 1134913,
+    roomId: 1573951,
     league: '世欧预',
     time: '07-05 11:30',
+    status: '未开始',
     host: '格鲁吉亚',
     hostLogo: 'https://sta.ncctrials.com/file/common/20260701/eed4b069cc772240169e73a420ddf885.png',
     guest: '西班牙',
@@ -295,8 +347,13 @@ const matches = [
 ]
 
 function openLogin(type) {
+  followVisible.value = false
   loginType.value = type
   loginVisible.value = true
+}
+
+function openMatchDetail(match) {
+  navigateTo(`/room/${match.roomId || 990645}?scheduleId=${match.id}`)
 }
 
 const tipVisible = ref(false)
@@ -370,6 +427,14 @@ function openTip(key) {
   align-items: center;
   width: 160px;
   margin-right: 58px;
+}
+
+.match-mobile-head {
+  display: none;
+}
+
+.match-mobile-day-title {
+  display: none;
 }
 
 .match-logo img {
@@ -596,6 +661,10 @@ function openTip(key) {
 
 .team {
   width: 245px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
 }
 
 .team-row {
@@ -605,10 +674,24 @@ function openTip(key) {
   color: #111827;
   font-size: 16px;
   font-weight: 650;
+  min-width: 0;
 }
 
-.team-row + .team-row {
-  margin-top: 10px;
+.team-row--host {
+  justify-content: flex-end;
+  flex: 1;
+}
+
+.team-row--guest {
+  justify-content: flex-start;
+  flex: 1;
+}
+
+.team-vs {
+  flex: 0 0 auto;
+  color: #ef4444;
+  font-size: 20px;
+  font-weight: 900;
 }
 
 .match-cover {
@@ -621,7 +704,7 @@ function openTip(key) {
 }
 
 .team-row span {
-  max-width: 180px;
+  max-width: 140px;
 }
 
 .match-card .right {
@@ -856,6 +939,425 @@ function openTip(key) {
 
   .living-box {
     margin-right: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .match-page {
+    background:
+      linear-gradient(180deg, rgba(255, 198, 26, 0.1) 0%, rgba(255, 198, 26, 0) 120px),
+      #f8fafc;
+  }
+
+  .match-header {
+    height: auto;
+    background: transparent;
+    border-bottom: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+
+  .match-header-inner {
+    width: 100%;
+    padding: 0;
+  }
+
+  .match-mobile-head {
+    width: 100%;
+    display: block;
+  }
+
+  .match-mobile-top {
+    height: 68px;
+    padding: 0 16px;
+    background: rgba(32, 33, 36, 0.9);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .match-mobile-logo {
+    width: 158px;
+    height: auto;
+    display: block;
+  }
+
+  .match-mobile-tabs {
+    height: 74px;
+    padding: 0 16px;
+    background: rgba(255, 198, 26, 0.92);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    gap: 38px;
+    overflow-x: auto;
+  }
+
+  .match-mobile-tabs a {
+    position: relative;
+    flex: 0 0 auto;
+    color: #fff;
+    text-decoration: none;
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .match-mobile-tabs a.active::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -14px;
+    width: 12px;
+    height: 6px;
+    margin-left: -6px;
+    border-radius: 999px;
+    background: #fff;
+  }
+
+  .match-mobile-download {
+    min-width: 108px;
+    height: 42px;
+    padding: 0 16px;
+    border-radius: 6px;
+    background: #ffc61a;
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .match-logo,
+  .match-nav,
+  .match-auth,
+  .footer-links,
+  .match-footer p {
+    display: none;
+  }
+
+  .match-wrapper,
+  .match-footer-inner {
+    width: 100%;
+  }
+
+  .match-wrapper {
+    min-height: auto;
+    padding: 16px 14px 112px;
+  }
+
+  .match-wrapper::before,
+  .match-wrapper::after {
+    display: none;
+  }
+
+  .match-mobile-day-title {
+    display: block;
+    margin-bottom: 12px;
+    color: #111827;
+    font-size: 24px;
+    font-weight: 800;
+  }
+
+  .date-list {
+    display: flex;
+    gap: 10px;
+    margin: 0 0 14px;
+    padding: 0 0 2px;
+    overflow-x: auto;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    height: auto;
+  }
+
+  .date-item {
+    min-width: 68px;
+    height: 64px;
+    padding: 10px 12px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+  }
+
+  .date-item .day {
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  .date-item .date {
+    font-size: 12px;
+  }
+
+  .date-item.active {
+    box-shadow: 0 10px 26px rgba(248, 194, 27, 0.28);
+  }
+
+  .match-box {
+    background: transparent;
+    padding: 0;
+  }
+
+  .match-data {
+    background: transparent;
+    border-radius: 0;
+  }
+
+  .match-card {
+    position: relative;
+    margin-bottom: 12px;
+    padding: 16px 14px;
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+    display: block;
+    background: rgba(255, 255, 255, 0.96);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .match-card:last-child {
+    margin-bottom: 0;
+  }
+
+  .match-card:hover {
+    transform: none;
+    border-color: rgba(226, 232, 240, 0.9);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  }
+
+  .match-card .left {
+    width: 100%;
+    min-height: 0;
+    height: auto;
+    margin-bottom: 14px;
+    display: block;
+    border-right: 0;
+  }
+
+  .info {
+    width: 100%;
+    padding-left: 0;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
+  .info .name {
+    max-width: none;
+    margin-bottom: 0;
+    color: #8c8c8c;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .info .time {
+    height: auto;
+    padding: 0;
+    background: transparent;
+    color: #8c8c8c;
+    font-size: 14px;
+    font-weight: 500;
+    order: 0;
+  }
+
+  .mobile-bell {
+    position: absolute;
+    left: 14px;
+    top: 56px;
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #111827;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.9;
+  }
+
+  .mobile-bell svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .team {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    gap: 10px;
+    padding-left: 28px;
+    padding-right: 72px;
+  }
+
+  .team-row {
+    height: auto;
+    display: inline-flex;
+    align-items: center;
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1.35;
+    min-width: 0;
+  }
+
+  .team-row--host {
+    justify-content: flex-end;
+  }
+
+  .team-row--guest {
+    justify-content: flex-start;
+  }
+
+  .team-row span {
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .team-vs {
+    color: #ff2020;
+    font-size: 18px;
+    font-weight: 900;
+  }
+
+  .match-cover {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+  }
+
+  .match-card .right {
+    width: 100%;
+    min-height: 0;
+    height: auto;
+    display: block;
+    flex: none;
+  }
+
+  .anchor-list {
+    flex: none;
+    padding-left: 0;
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .avatar-arrow {
+    display: none;
+  }
+
+  .avatar-list {
+    min-width: 0;
+    gap: 14px;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .avatar-box {
+    width: 62px;
+    flex: 0 0 auto;
+    font-size: 11px;
+    color: #8c8c8c;
+  }
+
+  .avatar-box .avatar {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 4px;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .avatar-box .anchor-name {
+    width: 62px;
+    height: 18px;
+    line-height: 18px;
+  }
+
+  .avatar-box .live {
+    top: 34px;
+    left: 20px;
+    width: 20px;
+    height: 10px;
+  }
+
+  .living-box {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: auto;
+    min-width: 72px;
+    height: 28px;
+    margin: 0;
+    padding: 0 9px;
+    border-radius: 999px;
+    font-size: 12px;
+    flex: 0 0 auto;
+    box-shadow: none;
+  }
+
+  .living-box img {
+    width: 9px;
+    height: 9px;
+    margin-right: 4px;
+  }
+
+  .living-box--pending {
+    background: transparent;
+    color: #9a9a9a;
+    min-width: auto;
+    padding: 0;
+  }
+
+  .living-box--pending img {
+    display: none;
+  }
+
+  .match-none {
+    height: 280px;
+    padding: 0;
+    border: 0;
+    background: rgba(255, 255, 255, 0.96);
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  }
+
+  .match-none img {
+    width: 120px;
+  }
+
+  .match-footer {
+    display: none;
+  }
+
+  .footer-tip {
+    border-radius: 18px;
+    padding: 22px 20px 18px;
   }
 }
 </style>

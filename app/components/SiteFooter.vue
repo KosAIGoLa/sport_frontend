@@ -162,4 +162,10 @@ footer .inner .desc {
     width: 100%;
   }
 }
+
+@media (max-width: 768px) {
+  footer {
+    display: none;
+  }
+}
 </style>

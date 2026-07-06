@@ -6,6 +6,9 @@
       <div class="modal-top-deco"></div>
       <img class="close" src="/assets/close.png" alt="" @click="close">
       <div class="window-inner">
+        <button type="button" class="mobile-back" @click="close" aria-label="返回">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7" /></svg>
+        </button>
         <div class="modal-header">
           <div class="modal-tabs">
             <button type="button" :class="{ active: mode === 'login' }" @click="mode = 'login'">登录</button>
@@ -118,6 +121,10 @@
               <span v-if="mode === 'login'">还没有账号？<span class="login-jump" @click="mode = 'register'">去注册</span></span>
               <span v-else>已有账号？<span class="login-jump" @click="mode = 'login'">去登录</span></span>
             </div>
+            <div v-if="mode === 'login'" class="mobile-bottom-actions">
+              <button type="button" class="mobile-link-btn">忘记密码</button>
+              <button type="button" class="mobile-link-btn mobile-link-btn--primary" @click="mode = 'register'">快速注册</button>
+            </div>
           </div>
           <SocialLogin label="其他登录方式" :compact="mode === 'register'" />
         </div>
@@ -202,6 +209,10 @@ function submit() {
   align-items: center;
   justify-content: center;
   animation: fadeIn 0.25s ease;
+}
+
+.mobile-back {
+  display: none;
 }
 .login-window {
   position: relative;
@@ -525,6 +536,10 @@ function submit() {
   transform: translateY(-2px);
   box-shadow: 0 12px 30px rgba(251, 191, 36, 0.45);
 }
+
+.mobile-bottom-actions {
+  display: none;
+}
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -536,5 +551,182 @@ function submit() {
 @keyframes shimmer {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
+}
+
+@media (max-width: 768px) {
+  .header-modal {
+    inset: 0;
+    background: #fff;
+    backdrop-filter: none;
+    align-items: stretch;
+    justify-content: stretch;
+  }
+
+  .login-window {
+    width: 100%;
+    min-height: 100vh;
+    border-radius: 0;
+    box-shadow: none;
+    animation: none;
+    overflow: auto;
+  }
+
+  .modal-glow,
+  .modal-glow-1,
+  .modal-glow-2,
+  .modal-top-deco,
+  .modal-tabs,
+  .modal-accent,
+  :deep(.social-login) {
+    display: none;
+  }
+
+  .close {
+    display: none;
+  }
+
+  .window-inner {
+    padding: 20px 24px 52px;
+  }
+
+  .mobile-back {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    margin-bottom: 44px;
+    border: 0;
+    background: transparent;
+    color: #111;
+    padding: 0;
+  }
+
+  .mobile-back svg {
+    width: 28px;
+    height: 28px;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    fill: none;
+  }
+
+  .modal-header {
+    margin-bottom: 24px;
+  }
+
+  .modal-header::before {
+    content: '登录';
+    display: block;
+    font-size: 30px;
+    font-weight: 800;
+    color: #222;
+    margin-bottom: 18px;
+  }
+
+  .phone-box,
+  .password-box {
+    margin-bottom: 22px;
+  }
+
+  :deep(.form-input) {
+    height: 54px;
+    padding: 0;
+    border: 0;
+    border-bottom: 1px solid #ececec;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  :deep(.form-input.focused) {
+    border-color: transparent;
+    border-bottom-color: #ececec;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  :deep(.form-input-icon) {
+    display: none;
+  }
+
+  :deep(.form-input input) {
+    font-size: 15px;
+    color: #222;
+  }
+
+  :deep(.form-input input::placeholder) {
+    color: #9a9a9a;
+  }
+
+  .type-content {
+    padding-top: 0;
+  }
+
+  .agreement {
+    margin: 4px 0 30px;
+  }
+
+  .agreement-row {
+    align-items: center;
+    color: #9a9a9a;
+    font-size: 11px;
+    gap: 6px;
+  }
+
+  .agreement-row .gou {
+    display: none;
+  }
+
+  .agreement-row .highlight {
+    color: #f5b719;
+  }
+
+  .agreement-row .forget {
+    display: none;
+  }
+
+  .submit {
+    height: 58px;
+    line-height: 58px;
+    border-radius: 999px;
+    background: #eef1f7;
+    color: #b8c2cf;
+    box-shadow: none;
+    font-size: 17px;
+    font-weight: 800;
+  }
+
+  .submit.active {
+    background: linear-gradient(135deg, #ffe178 0%, #ffc21c 100%);
+    color: #111827;
+  }
+
+  .bottom {
+    margin-top: 0;
+  }
+
+  .bottom-hint {
+    display: none;
+  }
+
+  .mobile-bottom-actions {
+    margin-top: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .mobile-link-btn {
+    border: 0;
+    background: transparent;
+    padding: 0;
+    color: #333;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .mobile-link-btn--primary {
+    font-weight: 700;
+  }
 }
 </style>

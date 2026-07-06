@@ -483,4 +483,52 @@ watch(currentRoom, () => {
     top: 42%;
   }
 }
+
+@media (max-width: 768px) {
+  .living-room {
+    height: auto;
+    background: #f5f5f5;
+    padding: 180px 0 0;
+  }
+
+  .living-room::before,
+  .video-list,
+  .hero-status,
+  .hero-meta,
+  .inLiveRoom,
+  .live-title,
+  .video-mask,
+  .loading {
+    display: none;
+  }
+
+  .inner,
+  .video-inner {
+    width: 100%;
+    height: auto;
+    padding: 0;
+    display: block;
+  }
+
+  .video-box {
+    width: auto;
+    height: auto;
+    margin: 0 16px;
+    border: 0;
+    border-radius: 14px;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  .video-player {
+    aspect-ratio: 16 / 9;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #000;
+  }
+
+  .xgplayer-container {
+    border-radius: 14px;
+  }
+}
 </style>

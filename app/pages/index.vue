@@ -15,6 +15,15 @@
     </main>
     <RightFix />
     <SiteFooter />
+    <MobileStickyBar
+      :is-logged-in="isLoggedIn"
+      @login="openLogin"
+      @follow="followVisible = true"
+    />
+    <MobileFollowPanel
+      :visible="followVisible"
+      @login="openLogin"
+    />
     <LoginModal
       v-model:visible="loginVisible"
       :type="loginType"
@@ -27,6 +36,7 @@
 const isLoggedIn = ref(false)
 const loginVisible = ref(false)
 const loginType = ref('login')
+const followVisible = ref(false)
 
 const footballLives = [
   { title: '欧青U19 乌克兰U19 VS 意大利U19', cover: 'https://sta.ncctrials.com/file/common/20260627/f41c9604ab224cf5c9daeaff94356933_wh320.jpg', avatar: 'https://sta.ncctrials.com/file/head/20240224/100ce75e32ce79c21e3baa33db3c9220.jpg', anchor: '大熊', viewers: '5.35w', tag: '' },
@@ -50,6 +60,7 @@ const allLives = [
 ]
 
 function openLogin(type) {
+  followVisible.value = false
   loginType.value = type
   loginVisible.value = true
 }
@@ -99,5 +110,15 @@ main {
 }
 ::selection {
   background: rgba(255, 199, 28, 0.35);
+}
+
+@media (max-width: 768px) {
+  body {
+    background: #f5f5f5;
+  }
+
+  .index-wrapper {
+    padding-bottom: 152px;
+  }
 }
 </style>

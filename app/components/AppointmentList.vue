@@ -275,4 +275,53 @@ function goRoom(href) {
     width: 960px;
   }
 }
+
+@media (max-width: 768px) {
+  .inner {
+    width: 100%;
+  }
+
+  .appoinment-list {
+    margin-top: 14px;
+    padding: 0 16px;
+  }
+
+  .appoinment-swiper-container {
+    height: auto;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    overflow-x: auto;
+  }
+
+  :deep(.carousel-track) {
+    gap: 12px;
+  }
+
+  :deep(.carousel-btn) {
+    display: none;
+  }
+
+  :deep(.carousel-slide.game),
+  :deep(.carousel-slide.more-match) {
+    min-width: 268px;
+    height: 122px;
+    padding: 14px;
+    border: 0;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+  }
+
+  .title {
+    margin-bottom: 14px;
+  }
+
+  .battle-team {
+    width: 150px;
+  }
+}
 </style>

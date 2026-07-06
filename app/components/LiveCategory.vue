@@ -41,10 +41,11 @@ const props = defineProps({
   moreLink: { type: String, default: '/liveType.html' },
   lives: { type: Array, default: () => [] },
   showFilter: { type: Boolean, default: false },
-  categories: { type: Array, default: () => ['全部', '足球', '篮球', '电竞', '聊球'] }
+  categories: { type: Array, default: () => ['全部', '足球', '篮球', '电竞', '聊球'] },
+  initialCategory: { type: String, default: '全部' }
 })
 
-const activeCategory = ref('全部')
+const activeCategory = ref(props.initialCategory || '全部')
 
 const lives = computed(() => props.lives || [])
 
@@ -56,6 +57,10 @@ const categoryList = computed(() => {
 const filteredLives = computed(() => {
   if (!props.showFilter || activeCategory.value === '全部') return lives.value
   return lives.value.filter(item => item.tag === activeCategory.value)
+})
+
+watch(() => props.initialCategory, (val) => {
+  activeCategory.value = val || '全部'
 })
 </script>
 
@@ -203,5 +208,89 @@ const filteredLives = computed(() => {
   color: #b5b5b5;
   margin-top: 18px;
   user-select: none;
+}
+
+@media (max-width: 768px) {
+  .liveType-wrapper {
+    width: 100%;
+    padding: 24px 16px 0;
+  }
+
+  .section-head {
+    height: auto;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .section-title {
+    float: none;
+    width: 116px;
+    height: auto;
+    margin: 0;
+  }
+
+  .section-more {
+    float: none;
+    height: auto;
+    font-size: 13px;
+  }
+
+  .category-tabs {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .category-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .category-list li,
+  .category-list li:nth-child(5n) {
+    width: auto;
+    height: auto;
+    margin: 0;
+    float: none;
+    border-radius: 14px;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  }
+
+  .category-list li:hover {
+    transform: none;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  }
+
+  .category-list li :deep(.live-card__cover) {
+    height: 122px;
+    border-radius: 14px 14px 0 0;
+  }
+
+  .category-list li :deep(.live-card__img) {
+    border-radius: 14px 14px 0 0;
+  }
+
+  .category-list li :deep(.live-card__body) {
+    padding: 10px 10px 12px;
+  }
+
+  .category-list li :deep(.live-card__title) {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .category-list li :deep(.live-card__meta) {
+    margin-top: 8px;
+    font-size: 11px;
+  }
+
+  .category-list li :deep(.live-card__action) {
+    height: 32px;
+    line-height: 32px;
+    margin-top: 10px;
+    font-size: 12px;
+  }
 }
 </style>

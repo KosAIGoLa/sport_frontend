@@ -2,10 +2,22 @@
   <div class="live-type-page">
     <header class="live-header">
       <div class="live-header-inner">
-        <a class="live-logo" href="/">
+        <div class="live-mobile-head only-mobile">
+          <div class="live-mobile-top">
+            <img class="live-mobile-logo" src="/assets/logo-mobile-wap.png" alt="857直播">
+            <a class="live-mobile-download" href="/download" target="_blank" rel="noopener noreferrer">下载APP</a>
+          </div>
+          <nav class="live-mobile-tabs" aria-label="直播分类">
+            <a :class="{ active: mobileTab === '推荐' }" href="/">推荐</a>
+            <a :class="{ active: mobileTab === '足球' }" href="/liveType.html?tab=足球">足球</a>
+            <a :class="{ active: mobileTab === '篮球' }" href="/liveType.html?tab=篮球">篮球</a>
+            <a :class="{ active: mobileTab === '分析' }" href="/liveType.html?tab=分析">分析</a>
+          </nav>
+        </div>
+        <a class="live-logo only-desktop" href="/">
           <img src="/assets/logo2.png" alt="857直播">
         </a>
-        <nav class="live-nav">
+        <nav class="live-nav only-desktop">
           <a href="/">首页</a>
           <a class="active" href="/liveType.html">全部直播</a>
           <a href="/match.html">赛程</a>
@@ -14,16 +26,24 @@
             <img src="/assets/hot.png" alt="hot">
           </a>
         </nav>
-        <div class="live-auth">
+        <div class="live-auth only-desktop">
           <button type="button" class="login-btn" @click="openLogin('login')">登录</button>
           <button type="button" @click="openLogin('register')">注册</button>
         </div>
       </div>
     </header>
     <main class="live-type-main">
-      <LiveCategory title-image="/assets/hot-live.png" title-alt="全部直播" more-link="/liveType.html" :lives="allLives" show-filter :categories="['全部', '足球', '篮球', '分析']" />
+      <LiveCategory
+        title-image="/assets/hot-live.png"
+        title-alt="全部直播"
+        more-link="/liveType.html"
+        :lives="allLives"
+        :show-filter="!isMobileView"
+        :categories="['全部', '足球', '篮球', '分析']"
+        :initial-category="initialCategory"
+      />
     </main>
-    <footer class="live-footer">
+    <footer class="live-footer only-desktop">
       <div class="live-footer-inner">
         <img class="footer-logo" src="/assets/logo-footer.png" alt="857直播">
         <div class="footer-links">
@@ -47,6 +67,8 @@
       :type="loginType"
       @success="isLoggedIn = true"
     />
+    <MobileStickyBar :is-logged-in="isLoggedIn" active-tab="live" @login="openLogin" @follow="followVisible = true" />
+    <MobileFollowPanel :visible="followVisible" @login="openLogin" />
   </div>
 </template>
 
@@ -62,8 +84,31 @@ const tipContent = ref('')
 const isLoggedIn = ref(false)
 const loginVisible = ref(false)
 const loginType = ref('login')
+const followVisible = ref(false)
+const route = useRoute()
+const isMobileView = ref(false)
+
+const mobileTab = computed(() => {
+  const tab = typeof route.query.tab === 'string' ? route.query.tab : ''
+  return ['足球', '篮球', '分析'].includes(tab) ? tab : '推荐'
+})
+
+const initialCategory = computed(() => {
+  const tab = typeof route.query.tab === 'string' ? route.query.tab : ''
+  return ['足球', '篮球', '分析'].includes(tab) ? tab : '全部'
+})
+
+onMounted(() => {
+  const updateViewport = () => {
+    isMobileView.value = window.innerWidth <= 768
+  }
+  updateViewport()
+  window.addEventListener('resize', updateViewport, { passive: true })
+  onBeforeUnmount(() => window.removeEventListener('resize', updateViewport))
+})
 
 function openLogin(type) {
+  followVisible.value = false
   loginType.value = type
   loginVisible.value = true
 }
@@ -139,6 +184,10 @@ function openTip(key) {
   display: flex;
   align-items: center;
   margin-right: 58px;
+}
+
+.live-mobile-head {
+  display: none;
 }
 
 .live-logo img {
@@ -354,6 +403,107 @@ function openTip(key) {
   .live-type-main::after,
   .live-footer-inner {
     width: 960px;
+  }
+}
+
+@media (max-width: 768px) {
+  .live-type-page {
+    background: #f5f5f5;
+  }
+
+  .live-header {
+    height: auto;
+    background: transparent;
+    border-bottom: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+
+  .live-header-inner {
+    width: 100%;
+    padding: 0;
+  }
+
+  .live-mobile-head {
+    display: block;
+    width: 100%;
+  }
+
+  .live-mobile-top {
+    height: 68px;
+    padding: 0 16px;
+    background: rgba(32, 33, 36, 0.9);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .live-mobile-logo {
+    width: 158px;
+    height: auto;
+    display: block;
+  }
+
+  .live-mobile-download {
+    min-width: 108px;
+    height: 42px;
+    padding: 0 16px;
+    border-radius: 6px;
+    background: #ffc61a;
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .live-mobile-tabs {
+    height: 74px;
+    padding: 0 16px;
+    background: rgba(255, 198, 26, 0.92);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    gap: 38px;
+    overflow-x: auto;
+  }
+
+  .live-mobile-tabs a {
+    position: relative;
+    flex: 0 0 auto;
+    color: #fff;
+    text-decoration: none;
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .live-mobile-tabs a.active::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -14px;
+    width: 12px;
+    height: 6px;
+    margin-left: -6px;
+    border-radius: 999px;
+    background: #fff;
+  }
+
+  .live-logo,
+  .live-nav,
+  .live-auth,
+  .live-footer,
+  .live-type-main::before,
+  .live-type-main::after {
+    display: none;
+  }
+
+  .live-type-main {
+    padding: 20px 0 152px;
   }
 }
 </style>

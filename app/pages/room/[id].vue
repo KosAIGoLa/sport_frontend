@@ -10,7 +10,7 @@
     <main class="room-main">
       <section class="room-shell">
         <div class="room-left">
-          <div class="anchor-bar">
+          <div class="anchor-bar only-desktop">
             <div class="anchor-profile">
               <img class="anchor-avatar" :src="roomInfo.avatar" alt="">
               <div class="anchor-copy">
@@ -45,7 +45,7 @@
                 </div>
               </div>
             </div>
-            <div class="score-board">
+            <div class="score-board only-desktop">
               <div class="score-row title-row">
                 <span>23:30</span>
                 <strong>瑞典超 埃尔夫斯堡-哈马比 主黄</strong>
@@ -62,11 +62,11 @@
                 <button type="button">{{ row.live }}</button>
               </div>
             </div>
-            <div class="player-ad">
+            <div class="player-ad only-desktop">
               <span class="ad-badge">推荐</span>
               <span class="ad-text">浏览器输入66chat8.cc下载66APP，添加主播助理66号：C99999，备注老万领取每日电子波胆进V</span>
             </div>
-            <div class="coin-bar">
+            <div class="coin-bar only-desktop">
               <div class="coin-count">
                 <strong>0</strong>
                 <span>我的金币</span>
@@ -83,7 +83,19 @@
           </div>
         </div>
 
-        <aside class="chat-room">
+        <aside :class="['chat-room', `mobile-panel-${activeMobilePanel}`]">
+          <div class="mobile-room-tabs only-mobile">
+            <div class="mobile-room-tabs__list">
+              <button :class="{ active: activeMobilePanel === 'chat' }" type="button" @click="setMobilePanel('chat')">聊天</button>
+              <button :class="{ active: activeMobilePanel === 'anchor' }" type="button" @click="setMobilePanel('anchor')">主播</button>
+              <button :class="{ active: activeMobilePanel === 'rank' }" type="button" @click="setMobilePanel('rank')">排行榜</button>
+              <button :class="{ active: activeMobilePanel === 'schedule' }" type="button" @click="setMobilePanel('schedule')">赛程</button>
+            </div>
+            <button type="button" class="mobile-room-tabs__follow" @click="followVisible = true">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.1 21.35l-1.1-1.02C5.14 14.9 2 12.06 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.56-3.14 6.4-8.9 11.83l-1 .92z"/></svg>
+              关注
+            </button>
+          </div>
           <div class="notice">
             <div class="notice-badge">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
@@ -91,7 +103,7 @@
             </div>
             <span>硬核实力认证 老万值得你信赖 深度干货分析解盘，对临场数据变化极为敏锐，熟悉机构与盘口。</span>
           </div>
-          <div class="chat-tabs">
+          <div class="chat-tabs only-desktop">
             <button :class="{ active: activeChatTab === 'chat' }" type="button" @click="activeChatTab = 'chat'">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
               聊天室
@@ -101,7 +113,7 @@
               排行榜
             </button>
           </div>
-          <div v-if="activeChatTab === 'chat'" class="chat-list">
+          <div v-show="activeChatTab === 'chat'" class="chat-list">
             <div class="chat-topic">
               <span class="topic-dot"></span>
               24小时主播互动跟单收米
@@ -162,7 +174,7 @@
               </div>
             </div>
           </div>
-          <div v-else class="rank-list">
+          <div v-show="activeChatTab === 'rank'" class="rank-list">
             <div class="rank-header">
               <span>🏆 贡献排行榜</span>
               <small>实时更新</small>
@@ -186,6 +198,51 @@
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-1.97 4.8-4.8 4.8z"/></svg>
                 {{ user.score }}
               </div>
+            </div>
+          </div>
+          <div class="mobile-anchor-panel only-mobile">
+            <div class="mobile-anchor-panel__head">
+              <img class="mobile-anchor-panel__avatar" :src="roomInfo.avatar" alt="">
+              <div class="mobile-anchor-panel__copy">
+                <h3>{{ roomInfo.anchor }}</h3>
+                <p>{{ roomInfo.name }}</p>
+              </div>
+            </div>
+            <div class="mobile-anchor-panel__stats">
+              <div>
+                <strong>{{ roomId }}</strong>
+                <span>房间号</span>
+              </div>
+              <div>
+                <strong>{{ roomInfo.hot }}</strong>
+                <span>热度</span>
+              </div>
+              <div>
+                <strong>体育直播</strong>
+                <span>类型</span>
+              </div>
+            </div>
+            <div class="mobile-anchor-panel__notice">
+              <h4>主播简介</h4>
+              <p>硬核实力认证，临场数据变化反应快，擅长赛事节奏判断与盘口分析。</p>
+            </div>
+            <a class="mobile-anchor-panel__download" href="/download/" target="_blank" rel="noopener noreferrer">下载APP可投屏电视</a>
+          </div>
+          <div class="mobile-schedule-panel only-mobile">
+            <div v-for="game in schedules" :key="`mobile-${game.title}`" class="mobile-schedule-card">
+              <div class="mobile-schedule-card__time">
+                <strong>{{ game.date }}</strong>
+                <span>{{ game.time }}</span>
+              </div>
+              <div class="mobile-schedule-card__main">
+                <div class="mobile-schedule-card__league">{{ game.league }}</div>
+                <div class="mobile-schedule-card__teams">
+                  <span>{{ game.home }}</span>
+                  <em>VS</em>
+                  <span>{{ game.away }}</span>
+                </div>
+              </div>
+              <button type="button" class="mobile-schedule-card__btn">预约</button>
             </div>
           </div>
           <div class="chat-toolbar">
@@ -228,7 +285,7 @@
         </aside>
       </section>
 
-      <section class="schedule-section">
+      <section class="schedule-section only-desktop">
         <h2>主播日程</h2>
         <div class="schedule-row">
           <div v-for="game in schedules" :key="game.title" class="schedule-card">
@@ -296,6 +353,13 @@
       :type="loginType"
       @success="isLoggedIn = true"
     />
+    <MobileStickyBar
+      :is-logged-in="isLoggedIn"
+      active-tab="live"
+      @login="openLogin"
+      @follow="followVisible = true"
+    />
+    <MobileFollowPanel :visible="followVisible" @login="openLogin" />
 
     <div class="gift-effects">
       <div
@@ -325,10 +389,18 @@ const roomId = computed(() => route.params.id || '990645')
 const isLoggedIn = ref(false)
 const loginVisible = ref(false)
 const loginType = ref('login')
+const followVisible = ref(false)
 
 function openLogin(type) {
+  followVisible.value = false
   loginType.value = type
   loginVisible.value = true
+}
+
+function setMobilePanel(panel) {
+  activeMobilePanel.value = panel
+  if (panel === 'chat') activeChatTab.value = 'chat'
+  if (panel === 'rank') activeChatTab.value = 'rank'
 }
 
 const roomInfo = {
@@ -339,6 +411,7 @@ const roomInfo = {
 }
 
 const activeChatTab = ref('chat')
+const activeMobilePanel = ref('chat')
 const giftEffects = ref([])
 
 const levelStats = computed(() => {
@@ -1018,6 +1091,12 @@ const recommendedLives = [
   box-shadow: 0 22px 60px rgba(15, 23, 42, 0.12);
   overflow: hidden;
   backdrop-filter: blur(14px);
+}
+
+.mobile-room-tabs,
+.mobile-anchor-panel,
+.mobile-schedule-panel {
+  display: none;
 }
 
 .notice {
@@ -2403,6 +2482,466 @@ const recommendedLives = [
 
   .room-shell {
     grid-template-columns: 840px 330px;
+  }
+}
+
+@media (max-width: 768px) {
+  .room-page {
+    padding-top: 124px;
+    background:
+      linear-gradient(180deg, rgba(255, 198, 26, 0.12) 0%, rgba(255, 198, 26, 0.03) 26%, #f8fafc 100%);
+  }
+
+  .room-main {
+    width: 100%;
+    padding: 14px 16px 132px;
+  }
+
+  .room-shell {
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .room-left,
+  .chat-room {
+    border-radius: 18px;
+  }
+
+  .room-left {
+    overflow: visible;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .chat-room {
+    margin-top: 0;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+    border-radius: 0 0 18px 18px;
+  }
+
+  .mobile-room-tabs {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 0;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+    background: #fff;
+  }
+
+  .mobile-room-tabs__list {
+    min-width: 0;
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .mobile-room-tabs__list button {
+    height: 52px;
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    color: #737373;
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .mobile-room-tabs__list button.active {
+    color: #f59e0b;
+  }
+
+  .mobile-room-tabs__follow {
+    flex: 0 0 88px;
+    border: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #ffd84f 0%, #ffc21c 100%);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  .mobile-room-tabs__follow svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .anchor-bar,
+  .score-board,
+  .player-ad,
+  .coin-bar {
+    display: none;
+  }
+
+  .match-player {
+    margin-top: 0;
+    border-radius: 18px 18px 0 0;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+    overflow: hidden;
+  }
+
+  .video-stage {
+    height: auto;
+    aspect-ratio: 16 / 9;
+    border-radius: 18px 18px 0 0;
+  }
+
+  .video-live-badge {
+    top: 12px;
+    left: 12px;
+    height: 28px;
+    padding: 0 12px;
+    font-size: 12px;
+  }
+
+  .video-meta {
+    bottom: 14px;
+    padding: 0 14px;
+  }
+
+  .video-tag {
+    height: 22px;
+    font-size: 10px;
+    margin-bottom: 6px;
+  }
+
+  .video-meta h2 {
+    font-size: 15px;
+    line-height: 1.3;
+  }
+
+  .video-meta p {
+    font-size: 12px;
+  }
+
+  .video-meta p strong {
+    font-size: 15px;
+  }
+
+  .notice {
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(226, 232, 240, 0.86);
+  }
+
+  .notice-badge,
+  .notice span {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .mobile-anchor-panel,
+  .mobile-schedule-panel {
+    display: none;
+  }
+
+  .chat-tabs {
+    display: none;
+  }
+
+  .chat-list,
+  .rank-list,
+  .mobile-anchor-panel,
+  .mobile-schedule-panel,
+  .chat-toolbar,
+  .chat-send,
+  .gift-test-btn,
+  .notice {
+    display: none;
+  }
+
+  .chat-list,
+  .rank-list {
+    height: calc(100vh - 360px);
+    min-height: 280px;
+    padding: 12px 14px;
+  }
+
+  .chat-msg {
+    gap: 10px;
+  }
+
+  .msg-avatar,
+  .rank-avatar {
+    width: 40px;
+    height: 40px;
+  }
+
+  .msg-name,
+  .rank-name span {
+    font-size: 14px;
+  }
+
+  .msg-text,
+  .announcement-text,
+  .activity-text,
+  .entry-text {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .chat-toolbar {
+    padding: 10px 14px;
+    gap: 10px;
+    overflow-x: auto;
+    border-top: 1px solid rgba(226, 232, 240, 0.86);
+  }
+
+  .tool-btn {
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+  }
+
+  .chat-send {
+    padding: 10px 14px 14px;
+    gap: 10px;
+  }
+
+  .send-input-wrap {
+    min-height: 46px;
+  }
+
+  .send-login,
+  .send-input-wrap input,
+  .send-btn {
+    font-size: 14px;
+  }
+
+  .send-btn {
+    height: 46px;
+    padding: 0 16px;
+  }
+
+  .gift-test-btn {
+    margin: 0 14px 14px;
+    height: 44px;
+    font-size: 14px;
+  }
+
+  .mobile-anchor-panel {
+    padding: 16px 14px 18px;
+  }
+
+  .mobile-anchor-panel__head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .mobile-anchor-panel__avatar {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .mobile-anchor-panel__copy h3 {
+    margin: 0 0 4px;
+    color: #111827;
+    font-size: 18px;
+    font-weight: 800;
+  }
+
+  .mobile-anchor-panel__copy p {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+  }
+
+  .mobile-anchor-panel__stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .mobile-anchor-panel__stats div {
+    padding: 12px 10px;
+    border-radius: 14px;
+    background: #f8fafc;
+    text-align: center;
+  }
+
+  .mobile-anchor-panel__stats strong {
+    display: block;
+    margin-bottom: 4px;
+    color: #111827;
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 1.4;
+    word-break: break-word;
+  }
+
+  .mobile-anchor-panel__stats span {
+    color: #94a3b8;
+    font-size: 12px;
+  }
+
+  .mobile-anchor-panel__notice {
+    padding: 14px;
+    border-radius: 16px;
+    background: #fffbeb;
+    color: #92400e;
+  }
+
+  .mobile-anchor-panel__notice h4 {
+    margin: 0 0 8px;
+    font-size: 15px;
+    font-weight: 800;
+  }
+
+  .mobile-anchor-panel__notice p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .mobile-anchor-panel__download {
+    margin-top: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 46px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #ffe178 0%, #ffc21c 100%);
+    color: #111827;
+    font-size: 15px;
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .mobile-schedule-panel {
+    padding: 14px;
+    gap: 12px;
+    flex-direction: column;
+  }
+
+  .mobile-schedule-card {
+    display: grid;
+    grid-template-columns: 68px minmax(0, 1fr) 64px;
+    gap: 12px;
+    align-items: center;
+    padding: 14px 12px;
+    border-radius: 16px;
+    background: #f8fafc;
+  }
+
+  .mobile-schedule-card__time {
+    text-align: center;
+  }
+
+  .mobile-schedule-card__time strong {
+    display: block;
+    margin-bottom: 4px;
+    color: #111827;
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  .mobile-schedule-card__time span,
+  .mobile-schedule-card__league {
+    color: #64748b;
+    font-size: 12px;
+  }
+
+  .mobile-schedule-card__league {
+    margin-bottom: 6px;
+  }
+
+  .mobile-schedule-card__teams {
+    color: #111827;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .mobile-schedule-card__teams em {
+    margin: 0 6px;
+    color: #f59e0b;
+    font-style: normal;
+    font-weight: 800;
+  }
+
+  .mobile-schedule-card__btn {
+    width: 64px;
+    height: 32px;
+    border: 0;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #ffe178 0%, #ffc21c 100%);
+    color: #111827;
+    font-size: 13px;
+    font-weight: 800;
+  }
+
+  .mobile-panel-chat .notice,
+  .mobile-panel-chat .chat-list,
+  .mobile-panel-chat .gift-test-btn {
+    display: block;
+  }
+
+  .mobile-panel-chat .chat-toolbar,
+  .mobile-panel-chat .chat-send {
+    display: flex;
+  }
+
+  .mobile-panel-anchor .mobile-anchor-panel {
+    display: block;
+  }
+
+  .mobile-panel-rank .rank-list {
+    display: block;
+  }
+
+  .mobile-panel-schedule .mobile-schedule-panel {
+    display: flex;
+  }
+
+  .schedule-section,
+  .video-section {
+    margin-top: 24px;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .schedule-section h2,
+  .video-section h2 {
+    margin-bottom: 14px;
+    font-size: 22px;
+  }
+
+  .schedule-section {
+    display: none;
+  }
+
+  .video-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .video-list li {
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  }
+
+  .video-card-body {
+    padding: 10px 10px 12px;
+  }
+
+  .video-list h3 {
+    font-size: 13px;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
 }
 </style>

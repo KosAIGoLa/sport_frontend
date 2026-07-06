@@ -1,7 +1,19 @@
 <template>
   <header class="header-wrapper" :class="{ active: isScrolled || forceSolid }">
     <div class="header-inner clearfix">
-      <div class="header-left">
+      <div class="mobile-header only-mobile">
+        <div class="mobile-header__top">
+          <img class="mobile-header__logo" src="/assets/logo-mobile-wap.png" alt="857直播">
+          <a class="mobile-header__download" href="/download" target="_blank" rel="noopener noreferrer">下载APP</a>
+        </div>
+        <nav class="mobile-header__tabs" aria-label="首页分类">
+          <a href="/" class="active">推荐</a>
+          <a href="/liveType.html?tab=足球">足球</a>
+          <a href="/liveType.html?tab=篮球">篮球</a>
+          <a href="/liveType.html?tab=分析">分析</a>
+        </nav>
+      </div>
+      <div class="header-left only-desktop">
         <div class="header-logo-box">
           <img class="header-logo" src="/assets/logo.png" alt="857直播">
           <img class="header-logo-active" src="/assets/logo2.png" alt="857直播">
@@ -25,7 +37,7 @@
           </ul>
         </nav>
       </div>
-      <div class="header-right">
+      <div class="header-right only-desktop">
         <div v-if="!isLoggedIn" class="no-login">
           <button type="button" class="header-btn header-login" @click="openLogin('login')">
             <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
@@ -229,6 +241,9 @@ function goMatch() {
   height: 100%;
   display: flex;
   align-items: center;
+}
+.mobile-header {
+  display: none;
 }
 .header-logo-box {
   float: left;
@@ -568,6 +583,95 @@ function goMatch() {
 @media screen and (max-width: 1200px) {
   .header-inner {
     width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-wrapper,
+  .header-wrapper.active {
+    height: auto;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    color: #fff;
+  }
+
+  .header-inner {
+    padding: 0;
+  }
+
+  .header-left,
+  .header-right {
+    display: none;
+  }
+
+  .mobile-header {
+    display: block;
+  }
+
+  .mobile-header__top {
+    height: 68px;
+    padding: 0 16px;
+    background: rgba(32, 33, 36, 0.9);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .mobile-header__logo {
+    width: 158px;
+    height: auto;
+    display: block;
+  }
+
+  .mobile-header__download {
+    min-width: 108px;
+    height: 42px;
+    padding: 0 16px;
+    border-radius: 6px;
+    background: #ffc61a;
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-header__tabs {
+    height: 74px;
+    padding: 0 16px;
+    background: rgba(255, 198, 26, 0.92);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    overflow-x: auto;
+  }
+
+  .mobile-header__tabs a {
+    position: relative;
+    flex: 0 0 auto;
+    color: #fff;
+    text-decoration: none;
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .mobile-header__tabs a.active::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -14px;
+    width: 12px;
+    height: 6px;
+    margin-left: -6px;
+    border-radius: 999px;
+    background: #fff;
   }
 }
 </style>

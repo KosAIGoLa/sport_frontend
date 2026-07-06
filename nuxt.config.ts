@@ -17,6 +17,7 @@ export default defineNuxtConfig({
   app: {
     head: {
       meta: [
+        { name: 'viewport', content: 'maximum-scale=1,minimum-scale=1,user-scalable=0,width=device-width,initial-scale=1' },
         { name: 'referrer', content: 'strict-origin-when-cross-origin' }
       ]
     }
