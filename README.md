@@ -1,119 +1,130 @@
-# 857直播仿站
+# 857 Live Clone
 
-基于 Nuxt 4 + Vue 3 实现的 857 直播首页仿制项目。
+A clone of the 857 Live homepage built with Nuxt 4 + Vue 3.
 
-## 项目结构
+## Project Structure
 
 ```
 857zb92/
 ├── app/
-│   ├── components/        # 可复用 Vue 组件
-│   │   ├── Carousel.vue     # 通用横向轮播
-│   │   ├── LiveCard.vue     # 通用直播卡片
-│   │   ├── Icon.vue         # SVG 图标组件
-│   │   ├── FormInput.vue    # 表单输入框
-│   │   ├── SocialLogin.vue  # 第三方登录
-│   │   ├── HotAnchors.vue   # 热门主播轮播
-│   │   ├── AppointmentList.vue  # 赛程预约轮播
-│   │   ├── LiveCategory.vue     # 分类直播列表
-│   │   ├── HotLives.vue         # 热门直播卡片
-│   │   ├── HeroSection.vue      # 主视觉直播区
-│   │   ├── LoginModal.vue       # 登录/注册弹窗
-│   │   ├── SiteHeader.vue       # 顶部导航
-│   │   ├── SiteFooter.vue       # 页脚
-│   │   └── RightFix.vue         # 右侧固定工具栏
-│   ├── layouts/           # 页面布局
-│   ├── pages/             # 页面路由
-│   └── app.vue            # 应用入口
-├── public/                # 静态资源
-├── nuxt.config.ts         # Nuxt 配置
+│   ├── components/        # Reusable Vue components
+│   │   ├── Carousel.vue     # Generic horizontal carousel
+│   │   ├── LiveCard.vue     # Generic live card
+│   │   ├── Icon.vue         # SVG icon component
+│   │   ├── FormInput.vue    # Form input
+│   │   ├── SocialLogin.vue  # Third-party login
+│   │   ├── HotAnchors.vue   # Popular anchors carousel
+│   │   ├── AppointmentList.vue  # Match booking carousel
+│   │   ├── LiveCategory.vue     # Categorized live list
+│   │   ├── HotLives.vue         # Popular live cards
+│   │   ├── HeroSection.vue      # Hero live area
+│   │   ├── LoginModal.vue       # Login / register modal
+│   │   ├── SiteHeader.vue       # Top navigation
+│   │   ├── SiteFooter.vue       # Footer
+│   │   └── RightFix.vue         # Right-side fixed toolbar
+│   ├── layouts/           # Layouts
+│   ├── pages/             # Routes
+│   └── app.vue            # App entry
+├── public/                # Static assets
+├── nuxt.config.ts         # Nuxt config
 ├── package.json
-├── LICENSE                # 开源协议
+├── LICENSE                # License
 └── README.md
 ```
 
-## 页面模块
+## Page Modules
 
-- 顶部透明导航栏（滚动后变白）
-- 主视觉直播区（大 Banner + 右侧直播列表）
-- 热门直播卡片
-- 热门主播轮播
-- 分类直播列表（足球、篮球、其他）
-- 右侧固定工具栏（返回顶部、下载 APP、意见反馈）
-- 登录 / 注册弹窗
-- 深色页脚
+- Transparent top navbar (turns solid on scroll)
+- Hero live area (large banner + side live list)
+- Popular live cards
+- Popular anchors carousel
+- Categorized live list (football, basketball, others)
+- Right-side fixed toolbar (back to top, download app, feedback)
+- Login / register modal
+- Dark footer
 
-## 给项目点 Star
+## Give a Star
 
-如果觉得这个项目对你有帮助，欢迎点击仓库右上角的 **Star ⭐** 按钮支持一下！
+If this project helps you, feel free to click the **Star ⭐** button in the top-right corner of the repository!
 
-> 点 Star 不会收到任何通知，但可以帮助作者获得反馈，也能让更多人发现这个仓库。
+> Starring does not trigger any notifications, but it helps the author get feedback and makes the repository more discoverable.
 
-## 启动
+## Getting Started
 
 ```bash
 pnpm install
 pnpm dev
 ```
 
-本地预览地址：`http://localhost:3000`
+Local preview: `http://localhost:3000`
 
-## 页面预览
+## Page Preview
 
-![首页预览](./screen/img.png)
+![Home Preview](./screen/img.png)
 
-![赛事详情预览](./screen/img_1.png)
+![Match Detail Preview](./screen/img_1.png)
 
-## 页面转场说明
+## Page Transitions
 
-项目已启用 Nuxt View Transitions 与页面淡入淡出 fallback：
+The project enables Nuxt View Transitions and a fade in/out fallback:
 
-- `nuxt.config.ts` 中开启 `experimental.viewTransition: true`
-- `nuxt.config.ts` 中配置 `app.pageTransition: { name: 'page', mode: 'out-in' }`
-- `app/assets/css/view-transitions.css` 负责旧页面淡出、新页面淡入，以及直播间封面共享元素过渡
+- `experimental.viewTransition: true` in `nuxt.config.ts`
+- `app.pageTransition: { name: 'page', mode: 'out-in' }` in `nuxt.config.ts`
+- `app/assets/css/view-transitions.css` handles the old page fade-out, new page fade-in, and shared cover transitions for live rooms
 
-内部页面跳转需要使用 Nuxt 客户端路由，例如 `NuxtLink`、`navigateTo()` 或 `router.push()`。不要把站内跳转写成普通 `<a href="/...">`，否则会触发整页刷新，View Transition 和页面淡入淡出不会生效。
+Internal navigation must use Nuxt client-side routing, e.g. `NuxtLink`, `navigateTo()`, or `router.push()`. Do not use plain `<a href="/...">` for internal links, otherwise it triggers a full page reload and View Transitions / fade animations will not work.
 
-外部链接、下载链接、备用网址等仍可使用普通 `<a>` 并保留 `target="_blank"`。
+External links, download links, and backup URLs can still use normal `<a>` with `target="_blank"`.
 
-## 静态构建
+## Static Build
 
-本项目使用 `nuxt build` 输出纯静态文件，部署时只需上传 `dist` 目录。
+This project uses `nuxt build` to generate static files. Upload the `dist` folder for deployment.
 
 ```bash
 pnpm build
 ```
 
-构建产物目录：`dist`
+Build output directory: `dist`
 
-如需快速构建（跳过 JS 混淆与 Gzip/Brotli 压缩）：
+For a fast build (skip JS obfuscation and Gzip/Brotli compression):
 
 ```bash
 pnpm build:fast
 ```
 
-如需本地预览静态站点：
+To preview the static site locally:
 
 ```bash
 pnpm preview
 ```
 
-## 压缩与混淆
+## Compression & Obfuscation
 
-项目已内置以下优化配置，默认在 `pnpm build` 生产构建时生效：
+The following optimizations are built in and enabled by default for production builds (`pnpm build`):
 
-| 功能 | 依赖 | 说明 |
+| Feature | Dependency | Description |
 |------|------|------|
-| JS 混淆 | `vite-plugin-javascript-obfuscator` | 对 `app/` 下的 `.vue` / `.ts` 进行代码混淆 |
-| CSS 压缩 | `cssnano` + `autoprefixer` | 压缩 CSS 并自动补全浏览器前缀 |
-| 资源压缩 | `vite-plugin-compression2` | 生成 `.gz` 与 `.br` 压缩文件 |
+| JS obfuscation | `vite-plugin-javascript-obfuscator` | Obfuscates `.vue` / `.ts` files under `app/` |
+| CSS compression | `cssnano` + `autoprefixer` | Minifies CSS and adds vendor prefixes |
+| Asset compression | `vite-plugin-compression2` | Generates `.gz` and `.br` files |
 
-配置入口：`nuxt.config.ts`。
+Config entry: `nuxt.config.ts`.
 
-如需调整混淆强度，可修改 `vite.plugins.obfuscatorPlugin.options` 中的 [javascript-obfuscator 选项](https://github.com/javascript-obfuscator/javascript-obfuscator#options)。
+To adjust obfuscation strength, modify `vite.plugins.obfuscatorPlugin.options` in [javascript-obfuscator options](https://github.com/javascript-obfuscator/javascript-obfuscator#options).
 
-## 协议
+## Internationalization (i18n)
 
-本项目采用 [MIT License](LICENSE) 开源。使用、修改或分发本项目时，必须保留原作者版权声明和许可声明。
+The project uses a lightweight custom lazy-loaded i18n setup:
+
+- Locale files are split under `app/locales/` (`zh-CN.js`, `en-US.js`)
+- `app/composables/useI18n.js` exposes `useI18n()` with `t(key)`, `locale`, and `loadLocale()`
+- Browser language is detected on the client; `zh*` maps to `zh-CN`, `en*` maps to `en-US`, and all other languages fall back to `zh-CN`
+- Only the selected locale chunk is loaded at runtime via `import.meta.glob('../locales/*.js')`
+
+Main UI strings in navigation, mobile sticky bar, mobile follow panel, header, login modal, live/match/room pages, and LiveCard use this composable. Mock sports/team/anchor/chat data remains hardcoded Chinese unless explicitly requested.
+
+## License
+
+This project is open source under the [MIT License](LICENSE). You must retain the original copyright notice and license when using, modifying, or distributing this project.
 
 Copyright (c) 2026 kboy <kosbox101@gmail.com>
