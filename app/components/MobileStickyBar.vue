@@ -1,33 +1,41 @@
 <template>
-  <div class="mobile-sticky">
+  <div class="block md:hidden">
     <button
       v-if="adVisible && !props.hideAd"
       type="button"
-      class="mobile-ad"
+      class="fixed left-0 right-0 bottom-[92px] z-[35] h-[66px] px-4 border-0 bg-[rgba(17,17,17,0.5)] text-white flex items-center gap-3 text-left"
       @click="adVisible = false"
     >
-      <span class="mobile-ad__close">×</span>
-      <img class="mobile-ad__logo" src="/assets/logo-mobile-wap.png" alt="857直播">
-      <div class="mobile-ad__copy">
-        <strong>857直播</strong>
-        <span>高清无广告 体育直播</span>
+      <span class="text-lg leading-none text-white/80">×</span>
+      <img class="w-[112px] h-auto shrink-0 basis-auto" src="/assets/logo-mobile-wap.png" alt="857直播">
+      <div class="flex min-w-0 flex-1 flex-col gap-0.5">
+        <strong class="text-sm font-extrabold">857直播</strong>
+        <span class="text-[11px] text-white/80 whitespace-nowrap overflow-hidden text-ellipsis">高清无广告 体育直播</span>
       </div>
-      <span class="mobile-ad__action">下载APP</span>
+      <span class="h-9 px-3.5 rounded-md bg-[#ffc61a] text-[#111827] inline-flex items-center justify-center text-sm font-extrabold shrink-0 basis-auto">下载APP</span>
     </button>
 
-    <nav class="mobile-tabbar" aria-label="底部导航">
+    <nav class="fixed left-0 right-0 bottom-0 z-[36] h-[92px] bg-white border-t border-[rgba(226,232,240,0.95)] grid grid-cols-4 pb-[env(safe-area-inset-bottom)]" aria-label="底部导航">
       <component
         v-for="item in tabs"
         :key="item.label"
         :is="item.href ? 'a' : 'button'"
         :href="item.href || undefined"
         :type="item.href ? undefined : 'button'"
-        class="mobile-tabbar__item"
-        :class="{ active: currentActiveTab === item.key }"
+        class="border-0 bg-transparent flex flex-col items-center justify-center gap-2 text-gray-800 no-underline text-base font-bold leading-none"
+        :class="{ 'text-gray-900': currentActiveTab === item.key }"
         @click="handleTabClick(item)"
       >
-        <span class="mobile-tabbar__icon-wrap">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
+        <span
+          class="relative w-[58px] h-[38px] inline-flex items-center justify-center before:content-[''] before:absolute before:inset-0 before:rounded-full before:bg-transparent before:transition-colors before:duration-200"
+          :class="{ 'before:bg-[#fff4d6]': currentActiveTab === item.key }"
+        >
+          <svg
+            class="w-[30px] h-[30px] fill-none stroke-current stroke-[1.9] relative z-[1]"
+            :class="{ 'text-[#f4b400]': currentActiveTab === item.key }"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
             <path :d="item.path" />
           </svg>
         </span>
@@ -71,148 +79,3 @@ function handleTabClick(item) {
 const currentActiveTab = computed(() => transientActiveTab.value || props.activeTab)
 </script>
 
-<style scoped>
-.mobile-sticky {
-  display: none;
-}
-
-@media (max-width: 768px) {
-  .mobile-sticky {
-    display: block;
-  }
-
-  .mobile-ad {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 92px;
-    z-index: 35;
-    height: 66px;
-    padding: 0 16px;
-    border: 0;
-    background: rgba(17, 17, 17, 0.92);
-    color: #fff;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-align: left;
-  }
-
-  .mobile-ad__close {
-    font-size: 18px;
-    line-height: 1;
-    color: rgba(255, 255, 255, 0.82);
-  }
-
-  .mobile-ad__logo {
-    width: 112px;
-    height: auto;
-    flex: 0 0 auto;
-  }
-
-  .mobile-ad__copy {
-    display: flex;
-    min-width: 0;
-    flex: 1;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .mobile-ad__copy strong {
-    font-size: 14px;
-    font-weight: 800;
-  }
-
-  .mobile-ad__copy span {
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.82);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .mobile-ad__action {
-    height: 36px;
-    padding: 0 14px;
-    border-radius: 6px;
-    background: #ffc61a;
-    color: #111827;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    font-weight: 800;
-    flex: 0 0 auto;
-  }
-
-  .mobile-tabbar {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 36;
-    height: 92px;
-    background: rgba(255, 255, 255, 0.98);
-    border-top: 1px solid rgba(226, 232, 240, 0.95);
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    padding-bottom: env(safe-area-inset-bottom, 0);
-  }
-
-  .mobile-tabbar__item {
-    border: 0;
-    background: transparent;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    color: #1f2937;
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 1;
-  }
-
-  .mobile-tabbar__item svg {
-    width: 30px;
-    height: 30px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.9;
-    position: relative;
-    z-index: 1;
-  }
-
-  .mobile-tabbar__icon-wrap {
-    position: relative;
-    width: 58px;
-    height: 38px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .mobile-tabbar__icon-wrap::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 999px;
-    background: transparent;
-    transition: background 0.2s ease;
-  }
-
-  .mobile-tabbar__item.active {
-    color: #111827;
-    font-weight: 700;
-  }
-
-  .mobile-tabbar__item.active .mobile-tabbar__icon-wrap::before {
-    background: rgba(244, 180, 0, 0.22);
-  }
-
-  .mobile-tabbar__item.active svg {
-    color: #f4b400;
-  }
-}
-</style>

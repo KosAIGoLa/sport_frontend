@@ -1,5 +1,5 @@
 <template>
-  <component :is="tag" class="only-desktop">
+  <component :is="tag" class="hidden md:block">
     <slot />
   </component>
 </template>

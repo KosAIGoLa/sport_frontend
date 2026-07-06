@@ -73,299 +73,133 @@ const tagClass = computed(() => {
 
 <style scoped>
 .live-card {
-  display: block;
-  text-decoration: none;
-  color: #333;
+  @apply block no-underline text-[#333];
 }
 
-/* Cover area */
 .live-card__cover {
-  position: relative;
-  overflow: hidden;
-  border-radius: 18px 18px 0 0;
+  @apply relative overflow-hidden rounded-t-[18px];
 }
 .live-card--category .live-card__cover {
-  height: 127px;
+  @apply h-[127px];
 }
 .live-card--hot .live-card__cover {
-  border-radius: 18px 18px 0 0;
-  height: 160px;
+  @apply rounded-t-[18px] h-[160px];
 }
 .live-card__img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 18px 18px 0 0;
+  @apply block w-full h-full object-cover rounded-t-[18px];
 }
 .live-card__gradient-mask {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  border-radius: 18px 18px 0 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0) 0, rgba(0,0,0,0.6) 100%);
-  z-index: 2;
+  @apply absolute w-full h-full top-0 left-0 rounded-t-[18px] bg-[linear-gradient(180deg,rgba(0,0,0,0)_0,rgba(0,0,0,0.6)_100%)] z-[2];
 }
 .live-card__hover-mask {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  transition: all 0.3s ease-out;
-  opacity: 0;
-  background: #000;
-  border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
-  z-index: 3;
+  @apply absolute top-0 left-0 w-full h-full transition-all duration-300 ease-out opacity-0 bg-black rounded-t-md z-[3];
 }
 .live-card:hover .live-card__hover-mask {
-  opacity: 0.4;
+  @apply opacity-40;
 }
 .live-card__play {
-  opacity: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 44px;
-  height: 44px;
-  margin: -25px 0 0 -25px;
-  background: url('/assets/icon-open@2x.png') no-repeat;
-  background-size: 44px auto;
-  transform: scale(2);
-  transition: all 0.25s ease-out;
-  z-index: 4;
+  @apply opacity-0 absolute top-1/2 left-1/2 w-[44px] h-[44px] -mt-[25px] -ml-[25px] bg-[url('/assets/icon-open@2x.png')_no-repeat] bg-[length:44px_auto] scale-[2] transition-all duration-300 ease-out z-[4];
 }
 .live-card:hover .live-card__play {
-  opacity: 1;
-  transform: scale(1);
+  @apply opacity-100 scale-100;
 }
 
-/* Tags */
 .live-card__tags {
-  position: absolute;
-  width: 100%;
-  top: 0;
-  left: 0;
-  z-index: 5;
-  pointer-events: none;
+  @apply absolute w-full top-0 left-0 z-[5] pointer-events-none;
 }
 .live-card__tags::after {
-  display: block;
-  height: 0;
-  clear: both;
-  content: "";
-  visibility: hidden;
+  @apply block h-0 clear-both content-[''] invisible;
 }
 .live-card__tag {
-  float: left;
-  width: 42px;
-  height: 28px;
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  position: relative;
+  @apply float-left w-[42px] h-7 p-0 border-0 rounded-none relative;
 }
 .live-card__tag i {
-  position: relative;
-  z-index: 1;
-  display: block;
-  font-size: 14px;
-  font-style: normal;
-  line-height: 28px;
-  text-align: center;
-  white-space: nowrap;
+  @apply relative z-[1] block text-sm not-italic leading-7 text-center whitespace-nowrap;
 }
 .live-card__tag::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: -10px;
-  width: 0;
-  height: 0;
-  border-top: 28px solid transparent;
-  border-right: 10px solid transparent;
+  @apply content-[''] absolute top-0 -right-2.5 w-0 h-0 border-t-[28px] border-r-[10px] border-transparent;
 }
 .live-card__tag--recommend {
-  background: linear-gradient(135deg, #38bdf8 0%, #2563eb 100%);
-  color: #fff;
+  @apply bg-[linear-gradient(135deg,#38bdf8_0%,#2563eb_100%)] text-white;
 }
 .live-card__tag--recommend::after {
-  border-top-color: #218aff;
+  @apply border-t-[#218aff];
 }
 .live-card__tag--hot {
-  background: linear-gradient(135deg, #fb7185 0%, #ef4444 100%);
-  color: #fff;
+  @apply bg-[linear-gradient(135deg,#fb7185_0%,#ef4444_100%)] text-white;
 }
 .live-card__tag--hot::after {
-  border-top-color: #f53923;
+  @apply border-t-[#f53923];
 }
 .live-card__tag--normal {
-  background: #f5a623;
-  color: #111827;
+  @apply bg-[#f5a623] text-[#111827];
 }
 .live-card__tag--normal::after {
-  border-top-color: #f5a623;
+  @apply border-t-[#f5a623];
 }
 .live-card__living {
-  float: right;
-  height: 18px;
-  padding: 0 4px;
-  margin-right: 8px;
-  line-height: 18px;
-  font-size: 0;
-  background: rgba(239, 68, 68, 0.92);
-  border-radius: 999px;
+  @apply float-right h-[18px] px-1 mr-2 leading-[18px] text-[0] bg-red-500/[0.92] rounded-full;
 }
 .live-card__living img {
-  width: 10px;
-  height: 10px;
-  margin-right: 4px;
-  vertical-align: middle;
+  @apply w-[10px] h-[10px] mr-1 align-middle;
 }
 .live-card__living span {
-  position: static;
-  font-size: 12px;
-  color: #fff;
-  border-radius: 0;
-  border-right: 0;
-  vertical-align: top;
+  @apply static text-xs text-white rounded-none border-r-0 align-top;
 }
 
-/* Hot variant */
 .live-card__bottom-title {
-  font-weight: 400;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 28px;
-  line-height: 20px;
-  font-size: 14px;
-  color: #fff;
-  padding: 0 14px 8px;
-  letter-spacing: 1px;
-  background: linear-gradient(180deg, rgba(0,0,0,0) 0, rgba(0,0,0,0.8) 100%);
-  z-index: 5;
+  @apply font-normal absolute bottom-0 w-full h-7 leading-5 text-sm text-white px-3.5 pb-2 tracking-wide bg-[linear-gradient(180deg,rgba(0,0,0,0)_0,rgba(0,0,0,0.8)_100%)] z-[5];
 }
 .live-card__anchor-name {
-  display: block;
+  @apply block;
 }
 .live-card__viewers {
-  float: right;
+  @apply float-right;
 }
 .live-card__viewers img {
-  width: 14px;
-  float: left;
-  padding-top: 3px;
-  padding-right: 2px;
+  @apply w-3.5 float-left pt-[3px] pr-0.5;
 }
 .live-card__viewers span {
-  display: block;
+  @apply block;
 }
 .live-card__info {
-  background: #fff;
-  padding: 0 14px;
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
+  @apply bg-white px-3.5 rounded-b-md;
 }
 .live-card__info .live-card__title {
-  background: transparent;
-  height: 40px;
-  line-height: 40px;
-  padding: 0;
-  font-size: 14px;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+  @apply bg-transparent h-10 leading-10 p-0 text-sm rounded-none;
 }
 .live-card__info-meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 12px;
-  color: #64748b;
-  padding-bottom: 10px;
+  @apply flex items-center justify-between text-xs text-slate-500 pb-2.5;
 }
 .live-card__info-meta strong {
-  color: #ef4444;
-  font-weight: 700;
+  @apply text-red-500 font-bold;
 }
 
-/* Category variant */
 .live-card__body {
-  background: #fff;
+  @apply bg-white;
 }
 .live-card__title {
-  margin: 0;
-  height: 35px;
-  padding: 9px 12px 4px;
-  line-height: 20px;
-  background: #fff;
-  font-weight: 400;
-  font-size: 15px;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-  color: #000;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  @apply m-0 h-[35px] py-2 px-3 pb-1 leading-5 bg-white font-normal text-[15px] rounded-b-[5px] text-black overflow-hidden whitespace-nowrap text-ellipsis;
 }
 .live-card__meta {
-  margin: 0;
-  padding: 0 12px;
-  color: #777;
-  line-height: 29px;
-  font-weight: 500;
-  font-size: 12px;
+  @apply m-0 px-3 text-[#777] leading-[29px] font-medium text-xs;
 }
 .live-card__meta::after {
-  display: block;
-  height: 0;
-  clear: both;
-  content: "";
-  visibility: hidden;
+  @apply block h-0 clear-both content-[''] invisible;
 }
 .live-card__anchor {
-  max-width: 70%;
-  overflow: hidden;
-  font-size: 12px;
-  float: left;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  @apply max-w-[70%] overflow-hidden text-xs float-left text-ellipsis whitespace-nowrap;
 }
 .live-card__avatar {
-  width: 20px;
-  height: 22px;
-  border-radius: 50%;
-  float: left;
-  padding-top: 2px;
-  margin-right: 4px;
-  object-fit: cover;
+  @apply w-5 h-[22px] rounded-full float-left pt-0.5 mr-1 object-cover;
 }
 .live-card__viewers-count {
-  background: url('/assets/icon-hot-gray.png') no-repeat 0;
-  padding-left: 15px;
-  background-size: 12px auto;
-  font-size: 12px;
-  float: right;
-  color: #ef4444;
-  font-weight: 800;
+  @apply bg-[url('/assets/icon-hot-gray.png')_no-repeat_0] pl-[15px] bg-[length:12px_auto] text-xs float-right text-red-500 font-extrabold;
 }
 .live-card__action {
-  margin: 2px 12px 0;
-  height: 28px;
-  border-radius: 999px;
-  background: #f8fafc;
-  color: #334155;
-  font-size: 12px;
-  font-weight: 800;
-  line-height: 28px;
-  text-align: center;
-  transition: all 0.22s;
+  @apply mx-3 mt-0.5 h-7 rounded-full bg-slate-50 text-slate-700 text-xs font-extrabold leading-7 text-center transition-all duration-[0.22s];
 }
 .live-card:hover .live-card__action {
-  background: linear-gradient(135deg, #ffe178 0%, #ffc21c 100%);
-  color: #111827;
+  @apply bg-[linear-gradient(135deg,#ffe178_0%,#ffc21c_100%)] text-[#111827];
 }
 </style>

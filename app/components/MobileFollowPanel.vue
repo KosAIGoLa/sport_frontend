@@ -56,161 +56,57 @@ defineEmits(['login'])
 
 <style scoped>
 .mobile-follow-panel {
-  display: none;
+  @apply hidden;
 }
 
 @media (max-width: 768px) {
   .mobile-follow-panel {
-    position: fixed;
-    inset: 0;
-    z-index: 120;
-    background:
-      linear-gradient(180deg, rgba(255, 198, 26, 0.08) 0%, rgba(255, 198, 26, 0) 120px),
-      #f8fafc;
-    display: flex;
-    flex-direction: column;
+    @apply fixed inset-0 z-[120] bg-[linear-gradient(180deg,rgba(255,198,26,0.08)_0%,rgba(255,198,26,0)_120px),#f8fafc] flex flex-col;
   }
-
   .mobile-follow-panel__top {
-    height: 68px;
-    padding: 0 16px;
-    background: rgba(32, 33, 36, 0.9);
-    backdrop-filter: blur(10px);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    @apply h-[68px] px-4 bg-[rgba(32,33,36,0.9)] backdrop-blur-[10px] flex items-center justify-between;
   }
-
   .mobile-follow-panel__logo {
-    width: 158px;
-    height: auto;
-    display: block;
+    @apply w-[158px] h-auto block;
   }
-
   .mobile-follow-panel__download {
-    min-width: 108px;
-    height: 42px;
-    padding: 0 16px;
-    border-radius: 6px;
-    background: #ffc61a;
-    color: #fff;
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: 800;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    @apply min-w-[108px] h-[42px] px-4 rounded-md bg-[#ffc61a] text-white no-underline text-base font-extrabold inline-flex items-center justify-center;
   }
-
   .mobile-follow-panel__tabs {
-    height: 74px;
-    padding: 0 24px;
-    background: rgba(255, 198, 26, 0.92);
-    backdrop-filter: blur(10px);
-    display: flex;
-    align-items: center;
-    gap: 42px;
+    @apply h-[74px] px-6 bg-[rgba(255,198,26,0.92)] backdrop-blur-[10px] flex items-center gap-[42px];
   }
-
   .mobile-follow-panel__tabs button {
-    position: relative;
-    border: 0;
-    background: transparent;
-    color: #fff;
-    font-size: 22px;
-    font-weight: 800;
-    padding: 0;
+    @apply relative border-0 bg-transparent text-white text-[22px] font-extrabold p-0;
   }
-
   .mobile-follow-panel__tabs button.active::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: -14px;
-    width: 12px;
-    height: 6px;
-    margin-left: -6px;
-    border-radius: 999px;
-    background: #fff;
+    @apply content-[''] absolute left-1/2 -bottom-[14px] w-3 h-1.5 -ml-1.5 rounded-full bg-white;
   }
-
   .mobile-follow-panel__body {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 0 24px 48px;
+    @apply flex-1 flex flex-col items-center justify-center px-6 pb-12;
   }
-
   .mobile-follow-panel__empty {
-    width: 168px;
-    opacity: 0.18;
-    margin-bottom: 22px;
+    @apply w-[168px] opacity-[0.18] mb-[22px];
   }
-
   .mobile-follow-panel__body p {
-    color: #9a9a9a;
-    font-size: 15px;
-    margin: 0 0 28px;
+    @apply text-[#9a9a9a] text-[15px] m-0 mb-7;
   }
-
   .mobile-follow-panel__login {
-    width: 184px;
-    height: 48px;
-    border: 0;
-    border-radius: 999px;
-    background: linear-gradient(135deg, #ffe178 0%, #ffc21c 100%);
-    color: #111827;
-    font-size: 17px;
-    font-weight: 800;
-    box-shadow: 0 10px 24px rgba(248, 194, 27, 0.22);
+    @apply w-[184px] h-12 border-0 rounded-full bg-[linear-gradient(135deg,#ffe178_0%,#ffc21c_100%)] text-[#111827] text-[17px] font-extrabold shadow-[0_10px_24px_rgba(248,194,27,0.22)];
   }
-
   .mobile-follow-panel__footer {
-    height: 92px;
-    border-top: 1px solid rgba(226, 232, 240, 0.95);
-    background: rgba(255, 255, 255, 0.98);
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    align-items: center;
-    padding-bottom: env(safe-area-inset-bottom, 0);
+    @apply h-[92px] border-t border-slate-200/[0.95] bg-white/[0.98] grid grid-cols-4 items-center pb-[env(safe-area-inset-bottom,0)];
   }
-
   .mobile-follow-panel__item {
-    border: 0;
-    background: transparent;
-    color: #111827;
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-size: 15px;
-    font-weight: 700;
+    @apply border-0 bg-transparent text-[#111827] no-underline flex flex-col items-center justify-center gap-2 text-[15px] font-bold;
   }
-
   .mobile-follow-panel__icon {
-    width: 58px;
-    height: 38px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 999px;
+    @apply w-[58px] h-[38px] inline-flex items-center justify-center rounded-full;
   }
-
   .mobile-follow-panel__icon svg {
-    width: 30px;
-    height: 30px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.9;
+    @apply w-[30px] h-[30px] fill-none stroke-current stroke-[1.9];
   }
-
   .mobile-follow-panel__item--active .mobile-follow-panel__icon {
-    background: rgba(244, 180, 0, 0.22);
-    color: #f4b400;
+    @apply bg-[rgba(244,180,0,0.22)] text-[#f4b400];
   }
 }
 </style>

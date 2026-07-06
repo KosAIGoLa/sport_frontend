@@ -44,8 +44,10 @@ export default defineNuxtConfig({
       }
     }
   },
+  css: ['~/assets/css/tailwind.css'],
   postcss: {
     plugins: {
+      tailwindcss: {},
       autoprefixer: {},
       cssnano: {
         preset: ['default', { calc: false }]
@@ -53,6 +55,11 @@ export default defineNuxtConfig({
     }
   },
   vite: {
+    optimizeDeps: {
+      include: [
+        'xgplayer'
+      ]
+    },
     build: {
       sourcemap: false,
       modulePreload: {

@@ -1,21 +1,21 @@
 <template>
-  <div v-show="visible" class="right-fix">
+  <div v-show="visible" class="fixed right-[17px] bottom-[227px] z-[99] transition-all duration-300 hidden md:block">
     <div class="icon-team">
-      <a class="backTop" href="#living-room" @click.prevent="scrollToTop">
-        <img class="icon" src="/assets/icon-top.png" alt="">
-        <div class="text">返回顶部</div>
+      <a class="backTop block text-center mb-2.5 bg-white border border-[#dadada] rounded-lg text-[#999] px-2.5 text-[0] no-underline relative hover:text-[#f8c21b] hover:border-[#f8c21b]" href="#living-room" @click.prevent="scrollToTop">
+        <img class="w-5 h-5 mt-2 mb-2" src="/assets/icon-top.png" alt="">
+        <div class="mb-2 text-xs align-middle">返回顶部</div>
       </a>
-      <a class="code">
-        <img class="icon" src="/assets/icon-code.png" alt="">
-        <div class="text">下载APP</div>
-        <div class="sao-code">
-          <p>扫码下载 857直播</p>
-          <img src="/assets/code.png" alt="logo">
+      <a class="code group block text-center mb-2.5 bg-white border border-[#dadada] rounded-lg text-[#999] px-2.5 text-[0] no-underline relative hover:text-[#f8c21b] hover:border-[#f8c21b]">
+        <img class="w-5 h-5 mt-2 mb-2" src="/assets/icon-code.png" alt="">
+        <div class="mb-2 text-xs align-middle">下载APP</div>
+        <div class="hidden fixed bottom-[238px] right-[100px] w-[140px] px-5 py-2.5 bg-white shadow-[0_3px_10px_0_rgba(43,58,73,0.1)] rounded-md text-center group-hover:block">
+          <p class="mb-2.5 text-xs text-[#333]">扫码下载 857直播</p>
+          <img class="mx-auto w-[100px] h-[100px]" src="/assets/code.png" alt="logo">
         </div>
       </a>
-      <a class="feedback">
-        <img class="icon" src="/assets/icon-feedback.png" alt="">
-        <div class="text">意见反馈</div>
+      <a class="feedback block text-center mb-2.5 bg-white border border-[#dadada] rounded-lg text-[#999] px-2.5 text-[0] no-underline relative hover:text-[#f8c21b] hover:border-[#f8c21b]">
+        <img class="w-5 h-5 mt-2 mb-2" src="/assets/icon-feedback.png" alt="">
+        <div class="mb-2 text-xs align-middle">意见反馈</div>
       </a>
     </div>
   </div>
@@ -38,71 +38,3 @@ function scrollToTop() {
 }
 </script>
 
-<style scoped>
-.right-fix {
-  position: fixed;
-  right: 17px;
-  bottom: 227px;
-  z-index: 99;
-  transition: 0.3s;
-}
-.icon-team a {
-  display: block;
-  text-align: center;
-  margin-bottom: 10px;
-  background: #fff;
-  border: 1px solid #dadada;
-  border-radius: 8px;
-  color: #999;
-  padding: 0 10px;
-  font-size: 0;
-  text-decoration: none;
-  position: relative;
-}
-.icon-team a .icon {
-  width: 20px;
-  height: 20px;
-  margin-top: 8px;
-  margin-bottom: 8px;
-}
-.icon-team a .text {
-  margin-bottom: 8px;
-  font-size: 12px;
-  vertical-align: middle;
-}
-.icon-team a:hover {
-  color: #f8c21b;
-  border-color: #f8c21b;
-}
-.icon-team a.code:hover .sao-code {
-  display: block;
-}
-.sao-code {
-  display: none;
-  position: fixed;
-  bottom: 238px;
-  right: 100px;
-  width: 140px;
-  padding: 10px 20px;
-  background: #fff;
-  box-shadow: 0 3px 10px 0 rgba(43, 58, 73, 0.1);
-  border-radius: 6px;
-  text-align: center;
-}
-.sao-code img {
-  margin: 0 auto;
-  width: 100px;
-  height: 100px;
-}
-.sao-code p {
-  margin-bottom: 10px;
-  font-size: 12px;
-  color: #333;
-}
-
-@media (max-width: 768px) {
-  .right-fix {
-    display: none;
-  }
-}
-</style>

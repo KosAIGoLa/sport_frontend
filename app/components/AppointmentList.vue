@@ -71,257 +71,140 @@ function goRoom(href) {
 
 <style scoped>
 .inner {
-  width: 1200px;
-  margin: 0 auto;
+  @apply w-[1200px] mx-auto;
 }
 .appoinment-list {
-  position: relative;
-  margin-top: 28px;
-  z-index: 3;
+  @apply relative mt-7 z-[3];
 }
 .appoinment-swiper-container {
-  width: 100%;
-  height: 150px;
-  background: rgba(255, 255, 255, 0.88);
-  border-radius: 22px;
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 22px 60px rgba(15, 23, 42, 0.12);
-  backdrop-filter: blur(16px);
-  position: relative;
-  list-style: none;
-  padding: 0;
-  overflow: hidden;
+  @apply w-full h-[150px] bg-white/[0.88] rounded-[22px] border border-white/[0.9] shadow-[0_22px_60px_rgba(15,23,42,0.12)] backdrop-blur-[16px] relative list-none p-0 overflow-hidden;
 }
 :deep(.carousel-btn) {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: #fff;
-  color: #0f172a;
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12);
+  @apply w-[34px] h-[34px] rounded-full bg-white text-slate-900 shadow-[0_4px_14px_rgba(15,23,42,0.12)];
 }
 :deep(.carousel-btn) svg {
-  width: 20px;
-  height: 20px;
+  @apply w-5 h-5;
 }
 :deep(.carousel-prev) {
-  left: 12px;
+  @apply left-3;
 }
 :deep(.carousel-next) {
-  right: 12px;
+  @apply right-3;
 }
 :deep(.carousel-btn:hover) {
-  background: #f59e0b;
-  color: #fff;
-  transform: translateY(-50%) scale(1.08);
-  box-shadow: 0 6px 18px rgba(251, 191, 36, 0.35);
+  @apply bg-amber-500 text-white transform -translate-y-1/2 scale-[1.08] shadow-[0_6px_18px_rgba(251,191,36,0.35)];
 }
 :deep(.carousel-btn.disabled) {
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-50%) scale(0.9);
+  @apply opacity-0 pointer-events-none transform -translate-y-1/2 scale-90;
 }
 :deep(.carousel-slide.game) {
-  height: 100%;
-  position: relative;
-  text-align: center;
-  font-size: 14px;
-  border-right: 1px solid rgba(226, 232, 240, 0.9);
-  font-weight: 400;
-  padding: 18px 22px 20px;
-  transition: background 0.2s, transform 0.2s;
-  color: inherit;
-  text-decoration: none;
-  cursor: pointer;
+  @apply h-full relative text-center text-sm border-r border-slate-200/[0.9] font-normal px-[22px] pt-[18px] pb-5 transition-all duration-200 text-inherit no-underline cursor-pointer;
 }
 :deep(.carousel-slide.game):hover {
-  background: rgba(255, 248, 221, 0.72);
-  transform: translateY(-2px);
+  @apply bg-[rgba(255,248,221,0.72)] -translate-y-0.5;
 }
 .title {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: #64748b;
-  font-size: 12px;
-  margin: 0 0 18px;
-  min-height: 38px;
-  line-height: 17px;
-  position: relative;
+  @apply flex items-center justify-between text-slate-500 text-xs mb-[18px] min-h-[38px] leading-[17px] relative;
 }
 .league-info {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
+  @apply inline-flex items-center gap-1;
 }
 .league-info .icon {
-  width: 12px;
-  height: 12px;
+  @apply w-3 h-3;
 }
 .match-time {
-  color: #0f172a;
-  font-weight: 700;
+  @apply text-slate-900 font-bold;
 }
 .match-time span {
-  color: #64748b;
-  font-weight: 500;
+  @apply text-slate-500 font-medium;
 }
 .match-status {
-  position: absolute;
-  left: 0;
-  bottom: -18px;
-  height: 20px;
-  padding: 0 8px;
-  border-radius: 999px;
-  background: rgba(34, 197, 94, 0.12);
-  color: #16a34a;
-  font-size: 11px;
-  line-height: 20px;
-  font-weight: 700;
+  @apply absolute left-0 -bottom-[18px] h-5 px-2 rounded-full bg-green-500/[0.12] text-green-600 text-[11px] leading-5 font-bold;
 }
 .box {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  @apply flex items-center justify-between;
 }
 .battle-team {
-  width: 150px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  @apply w-[150px] overflow-hidden flex flex-col gap-2.5;
 }
 .battle-team p {
-  display: flex;
-  align-items: center;
-  text-align: left;
+  @apply flex items-center text-left;
 }
 .battle-team p .logo {
-  width: 26px;
-  height: 26px;
-  flex: 0 0 26px;
-  object-fit: contain;
+  @apply w-[26px] h-[26px] shrink-0 basis-[26px] object-contain;
 }
 .battle-team p .ellipsis {
-  width: 112px;
-  margin: 0 0 0 6px;
-  font-size: 14px;
-  font-weight: 650;
-  height: 24px;
-  line-height: 24px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  text-align: left;
+  @apply w-[112px] ml-1.5 text-sm font-[650] h-6 leading-6 overflow-hidden whitespace-nowrap text-ellipsis text-left;
 }
 .appoinment {
-  border: 0;
-  padding: 0;
-  display: inline-block;
-  width: 52px;
-  height: 25px;
-  line-height: 25px;
-  background: linear-gradient(135deg, #ffe178 0%, #ffc21c 100%);
-  border-radius: 999px;
-  box-shadow: 0 8px 18px rgba(255, 199, 28, 0.24);
-  color: #000;
-  font-size: 12px;
-  cursor: pointer;
-  text-decoration: none;
+  @apply border-0 p-0 inline-block w-[52px] h-[25px] leading-[25px] bg-[linear-gradient(135deg,#ffe178_0%,#ffc21c_100%)] rounded-full shadow-[0_8px_18px_rgba(255,199,28,0.24)] text-black text-xs cursor-pointer no-underline;
 }
 .appoinment.use {
-  background: #e5e5e5;
+  @apply bg-[#e5e5e5];
 }
 .appoinment .already-appoinment {
-  display: none;
+  @apply hidden;
 }
 .appoinment .no-appoinment {
-  display: inline;
+  @apply inline;
 }
 .appoinment.use .already-appoinment {
-  display: inline;
+  @apply inline;
 }
 .appoinment.use .no-appoinment {
-  display: none;
+  @apply hidden;
 }
 :deep(.carousel-slide.more-match) {
-  height: 100%;
-  position: relative;
-  text-align: center;
-  font-size: 14px;
-  color: #777;
+  @apply h-full relative text-center text-sm text-[#777];
 }
 :deep(.carousel-slide.more-match) a {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  text-decoration: none;
-  color: #777;
+  @apply flex flex-col items-center justify-center h-full no-underline text-[#777];
 }
 :deep(.carousel-slide.more-match) a img {
-  width: 29px;
-  height: 26px;
-  margin: 0 auto 4px;
+  @apply w-[29px] h-[26px] mx-auto mb-1;
 }
 :deep(.carousel-slide.more-match) a .match-text {
-  margin-top: 4px;
-  font-size: 12px;
+  @apply mt-1 text-xs;
 }
 
 @media screen and (max-width: 1400px) {
   .inner {
-    width: 960px;
+    @apply w-[960px];
   }
 }
 
 @media (max-width: 768px) {
   .inner {
-    width: 100%;
+    @apply w-full;
   }
 
   .appoinment-list {
-    margin-top: 14px;
-    padding: 0 16px;
+    @apply mt-3.5 px-4;
   }
 
   .appoinment-swiper-container {
-    height: auto;
-    padding: 0;
-    background: transparent;
-    border: 0;
-    border-radius: 0;
-    box-shadow: none;
-    backdrop-filter: none;
-    overflow-x: auto;
+    @apply h-auto p-0 bg-transparent border-0 rounded-none shadow-none backdrop-blur-none overflow-x-auto;
   }
 
   :deep(.carousel-track) {
-    gap: 12px;
+    @apply gap-3;
   }
 
   :deep(.carousel-btn) {
-    display: none;
+    @apply hidden;
   }
 
   :deep(.carousel-slide.game),
   :deep(.carousel-slide.more-match) {
-    min-width: 268px;
-    height: 122px;
-    padding: 14px;
-    border: 0;
-    border-radius: 14px;
-    background: #fff;
-    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+    @apply min-w-[268px] h-[122px] p-3.5 border-0 rounded-[14px] bg-white shadow-[0_8px_20px_rgba(15,23,42,0.08)];
   }
 
   .title {
-    margin-bottom: 14px;
+    @apply mb-3.5;
   }
 
   .battle-team {
-    width: 150px;
+    @apply w-[150px];
   }
 }
 </style>

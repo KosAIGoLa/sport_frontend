@@ -22,8 +22,10 @@
           <a class="active" href="/liveType.html">全部直播</a>
           <a href="/match.html">赛程</a>
           <a class="download" href="/download" target="_blank" rel="noopener noreferrer">
-            下载APP
-            <img src="/assets/hot.png" alt="hot">
+            <span>
+              下载APP
+              <img src="/assets/hot.png" alt="hot">
+            </span>
           </a>
         </DesktopOnly>
         <DesktopOnly tag="div" class="live-auth">
@@ -108,245 +110,129 @@ const allLives = [
 
 <style scoped>
 .live-type-page {
-  min-height: 100vh;
-  background:
-    radial-gradient(circle at 12% 0%, rgba(255, 199, 28, 0.18), transparent 28%),
-    radial-gradient(circle at 86% 12%, rgba(33, 138, 255, 0.14), transparent 30%),
-    linear-gradient(180deg, #f8fafc 0%, #eef3f9 52%, #f8fafc 100%);
-  color: #111827;
+  @apply min-h-screen text-[#111827];
+  background: radial-gradient(circle at 12% 0%, rgba(255, 199, 28, 0.18), transparent 28%), radial-gradient(circle at 86% 12%, rgba(33, 138, 255, 0.14), transparent 30%), linear-gradient(180deg, #f8fafc 0%, #eef3f9 52%, #f8fafc 100%);
 }
 
 .live-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  height: 72px;
-  background: rgba(255, 255, 255, 0.86);
-  border-bottom: 1px solid rgba(226, 232, 240, 0.9);
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
-  backdrop-filter: blur(18px);
+  @apply sticky top-0 z-[100] h-[72px] bg-white/[0.86] border-b border-slate-200/[0.9] shadow-[0_16px_40px_rgba(15,23,42,0.08)] backdrop-blur-[18px];
 }
 
 .live-header-inner {
-  width: 1200px;
-  height: 100%;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
+  @apply w-[1200px] h-full mx-auto flex items-center;
 }
 
 .live-logo {
-  display: flex;
-  align-items: center;
-  margin-right: 58px;
+  @apply flex items-center mr-[58px];
 }
 
 .live-mobile-head {
-  display: none;
+  @apply hidden;
 }
 
 .live-logo img {
-  width: 160px;
-  height: auto;
-  display: block;
+  @apply w-[160px] h-auto block;
 }
 
 .live-nav {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  font-size: 16px;
-  font-weight: 650;
+  @apply h-full flex items-center gap-4 text-base font-[650];
 }
 
 .live-nav a {
-  position: relative;
-  height: 36px;
-  padding: 0 18px;
-  line-height: 36px;
-  color: #111827;
-  text-decoration: none;
-  border-radius: 999px;
-  white-space: nowrap;
-  transition: all 0.2s;
+  @apply relative h-9 px-[18px] leading-9 text-[#111827] no-underline rounded-full whitespace-nowrap transition-all duration-200;
 }
 
 .live-nav a:hover,
 .live-nav a.active {
-  color: #111827;
-  background: linear-gradient(135deg, #ffe178 0%, #ffc21c 100%);
-  box-shadow: 0 8px 18px rgba(248, 194, 27, 0.28);
+  @apply text-[#111827] bg-[linear-gradient(135deg,#ffe178_0%,#ffc21c_100%)] shadow-[0_8px_18px_rgba(248,194,27,0.28)];
 }
 
 .live-nav a.download {
-  color: #f59e0b;
+  @apply text-amber-500;
 }
 
+.live-nav a.download span {
+  @apply relative;
+}
 .live-nav a.download img {
-  position: absolute;
-  top: -7px;
-  right: -23px;
-  width: 29px;
-  height: auto;
+  @apply absolute -top-[12px] -right-[32px] w-[29px] h-auto;
 }
 
 .live-auth {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  @apply ml-auto flex items-center gap-2.5;
 }
 
 .live-auth button {
-  appearance: none;
-  height: 34px;
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.72);
-  padding: 0 14px;
-  color: #111827;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
+  @apply appearance-none h-[34px] border border-slate-200/[0.9] rounded-full bg-white/[0.72] px-3.5 text-[#111827] text-sm font-bold cursor-pointer transition-all duration-200;
 }
 
 .live-auth button:hover {
-  border-color: rgba(255, 194, 28, 0.8);
-  background: #fff7d6;
+  @apply border-[rgba(255,194,28,0.8)] bg-[#fff7d6];
 }
 
 .live-auth .login-btn::before {
-  content: "";
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  margin-right: 6px;
-  background: #22c55e;
-  border-radius: 50%;
-  vertical-align: 1px;
-  box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.12);
+  @apply content-[''] inline-block w-2 h-2 mr-1.5 bg-green-500 rounded-full align-[1px] shadow-[0_0_0_5px_rgba(34,197,94,0.12)];
 }
 
 .live-type-main {
-  position: relative;
-  padding: 42px 0 72px;
+  @apply relative py-[42px] px-0 pb-[72px];
 }
 
 .live-type-main::before {
-  content: '全部直播';
-  display: block;
-  width: 1200px;
-  margin: 0 auto 8px;
-  color: #0f172a;
-  font-size: 30px;
-  font-weight: 850;
-  letter-spacing: -0.4px;
+  @apply content-['全部直播'] block w-[1200px] mx-auto mb-2 text-slate-900 text-[30px] font-[850] tracking-[-0.4px];
 }
 
 .live-type-main::after {
-  content: '精选赛事直播间，热门主播实时开播';
-  display: block;
-  width: 1200px;
-  margin: -2px auto 4px;
-  color: #64748b;
-  font-size: 14px;
+  @apply content-['精选赛事直播间，热门主播实时开播'] block w-[1200px] -mt-0.5 mx-auto mb-1 text-slate-500 text-sm;
 }
 
 @media screen and (max-width: 1400px) {
   .live-header-inner,
   .live-type-main::before,
   .live-type-main::after {
-    width: 960px;
+    @apply w-[960px];
   }
 }
 
 @media (max-width: 768px) {
   .live-type-page {
-    background: #f5f5f5;
+    @apply bg-[#f5f5f5];
   }
 
   .live-header {
-    height: auto;
-    background: transparent;
-    border-bottom: 0;
-    box-shadow: none;
-    backdrop-filter: none;
+    @apply h-auto bg-transparent border-b-0 shadow-none backdrop-blur-none;
   }
 
   .live-header-inner {
-    width: 100%;
-    padding: 0;
+    @apply w-full p-0;
   }
 
   .live-mobile-head {
-    display: block;
-    width: 100%;
+    @apply block w-full;
   }
 
   .live-mobile-top {
-    height: 68px;
-    padding: 0 16px;
-    background: rgba(32, 33, 36, 0.9);
-    backdrop-filter: blur(10px);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    @apply h-[68px] px-4 bg-[rgba(32,33,36,0.9)] backdrop-blur-[10px] flex items-center justify-between;
   }
 
   .live-mobile-logo {
-    width: 158px;
-    height: auto;
-    display: block;
+    @apply w-[158px] h-auto block;
   }
 
   .live-mobile-download {
-    min-width: 108px;
-    height: 42px;
-    padding: 0 16px;
-    border-radius: 6px;
-    background: #ffc61a;
-    color: #fff;
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: 800;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    @apply min-w-[108px] h-[42px] px-4 rounded-md bg-[#ffc61a] text-white no-underline text-base font-extrabold inline-flex items-center justify-center;
   }
 
   .live-mobile-tabs {
-    height: 74px;
-    padding: 0 16px;
-    background: rgba(255, 198, 26, 0.92);
-    backdrop-filter: blur(10px);
-    display: flex;
-    align-items: center;
-    gap: 38px;
-    overflow-x: auto;
+    @apply h-[74px] px-4 bg-[rgba(255,198,26,0.92)] backdrop-blur-[10px] flex items-center gap-[38px] overflow-x-auto;
   }
 
   .live-mobile-tabs a {
-    position: relative;
-    flex: 0 0 auto;
-    color: #fff;
-    text-decoration: none;
-    font-size: 22px;
-    font-weight: 800;
-    line-height: 1;
+    @apply relative shrink-0 text-white no-underline text-[22px] font-extrabold leading-none;
   }
 
   .live-mobile-tabs a.active::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: -14px;
-    width: 12px;
-    height: 6px;
-    margin-left: -6px;
-    border-radius: 999px;
-    background: #fff;
+    @apply content-[''] absolute left-1/2 -bottom-[14px] w-3 h-1.5 -ml-1.5 rounded-full bg-white;
   }
 
   .live-logo,
@@ -354,11 +240,11 @@ const allLives = [
   .live-auth,
   .live-type-main::before,
   .live-type-main::after {
-    display: none;
+    @apply hidden;
   }
 
   .live-type-main {
-    padding: 20px 0 152px;
+    @apply py-5 px-0 pb-[152px];
   }
 }
 </style>

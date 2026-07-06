@@ -100,51 +100,30 @@ defineExpose({ reset, scrollPrev, scrollNext })
 
 <style scoped>
 .carousel {
-  position: relative;
+  @apply relative;
 }
 .carousel-viewport {
-  overflow: hidden;
+  @apply overflow-hidden;
 }
 .carousel-track {
-  display: flex;
-  transition: transform 0.3s ease;
+  @apply flex transition-transform duration-300 ease-in-out;
 }
 .carousel-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-  width: 34px;
-  height: 34px;
-  border: 0;
-  border-radius: 50%;
-  background: #fff;
-  color: #0f172a;
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-  padding: 0;
+  @apply absolute top-1/2 transform -translate-y-1/2 z-10 w-[34px] h-[34px] border-0 rounded-full bg-white text-slate-900 shadow-[0_4px_14px_rgba(15,23,42,0.12)] cursor-pointer inline-flex items-center justify-center transition-all duration-200 p-0;
 }
 .carousel-btn svg {
-  width: 20px;
-  height: 20px;
+  @apply w-5 h-5;
 }
 .carousel-btn:hover {
-  background: #f59e0b;
-  color: #fff;
+  @apply bg-amber-500 text-white;
 }
 .carousel-btn.disabled {
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-50%) scale(0.9);
+  @apply opacity-0 pointer-events-none transform -translate-y-1/2 scale-90;
 }
 .carousel-prev {
-  left: 12px;
+  @apply left-3;
 }
 .carousel-next {
-  right: 12px;
+  @apply right-3;
 }
 </style>

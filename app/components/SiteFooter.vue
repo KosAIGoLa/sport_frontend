@@ -56,72 +56,42 @@ function openTip(key) {
 
 <style scoped>
 footer {
-  margin-top: 50px;
-  width: 100%;
-  background: #25284d;
+  @apply mt-[50px] w-full bg-[#25284d];
 }
 footer .inner {
-  width: 1200px;
-  margin: auto;
-  text-align: center;
-  padding: 0 15px;
+  @apply w-[1200px] mx-auto text-center px-[15px];
 }
 footer .inner .logo-footer {
-  height: 84px;
-  padding-top: 16px;
-  margin: 0 auto;
+  @apply h-[84px] pt-4 mx-auto;
 }
 footer .inner .logo-footer img {
-  height: 100%;
+  @apply h-full;
 }
 footer .inner .guide {
-  padding-top: 47px;
+  @apply pt-[47px];
 }
 footer .inner .guide > div {
-  display: inline-block;
-  height: 22px;
-  margin-right: 65px;
-  font-size: 16px;
-  line-height: 22px;
+  @apply inline-block h-[22px] mr-[65px] text-base leading-[22px];
 }
 footer .inner .guide > div a {
-  color: #9aa0ff;
-  text-decoration: none;
+  @apply text-[#9aa0ff] no-underline;
 }
 footer .inner .guide > div a:hover {
-  color: #f8c21b;
+  @apply text-[#f8c21b];
 }
 footer .inner .guide > div:last-child {
-  margin-right: 0;
+  @apply mr-0;
 }
 footer .inner .desc {
-  font-size: 14px;
-  margin-top: 14px;
-  padding-bottom: 50px;
-  color: #6c71b4;
+  @apply text-sm mt-3.5 pb-[50px] text-[#6c71b4];
 }
 
 .footer-tip-mask {
-  position: fixed;
-  inset: 0;
-  z-index: 999;
-  background: rgba(2, 6, 23, 0.72);
-  backdrop-filter: blur(10px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @apply fixed inset-0 z-[999] bg-[rgba(2,6,23,0.72)] backdrop-blur-[10px] flex items-center justify-center;
 }
 
 .footer-tip {
-  width: 460px;
-  max-width: calc(100vw - 40px);
-  background: rgba(255, 255, 255, 0.96);
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  border-radius: 24px;
-  box-shadow: 0 28px 70px rgba(15, 23, 42, 0.22);
-  padding: 28px 32px 24px;
-  color: #111827;
-  animation: tipFade 0.22s ease-out;
+  @apply w-[460px] max-w-[calc(100vw-40px)] bg-white/[0.96] border border-white/[0.9] rounded-[24px] shadow-[0_28px_70px_rgba(15,23,42,0.22)] py-7 px-8 pb-6 text-[#111827] animate-[tipFade_0.22s_ease-out];
 }
 
 @keyframes tipFade {
@@ -130,42 +100,26 @@ footer .inner .desc {
 }
 
 .footer-tip-head {
-  font-size: 20px;
-  font-weight: 800;
-  margin-bottom: 14px;
-  color: #0f172a;
+  @apply text-xl font-extrabold mb-3.5 text-slate-900;
 }
 
 .footer-tip-body {
-  font-size: 15px;
-  line-height: 1.8;
-  color: #334155;
-  white-space: pre-line;
-  margin-bottom: 22px;
+  @apply text-[15px] leading-[1.8] text-slate-700 whitespace-pre-line mb-[22px];
 }
 
 .footer-tip-close {
-  width: 100%;
-  height: 44px;
-  border: 0;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #ffe178 0%, #ffc21c 100%);
-  color: #111827;
-  font-size: 15px;
-  font-weight: 800;
-  cursor: pointer;
-  box-shadow: 0 8px 22px rgba(248, 194, 27, 0.28);
+  @apply w-full h-11 border-0 rounded-full bg-[linear-gradient(135deg,#ffe178_0%,#ffc21c_100%)] text-[#111827] text-[15px] font-extrabold cursor-pointer shadow-[0_8px_22px_rgba(248,194,27,0.28)];
 }
 
 @media screen and (max-width: 1400px) {
   footer .inner {
-    width: 100%;
+    @apply w-full;
   }
 }
 
 @media (max-width: 768px) {
   footer {
-    display: none;
+    @apply hidden;
   }
 }
 </style>

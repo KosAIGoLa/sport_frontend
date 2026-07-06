@@ -21,7 +21,7 @@
             <p>加载中...</p>
           </div>
         </div>
-        <div class="inLiveRoom">进入直播间</div>
+        <div class="inLiveRoom" role="button" tabindex="0" @click="goRoom" @keydown.enter.prevent="goRoom">进入直播间</div>
         <div class="live-title" aria-hidden="true">
           <img class="live-cover" :src="rooms[currentRoom].cover" alt="">
           <div class="info">
@@ -50,11 +50,11 @@ import Player from 'xgplayer'
 import 'xgplayer/dist/index.min.css'
 
 const rooms = [
-  { title: '🔥世欧预  丹麦  VS  乌克兰', cover: '/assets/covers/hot1.png', poster: '/assets/covers/main-poster-bright.png', anchor: '初六', viewers: '5.39w' },
-  { title: '瑞典超 埃尔夫斯堡VS哈马比', cover: '/assets/covers/hot2.jpg', poster: '/assets/covers/hot2.jpg', anchor: '评述员阿虎', viewers: '9.63w' },
-  { title: '拉脱超：格洛比纳vs图库姆斯', cover: '/assets/covers/cover3.png', poster: '/assets/covers/cover3.png', anchor: '都教授', viewers: '8.38w' },
-  { title: '〖瑞典超〗埃尔夫斯堡 ▲ 哈马比', cover: '/assets/covers/cover1.jpg', poster: '/assets/covers/cover1.jpg', anchor: '八💥佰', viewers: '11.54w' },
-  { title: '世亚预 叙利亚 VS 伊朗', cover: '/assets/covers/hot5.jpg', poster: '/assets/covers/hot5.jpg', anchor: '高圆圆', viewers: '8.57w' }
+  { title: '🔥世欧预  丹麦  VS  乌克兰', cover: '/assets/covers/hot1.png', poster: '/assets/covers/main-poster-bright.png', anchor: '初六', viewers: '5.39w', roomId: '3150351' },
+  { title: '瑞典超 埃尔夫斯堡VS哈马比', cover: '/assets/covers/hot2.jpg', poster: '/assets/covers/hot2.jpg', anchor: '评述员阿虎', viewers: '9.63w', roomId: '506605' },
+  { title: '拉脱超：格洛比纳vs图库姆斯', cover: '/assets/covers/cover3.png', poster: '/assets/covers/cover3.png', anchor: '都教授', viewers: '8.38w', roomId: '896956' },
+  { title: '〖瑞典超〗埃尔夫斯堡 ▲ 哈马比', cover: '/assets/covers/cover1.jpg', poster: '/assets/covers/cover1.jpg', anchor: '八💥佰', viewers: '11.54w', roomId: '308116' },
+  { title: '世亚预 叙利亚 VS 伊朗', cover: '/assets/covers/hot5.jpg', poster: '/assets/covers/hot5.jpg', anchor: '高圆圆', viewers: '8.57w', roomId: '5435118' }
 ]
 const currentRoom = ref(0)
 const isLoading = ref(false)
@@ -100,397 +100,197 @@ onMounted(() => {
 watch(currentRoom, () => {
   initPlayer()
 })
+
+function goRoom() {
+  const roomId = rooms[currentRoom.value]?.roomId
+  if (!roomId) return
+  navigateTo(`/room/${roomId}`)
+}
 </script>
 
 <style scoped>
 .living-room {
-  height: 620px;
-  background:
-    linear-gradient(180deg, rgba(7, 10, 28, 0.32) 0%, rgba(7, 10, 28, 0.72) 100%),
-    url('/assets/banner.jpg') center/cover no-repeat;
-  position: relative;
-  overflow: hidden;
+  @apply h-[620px] bg-[linear-gradient(180deg,rgba(7,10,28,0.32)_0%,rgba(7,10,28,0.72)_100%),url('/assets/banner.jpg')_center/cover_no-repeat] relative overflow-hidden;
 }
 .living-room::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 20% 18%, rgba(255, 199, 28, 0.28), transparent 26%),
-    radial-gradient(circle at 82% 28%, rgba(33, 138, 255, 0.2), transparent 30%);
-  pointer-events: none;
+  @apply content-[''] absolute inset-0 bg-[radial-gradient(circle_at_20%_18%,rgba(255,199,28,0.28),transparent_26%),radial-gradient(circle_at_82%_28%,rgba(33,138,255,0.2),transparent_30%)] pointer-events-none;
 }
 .inner {
-  width: 1200px;
-  margin: 0 auto;
+  @apply w-[1200px] mx-auto;
 }
 .video-inner {
-  height: 620px;
-  padding-top: 92px;
-  display: flex;
-  justify-content: center;
-  position: relative;
-  z-index: 1;
+  @apply h-[620px] pt-[92px] flex justify-center relative z-[1];
 }
 .video-box {
-  width: 1015px;
-  height: 507px;
-  background: #000;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-right: 0;
-  border-radius: 24px 0 0 24px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.42);
+  @apply w-[1015px] h-[507px] bg-black border border-white/[0.16] border-r-0 rounded-l-3xl relative overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.42)];
 }
 .video-player {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  background: #000;
+  @apply w-full h-full relative bg-black;
 }
 .hero-status {
-  position: absolute;
-  top: 22px;
-  left: 24px;
-  z-index: 12;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  height: 34px;
-  padding: 0 14px;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 999px;
-  background: rgba(15, 23, 42, 0.48);
-  color: #fff;
-  font-size: 13px;
-  font-weight: 700;
-  backdrop-filter: blur(12px);
+  @apply absolute top-[22px] left-6 z-[12] inline-flex items-center gap-2 h-[34px] px-3.5 border border-white/[0.22] rounded-full bg-[rgba(15,23,42,0.48)] text-white text-[13px] font-bold backdrop-blur-[12px];
 }
 .live-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #22c55e;
-  box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.16);
+  @apply w-2 h-2 rounded-full bg-green-500 shadow-[0_0_0_6px_rgba(34,197,94,0.16)];
 }
 .hero-meta {
-  position: absolute;
-  right: 24px;
-  bottom: 84px;
-  left: 24px;
-  z-index: 12;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 24px;
-  color: #fff;
-  pointer-events: none;
+  @apply absolute right-6 bottom-[84px] left-6 z-[12] flex items-end justify-between gap-6 text-white pointer-events-none;
 }
 .hero-meta strong {
-  display: block;
-  max-width: 600px;
-  margin-top: 8px;
-  font-size: 22px;
-  line-height: 1.3;
-  letter-spacing: 0.2px;
-  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.36);
+  @apply block max-w-[600px] mt-2 text-[22px] leading-[1.3] tracking-[0.2px] drop-shadow-[0_4px_18px_rgba(0,0,0,0.36)];
 }
 .meta-label,
 .meta-count {
-  display: inline-flex;
-  align-items: center;
-  height: 30px;
-  padding: 0 12px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.14);
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 12px;
-  font-weight: 700;
-  backdrop-filter: blur(10px);
+  @apply inline-flex items-center h-[30px] px-3 rounded-full bg-white/[0.14] text-white/[0.9] text-xs font-bold backdrop-blur-[10px];
 }
 .meta-count {
-  white-space: nowrap;
+  @apply whitespace-nowrap;
 }
 .xgplayer-container {
-  width: 100%;
-  height: 100%;
-  border-radius: 18px;
-  overflow: hidden;
+  @apply w-full h-full rounded-[18px] overflow-hidden;
 }
-
 .xgplayer-container video {
-  object-fit: cover;
-  filter: brightness(1.2) contrast(1.1);
+  @apply object-cover brightness-[1.2] contrast-[1.1];
 }
 .video-mask {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.04) 0%, rgba(0, 0, 0, 0.12) 42%, rgba(0, 0, 0, 0.56) 100%);
-  z-index: 2;
-  pointer-events: none;
-  transition: background 0.3s;
+  @apply absolute top-0 left-0 w-full h-full bg-[linear-gradient(180deg,rgba(0,0,0,0.04)_0%,rgba(0,0,0,0.12)_42%,rgba(0,0,0,0.56)_100%)] z-[2] pointer-events-none transition-colors duration-300;
 }
 .video-box:hover .video-mask {
-  background: rgba(0, 0, 0, 0.3);
+  @apply bg-black/[0.3];
 }
 .play-btn {
-  width: 70px;
-  height: 70px;
-  cursor: pointer;
-  transition: transform 0.3s;
+  @apply w-[70px] h-[70px] cursor-pointer transition-transform duration-300;
 }
 .play-btn:hover {
-  transform: scale(1.1);
+  @apply scale-110;
 }
 .play-btn img {
-  width: 100%;
-  height: 100%;
+  @apply w-full h-full;
 }
 .loading {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.7);
-  color: #fff;
-  z-index: 5;
+  @apply absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center bg-black/[0.7] text-white z-[5];
 }
 .loading .imgRotate {
-  width: 50px;
-  height: 50px;
-  animation: rotate 1.5s linear infinite;
+  @apply w-[50px] h-[50px] animate-[rotate_1.5s_linear_infinite];
 }
 .loading-logo {
-  width: 60px;
-  margin-top: 10px;
+  @apply w-[60px] mt-2.5;
 }
 .loading p {
-  margin-top: 10px;
-  font-size: 14px;
+  @apply mt-2.5 text-sm;
 }
 @keyframes rotate {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
-
 .inLiveRoom {
-  position: absolute;
-  left: 50%;
-  top: 44%;
-  transform: translate(-50%, -50%);
-  border: 1px solid rgba(255, 255, 255, 0.36);
-  color: #111827;
-  height: 60px;
-  line-height: 60px;
-  padding: 0 30px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #fff2a8 0%, #ffc21c 100%);
-  box-shadow: 0 18px 42px rgba(248, 194, 27, 0.36);
-  font-size: 20px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-  z-index: 13;
+  @apply absolute left-1/2 top-[44%] -translate-x-1/2 -translate-y-1/2 border border-white/[0.36] text-[#111827] h-[60px] leading-[60px] px-[30px] rounded-full bg-[linear-gradient(135deg,#fff2a8_0%,#ffc21c_100%)] shadow-[0_18px_42px_rgba(248,194,27,0.36)] text-xl font-semibold cursor-pointer transition-all duration-200 z-[13];
 }
 .inLiveRoom::after {
-  content: '>';
-  margin-left: 10px;
-  font-size: 18px;
-  font-weight: 800;
+  @apply content-['>'] ml-2.5 text-lg font-extrabold;
 }
 .inLiveRoom:hover {
-  background: #f8c21b;
-  color: #fff;
+  @apply bg-[#f8c21b] text-white;
 }
-
 .live-title {
-  display: none;
-  position: absolute;
-  left: 10px;
-  bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #fff;
-  z-index: 10;
-  max-width: 60%;
+  @apply absolute left-2.5 bottom-2.5 flex items-center gap-2.5 text-white z-10 max-w-[60%];
 }
 .live-title .live-cover {
-  width: 48px;
-  height: 48px;
-  border-radius: 6px;
-  object-fit: cover;
-  border: 2px solid rgba(255,255,255,0.3);
+  @apply w-12 h-12 rounded-md object-cover border-2 border-white/[0.3];
 }
 .live-title .info h4 {
-  font-size: 14px;
-  font-weight: 500;
-  margin: 0 0 4px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  @apply text-sm font-medium m-0 mb-1 overflow-hidden whitespace-nowrap text-ellipsis;
 }
 .live-title .info p {
-  font-size: 12px;
-  color: rgba(255,255,255,0.8);
-  margin: 0;
+  @apply text-xs text-white/[0.8] m-0;
 }
-
 .video-list {
-  width: 185px;
-  height: 507px;
-  overflow: hidden;
-  border-radius: 0 24px 24px 0;
+  @apply w-[185px] h-[507px] overflow-hidden rounded-r-3xl;
 }
 .room-list {
-  list-style: none;
-  height: 100%;
-  overflow-y: auto;
-  padding: 10px 8px;
-  background: rgba(7, 10, 28, 0.86);
-  backdrop-filter: blur(14px);
+  @apply list-none h-full overflow-y-auto p-2 px-2 bg-[rgba(7,10,28,0.86)] backdrop-blur-[14px];
 }
 .room-list::-webkit-scrollbar {
-  width: 4px;
+  @apply w-1;
 }
 .room-list::-webkit-scrollbar-track {
-  background: transparent;
+  @apply bg-transparent;
 }
 .room-list::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 2px;
+  @apply bg-white/[0.3] rounded-sm;
 }
 .room-list li {
-  padding: 0 0 10px;
-  position: relative;
+  @apply pb-2.5 relative;
 }
 .room-list li a {
-  display: block;
-  width: 169px;
-  height: 98px;
-  position: relative;
-  border-radius: 14px;
-  overflow: hidden;
+  @apply block w-[169px] h-[98px] relative rounded-[14px] overflow-hidden;
 }
 .room-list li a img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 6px;
+  @apply block w-full h-full object-cover rounded-md;
 }
 .room-list li .room-title {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: 18px 8px 7px;
-  font-size: 12px;
-  color: #fff;
-  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  z-index: 2;
+  @apply absolute bottom-0 left-0 w-full px-2 pt-[18px] pb-[7px] text-xs text-white bg-[linear-gradient(to_top,rgba(0,0,0,0.7),transparent)] overflow-hidden whitespace-nowrap text-ellipsis z-[2];
 }
 .room-list li.active a::after,
 .room-list li a:hover::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: 2px solid #f8c21b;
-  border-radius: 6px;
-  box-sizing: border-box;
-  z-index: 3;
+  @apply content-[''] absolute top-0 left-0 w-full h-full border-2 border-[#f8c21b] rounded-md box-border z-[3];
 }
 .room-list li.active .left-arrow {
-  position: absolute;
-  top: 36px;
-  left: -6px;
-  width: 0;
-  height: 0;
-  border-top: 6px solid transparent;
-  border-bottom: 6px solid transparent;
-  border-right: 6px solid #f8c21b;
-  z-index: 4;
+  @apply absolute top-9 -left-1.5 w-0 h-0 border-y-[6px] border-y-transparent border-r-[6px] border-r-[#f8c21b] z-[4];
 }
 
 @media screen and (max-width: 1400px) {
   .inner {
-    width: 960px;
+    @apply w-[960px];
   }
   .living-room {
-    height: 528px;
-    background-image: url('/assets/banner-528.jpg');
+    @apply h-[528px] bg-[url('/assets/banner-528.jpg')] bg-cover;
   }
   .video-inner {
-    height: 528px;
-    padding-top: 74px;
+    @apply h-[528px] pt-[74px];
   }
   .video-box {
-    width: 810px;
-    height: 454px;
+    @apply w-[810px] h-[454px];
   }
   .video-list {
-    width: 150px;
-    height: 454px;
+    @apply w-[150px] h-[454px];
   }
   .room-list {
-    width: 150px;
-    padding: 10px 8px;
+    @apply w-[150px] p-2 px-2;
   }
   .room-list li a {
-    width: 132px;
-    height: 80px;
+    @apply w-[132px] h-20;
   }
   .room-list li .room-title {
-    font-size: 11px;
+    @apply text-[11px];
   }
   .room-list li.active .left-arrow {
-    top: 31px;
+    @apply top-[31px];
   }
   .play-btn {
-    width: 56px;
-    height: 56px;
+    @apply w-14 h-14;
   }
   .live-title .live-cover {
-    width: 40px;
-    height: 40px;
+    @apply w-10 h-10;
   }
   .live-title .info h4 {
-    font-size: 13px;
+    @apply text-[13px];
   }
   .hero-meta strong {
-    font-size: 18px;
-    max-width: 420px;
+    @apply text-lg max-w-[420px];
   }
   .hero-meta {
-    bottom: 72px;
+    @apply bottom-[72px];
   }
   .inLiveRoom {
-    top: 42%;
+    @apply top-[42%];
   }
 }
 
 @media (max-width: 768px) {
   .living-room {
-    height: auto;
-    background: #f5f5f5;
-    padding: 180px 0 0;
+    @apply h-auto bg-[#f5f5f5] pt-[180px];
   }
-
   .living-room::before,
   .video-list,
   .hero-status,
@@ -499,36 +299,20 @@ watch(currentRoom, () => {
   .live-title,
   .video-mask,
   .loading {
-    display: none;
+    @apply hidden;
   }
-
   .inner,
   .video-inner {
-    width: 100%;
-    height: auto;
-    padding: 0;
-    display: block;
+    @apply w-full h-auto p-0 block;
   }
-
   .video-box {
-    width: auto;
-    height: auto;
-    margin: 0 16px;
-    border: 0;
-    border-radius: 14px;
-    box-shadow: none;
-    background: transparent;
+    @apply w-auto h-auto mx-4 border-0 rounded-[14px] shadow-none bg-transparent;
   }
-
   .video-player {
-    aspect-ratio: 16 / 9;
-    border-radius: 14px;
-    overflow: hidden;
-    background: #000;
+    @apply aspect-[16/9] rounded-[14px] overflow-hidden bg-black;
   }
-
   .xgplayer-container {
-    border-radius: 14px;
+    @apply rounded-[14px];
   }
 }
 </style>

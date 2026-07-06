@@ -68,25 +68,18 @@ function openLogin(type) {
 
 <style>
 html {
-  scroll-behavior: smooth;
+  @apply scroll-smooth;
 }
 body {
-  margin: 0;
-  padding: 0;
-  font-family: Inter, PingFang SC, tahoma, arial, 'Microsoft Yahei', 'Hiragino Sans GB', sans-serif;
-  color: #111827;
-  background:
-    radial-gradient(circle at 12% 8%, rgba(255, 199, 28, 0.16), transparent 28%),
-    radial-gradient(circle at 88% 18%, rgba(33, 138, 255, 0.14), transparent 30%),
-    linear-gradient(180deg, #f8fafc 0%, #eef3f9 42%, #f8fafc 100%);
-  -webkit-font-smoothing: antialiased;
+  @apply m-0 p-0 font-sans text-[#111827] antialiased;
+  background: radial-gradient(circle at 12% 8%, rgba(255, 199, 28, 0.16), transparent 28%), radial-gradient(circle at 88% 18%, rgba(33, 138, 255, 0.14), transparent 30%), linear-gradient(180deg, #f8fafc 0%, #eef3f9 42%, #f8fafc 100%);
   text-rendering: optimizeLegibility;
 }
 * {
-  box-sizing: border-box;
+  @apply box-border;
 }
 a {
-  color: inherit;
+  @apply text-inherit;
 }
 ul,
 ol,
@@ -97,28 +90,25 @@ h3,
 h4,
 h5,
 h6 {
-  margin: 0;
-  padding: 0;
+  @apply m-0 p-0;
 }
 .index-wrapper {
-  min-height: 100vh;
-  overflow-x: hidden;
-  padding-bottom: 32px;
+  @apply min-h-screen overflow-x-hidden pb-8;
 }
 main {
-  padding-top: 0;
+  @apply pt-0;
 }
 ::selection {
-  background: rgba(255, 199, 28, 0.35);
+  @apply bg-[rgba(255,199,28,0.35)];
 }
 
 @media (max-width: 768px) {
   body {
-    background: #f5f5f5;
+    @apply bg-[#f5f5f5];
   }
 
   .index-wrapper {
-    padding-bottom: 152px;
+    @apply pb-[152px];
   }
 }
 </style>

@@ -39,121 +39,75 @@ const anchors = [
 
 <style scoped>
 .inner {
-  width: 1200px;
-  margin: 0 auto;
+  @apply w-[1200px] mx-auto;
 }
 .anchor {
-  position: relative;
-  margin-top: 48px;
-  background: rgba(255, 255, 255, 0.9);
-  height: 196px;
-  border: 1px solid rgba(255, 255, 255, 0.92);
-  border-radius: 24px;
-  box-shadow: 0 22px 60px rgba(15, 23, 42, 0.1);
-  backdrop-filter: blur(14px);
+  @apply relative mt-12 bg-white/[0.9] h-[196px] border border-white/[0.92] rounded-[24px] shadow-[0_22px_60px_rgba(15,23,42,0.1)] backdrop-blur-[14px];
 }
 .title-block {
-  position: absolute;
-  z-index: 10;
-  width: 100%;
-  top: -31px;
-  text-align: center;
-  pointer-events: none;
+  @apply absolute z-10 w-full -top-[31px] text-center pointer-events-none;
 }
 .title-block img {
-  width: 100%;
-  height: auto;
-  display: block;
+  @apply w-full h-auto block;
 }
 .anchor-swiper-container {
-  margin: 0 auto;
-  border: 0;
-  height: 196px;
-  width: 1100px;
-  padding: 48px 0 38px;
-  position: relative;
+  @apply mx-auto border-0 h-[196px] w-[1100px] pt-12 px-0 pb-[38px] relative;
 }
 :deep(.carousel-slide.person) {
-  height: 106px;
-  padding: 0 20px;
-  font-size: 14px;
-  text-align: center;
-  cursor: pointer;
+  @apply h-[106px] px-5 text-sm text-center cursor-pointer;
 }
 :deep(.carousel-slide.person) a {
-  display: block;
-  text-decoration: none;
-  color: #333;
+  @apply block no-underline text-[#333];
 }
 :deep(.carousel-slide.person) .avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin: 0 auto 5px;
-  display: block;
-  border: 3px solid #fff;
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
-  transition: all 0.2s;
+  @apply w-20 h-20 rounded-full object-cover mx-auto mb-[5px] block border-[3px] border-white shadow-[0_10px_24px_rgba(15,23,42,0.12)] transition-all duration-200;
 }
 :deep(.carousel-slide.person) a:hover .avatar {
-  border-color: #ffc21c;
-  transform: scale(1.05);
+  @apply border-[#ffc21c] scale-[1.05];
 }
 :deep(.carousel-slide.person) .ellipsis {
-  font-size: 14px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  @apply text-sm overflow-hidden whitespace-nowrap text-ellipsis;
 }
 :deep(.carousel-btn) {
-  width: 30px;
-  height: 30px;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 999px;
-  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.12);
+  @apply w-[30px] h-[30px] bg-white/[0.8] rounded-full shadow-[0_8px_22px_rgba(15,23,42,0.12)];
 }
 :deep(.carousel-btn) svg {
-  width: 30px;
-  height: 30px;
-  color: #979797;
+  @apply w-[30px] h-[30px] text-[#979797];
 }
 :deep(.carousel-btn:hover) svg {
-  color: #f8c21b;
+  @apply text-[#f8c21b];
 }
 :deep(.carousel-prev) {
-  left: 0;
+  @apply left-0;
 }
 :deep(.carousel-next) {
-  right: 0;
+  @apply right-0;
 }
 
 @media screen and (max-width: 1400px) {
   .inner {
-    width: 1200px;
+    @apply w-[1200px];
   }
   .anchor {
-    margin-top: 58px;
-    height: 196px;
+    @apply mt-[58px] h-[196px];
   }
   .title-block {
-    top: -31px;
+    @apply -top-[31px];
   }
   .anchor-swiper-container {
-    width: 1100px;
+    @apply w-[1100px];
   }
   :deep(.carousel-slide.person) {
-    padding: 0 20px;
+    @apply px-5;
   }
   :deep(.carousel-slide.person) .avatar {
-    width: 80px;
-    height: 80px;
+    @apply w-20 h-20;
   }
 }
 
 @media (max-width: 768px) {
   .anchor {
-    display: none;
+    @apply hidden;
   }
 }
 </style>

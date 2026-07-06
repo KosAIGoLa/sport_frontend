@@ -1,5 +1,5 @@
 <template>
-  <component :is="tag" class="only-mobile">
+  <component :is="tag" class="md:hidden">
     <slot />
   </component>
 </template>

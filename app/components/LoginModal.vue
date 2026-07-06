@@ -197,348 +197,161 @@ function submit() {
 
 <style scoped>
 .header-modal {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  left: 0;
-  top: 0;
-  background: rgba(15, 23, 42, 0.65);
-  backdrop-filter: blur(12px);
-  z-index: 101;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: fadeIn 0.25s ease;
+  @apply fixed w-full h-full left-0 top-0 bg-[rgba(15,23,42,0.65)] backdrop-blur-[12px] z-[101] flex items-center justify-center animate-[fadeIn_0.25s_ease];
 }
-
 .mobile-back {
-  display: none;
+  @apply hidden;
 }
 .login-window {
-  position: relative;
-  width: 420px;
-  background: #fff;
-  border-radius: 24px;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.22);
-  overflow: hidden;
-  animation: slideUp 0.35s ease;
+  @apply relative w-[420px] bg-white rounded-[24px] shadow-[0_24px_80px_rgba(0,0,0,0.22)] overflow-hidden animate-[slideUp_0.35s_ease];
 }
 .login-window.register .window-inner {
-  padding: 28px 36px 34px;
+  @apply py-7 px-9 pb-[34px];
 }
 .login-window.register .modal-header {
-  margin-bottom: 22px;
+  @apply mb-[22px];
 }
 .login-window.register .error-tip {
-  min-height: 16px;
-  margin: 4px 0 6px;
+  @apply min-h-[16px] my-1 mb-1.5;
 }
 .login-window.register .agreement {
-  margin-top: 10px;
+  @apply mt-2.5;
 }
 .login-window.register .bottom {
-  margin-top: 18px;
+  @apply mt-[18px];
 }
 .login-window.register .submit {
-  height: 44px;
-  line-height: 44px;
+  @apply h-11 leading-[44px];
 }
 .modal-top-deco {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 6px;
-  background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 50%, #f59e0b 100%);
-  background-size: 200% 100%;
-  animation: shimmer 3s linear infinite;
-  z-index: 1;
+  @apply absolute top-0 left-0 right-0 h-1.5 bg-[linear-gradient(90deg,#f59e0b_0%,#fbbf24_50%,#f59e0b_100%)] bg-[length:200%_100%] animate-[shimmer_3s_linear_infinite] z-[1];
 }
 .modal-glow {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(60px);
-  opacity: 0.18;
-  pointer-events: none;
-  z-index: 0;
+  @apply absolute rounded-full blur-[60px] opacity-[0.18] pointer-events-none z-0;
 }
 .modal-glow-1 {
-  width: 180px;
-  height: 180px;
-  top: -60px;
-  right: -50px;
-  background: #fbbf24;
+  @apply w-[180px] h-[180px] -top-[60px] -right-[50px] bg-amber-400;
 }
 .modal-glow-2 {
-  width: 140px;
-  height: 140px;
-  bottom: -40px;
-  left: -40px;
-  background: #60a5fa;
+  @apply w-[140px] h-[140px] -bottom-[40px] -left-[40px] bg-blue-400;
 }
 .close {
-  position: absolute;
-  top: 18px;
-  right: 18px;
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-  opacity: 0.55;
-  z-index: 10;
-  transition: opacity 0.2s, transform 0.2s;
+  @apply absolute top-[18px] right-[18px] w-[18px] h-[18px] cursor-pointer opacity-[0.55] z-10 transition-[opacity,transform] duration-200;
 }
 .close:hover {
-  opacity: 1;
-  transform: rotate(90deg);
+  @apply opacity-100 rotate-90;
 }
 .window-inner {
-  position: relative;
-  z-index: 2;
-  padding: 38px 40px 42px;
+  @apply relative z-[2] py-[38px] px-10 pb-[42px];
 }
 .modal-header {
-  margin-bottom: 32px;
+  @apply mb-8;
 }
 .modal-tabs {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-  border-bottom: 2px solid #f1f5f9;
+  @apply flex items-center gap-7 border-b-2 border-slate-100;
 }
 .modal-tabs button {
-  position: relative;
-  border: 0;
-  background: transparent;
-  padding: 0 4px 14px;
-  color: #94a3b8;
-  font-size: 20px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: color 0.2s;
+  @apply relative border-0 bg-transparent px-1 pb-3.5 text-slate-400 text-xl font-bold cursor-pointer transition-colors duration-200;
 }
 .modal-tabs button.active {
-  color: #0f172a;
+  @apply text-slate-900;
 }
 .modal-tabs button.active::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -2px;
-  width: 100%;
-  height: 3px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 100%);
+  @apply content-[''] absolute left-0 -bottom-0.5 w-full h-[3px] rounded-full bg-[linear-gradient(90deg,#f59e0b_0%,#fbbf24_100%)];
 }
 .modal-accent {
-  margin-top: 18px;
-  color: #64748b;
-  font-size: 13px;
-  line-height: 1.5;
+  @apply mt-[18px] text-slate-500 text-[13px] leading-[1.5];
 }
 .phone-input-wrapper {
-  position: relative;
+  @apply relative;
 }
 .country-code-box {
-  display: inline-flex;
-  align-items: center;
-  cursor: pointer;
-  margin-right: 10px;
-  padding-right: 10px;
-  border-right: 1px solid #e2e8f0;
-  font-size: 14px;
-  color: #0f172a;
-  font-weight: 600;
-  white-space: nowrap;
+  @apply inline-flex items-center cursor-pointer mr-2.5 pr-2.5 border-r border-slate-200 text-sm text-slate-900 font-semibold whitespace-nowrap;
 }
 .triangle {
-  display: inline-block;
-  width: 0;
-  height: 0;
-  border-left: 4px solid transparent;
-  border-right: 4px solid transparent;
-  border-top: 5px solid #f59e0b;
-  margin-left: 5px;
+  @apply inline-block w-0 h-0 border-l-4 border-r-4 border-t-[5px] border-l-transparent border-r-transparent border-t-amber-500 ml-[5px];
 }
 .country-code-list {
-  position: absolute;
-  top: calc(100% + 6px);
-  left: 0;
-  width: 100%;
-  max-height: 205px;
-  z-index: 103;
-  background: #fff;
-  overflow-y: auto;
-  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12);
-  border-radius: 12px;
-  border: 1px solid #f1f5f9;
-  padding: 8px 0;
+  @apply absolute top-[calc(100%+6px)] left-0 w-full max-h-[205px] z-[103] bg-white overflow-y-auto shadow-[0_12px_32px_rgba(15,23,42,0.12)] rounded-xl border border-slate-100 py-2;
 }
 .country-code-list ul {
-  font-size: 14px;
-  cursor: pointer;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  @apply text-sm cursor-pointer list-none m-0 p-0;
 }
 .country-code-list li {
-  height: 40px;
-  line-height: 40px;
-  padding: 0 18px;
-  display: flex;
-  justify-content: space-between;
-  transition: background 0.15s;
+  @apply h-10 leading-10 px-[18px] flex justify-between transition-colors duration-150;
 }
 .country-code-list li:hover {
-  background: #f8fafc;
+  @apply bg-slate-50;
 }
 .country-code-title {
-  cursor: default;
-  background: #fff;
-  font-weight: 700;
-  color: #64748b;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  @apply cursor-default bg-white font-bold text-slate-500 text-xs uppercase tracking-[0.5px];
 }
 .eye {
-  cursor: pointer;
-  width: 20px;
-  height: 20px;
-  color: #94a3b8;
-  transition: color 0.2s;
+  @apply cursor-pointer w-5 h-5 text-slate-400 transition-colors duration-200;
 }
 .eye:hover {
-  color: #f59e0b;
+  @apply text-amber-500;
 }
 .eye svg {
-  width: 100%;
-  height: 100%;
+  @apply w-full h-full;
 }
 .error-tip {
-  width: 100%;
-  min-height: 20px;
-  font-size: 12px;
-  color: #ef4444;
-  margin: 6px 0 8px;
-  line-height: 1.4;
+  @apply w-full min-h-[20px] text-xs text-red-500 my-1.5 mb-2 leading-[1.4];
 }
 .btn-verify {
-  height: 34px;
-  padding: 0 12px;
-  font-size: 12px;
-  font-weight: 600;
-  text-align: center;
-  line-height: 34px;
-  background: #fff;
-  border: 1px solid #fbbf24;
-  border-radius: 8px;
-  cursor: pointer;
-  color: #f59e0b;
-  transition: all 0.2s;
-  white-space: nowrap;
+  @apply h-[34px] px-3 text-xs font-semibold text-center leading-[34px] bg-white border border-amber-400 rounded-lg cursor-pointer text-amber-500 transition-all duration-200 whitespace-nowrap;
 }
 .btn-verify:hover {
-  background: #f59e0b;
-  color: #fff;
+  @apply bg-amber-500 text-white;
 }
 .agreement {
-  font-size: 13px;
-  line-height: 20px;
-  margin-top: 18px;
+  @apply text-[13px] leading-5 mt-[18px];
 }
 .agreement-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #475569;
-  flex-wrap: wrap;
-}
-.forget {
-  margin-left: auto;
+  @apply flex items-center gap-2 text-slate-600 flex-wrap;
 }
 .gou {
-  width: 18px;
-  height: 18px;
-  border: 1px solid #cbd5e1;
-  border-radius: 5px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-  flex-shrink: 0;
+  @apply w-[18px] h-[18px] border border-slate-300 rounded-[5px] cursor-pointer inline-flex items-center justify-center transition-all duration-200 shrink-0;
 }
 .gou.active {
-  background: #f59e0b;
-  border-color: #f59e0b;
+  @apply bg-amber-500 border-amber-500;
 }
 .gou.active::after {
-  content: '';
-  width: 5px;
-  height: 9px;
-  border: solid #fff;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg) translate(-1px, -1px);
+  @apply content-[''] w-[5px] h-[9px] border-white border-0 border-r-2 border-b-2 rotate-45 -translate-x-px -translate-y-px;
 }
 .highlight {
-  color: #f59e0b;
-  cursor: pointer;
-  font-weight: 600;
+  @apply text-amber-500 cursor-pointer font-semibold;
 }
 .forget {
-  font-size: 13px;
-  color: #64748b;
-  cursor: pointer;
-  transition: color 0.2s;
+  @apply ml-auto text-[13px] text-slate-500 cursor-pointer transition-colors duration-200;
 }
 .forget:hover {
-  color: #f59e0b;
+  @apply text-amber-500;
 }
 .bottom {
-  margin-top: 28px;
+  @apply mt-7;
 }
 .bottom-hint {
-  margin-top: 16px;
-  text-align: center;
-  font-size: 13px;
-  color: #64748b;
+  @apply mt-4 text-center text-[13px] text-slate-500;
 }
 .login-jump {
-  cursor: pointer;
-  color: #f59e0b;
-  font-weight: 700;
-  margin-left: 4px;
-  transition: color 0.2s;
+  @apply cursor-pointer text-amber-500 font-bold ml-1 transition-colors duration-200;
 }
 .login-jump:hover {
-  color: #d97706;
+  @apply text-amber-600;
 }
 .submit {
-  width: 100%;
-  height: 50px;
-  background: #e2e8f0;
-  border-radius: 12px;
-  text-align: center;
-  line-height: 50px;
-  font-size: 16px;
-  font-weight: 700;
-  color: #94a3b8;
-  cursor: not-allowed;
-  transition: all 0.2s;
+  @apply w-full h-[50px] bg-slate-200 rounded-xl text-center leading-[50px] text-base font-bold text-slate-400 cursor-not-allowed transition-all duration-200;
 }
 .submit.active {
-  color: #fff;
-  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
-  cursor: pointer;
-  box-shadow: 0 8px 24px rgba(251, 191, 36, 0.35);
+  @apply text-white bg-[linear-gradient(135deg,#f59e0b_0%,#fbbf24_100%)] cursor-pointer shadow-[0_8px_24px_rgba(251,191,36,0.35)];
 }
 .submit.active:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(251, 191, 36, 0.45);
+  @apply -translate-y-0.5 shadow-[0_12px_30px_rgba(251,191,36,0.45)];
 }
 
 .mobile-bottom-actions {
-  display: none;
+  @apply hidden;
 }
 @keyframes fadeIn {
   from { opacity: 0; }
@@ -555,20 +368,11 @@ function submit() {
 
 @media (max-width: 768px) {
   .header-modal {
-    inset: 0;
-    background: #fff;
-    backdrop-filter: none;
-    align-items: stretch;
-    justify-content: stretch;
+    @apply inset-0 bg-white backdrop-blur-none items-stretch justify-stretch;
   }
 
   .login-window {
-    width: 100%;
-    min-height: 100vh;
-    border-radius: 0;
-    box-shadow: none;
-    animation: none;
-    overflow: auto;
+    @apply w-full min-h-screen rounded-none shadow-none animate-none overflow-auto;
   }
 
   .modal-glow,
@@ -578,155 +382,104 @@ function submit() {
   .modal-tabs,
   .modal-accent,
   :deep(.social-login) {
-    display: none;
+    @apply hidden;
   }
 
   .close {
-    display: none;
+    @apply hidden;
   }
 
   .window-inner {
-    padding: 20px 24px 52px;
+    @apply py-5 px-6 pb-[52px];
   }
 
   .mobile-back {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    margin-bottom: 44px;
-    border: 0;
-    background: transparent;
-    color: #111;
-    padding: 0;
+    @apply inline-flex items-center justify-center w-8 h-8 mb-11 border-0 bg-transparent text-[#111] p-0;
   }
 
   .mobile-back svg {
-    width: 28px;
-    height: 28px;
-    stroke: currentColor;
-    stroke-width: 2.2;
-    fill: none;
+    @apply w-7 h-7 stroke-current stroke-[2.2] fill-none;
   }
 
   .modal-header {
-    margin-bottom: 24px;
+    @apply mb-6;
   }
 
   .modal-header::before {
-    content: '登录';
-    display: block;
-    font-size: 30px;
-    font-weight: 800;
-    color: #222;
-    margin-bottom: 18px;
+    @apply content-['登录'] block text-[30px] font-extrabold text-[#222] mb-[18px];
   }
 
   .phone-box,
   .password-box {
-    margin-bottom: 22px;
+    @apply mb-[22px];
   }
 
   :deep(.form-input) {
-    height: 54px;
-    padding: 0;
-    border: 0;
-    border-bottom: 1px solid #ececec;
-    border-radius: 0;
-    background: transparent;
-    box-shadow: none;
+    @apply h-[54px] p-0 border-0 border-b border-[#ececec] rounded-none bg-transparent shadow-none;
   }
 
   :deep(.form-input.focused) {
-    border-color: transparent;
-    border-bottom-color: #ececec;
-    background: transparent;
-    box-shadow: none;
+    @apply border-transparent border-b-[#ececec] bg-transparent shadow-none;
   }
 
   :deep(.form-input-icon) {
-    display: none;
+    @apply hidden;
   }
 
   :deep(.form-input input) {
-    font-size: 15px;
-    color: #222;
-  }
-
-  :deep(.form-input input::placeholder) {
-    color: #9a9a9a;
+    @apply text-[15px] text-[#222] placeholder:text-[#9a9a9a];
   }
 
   .type-content {
-    padding-top: 0;
+    @apply pt-0;
   }
 
   .agreement {
-    margin: 4px 0 30px;
+    @apply my-1 mb-[30px];
   }
 
   .agreement-row {
-    align-items: center;
-    color: #9a9a9a;
-    font-size: 11px;
-    gap: 6px;
+    @apply items-center text-[#9a9a9a] text-[11px] gap-1.5;
   }
 
   .agreement-row .gou {
-    display: none;
+    @apply hidden;
   }
 
   .agreement-row .highlight {
-    color: #f5b719;
+    @apply text-[#f5b719];
   }
 
   .agreement-row .forget {
-    display: none;
+    @apply hidden;
   }
 
   .submit {
-    height: 58px;
-    line-height: 58px;
-    border-radius: 999px;
-    background: #eef1f7;
-    color: #b8c2cf;
-    box-shadow: none;
-    font-size: 17px;
-    font-weight: 800;
+    @apply h-[58px] leading-[58px] rounded-full bg-[#eef1f7] text-[#b8c2cf] shadow-none text-[17px] font-extrabold;
   }
 
   .submit.active {
-    background: linear-gradient(135deg, #ffe178 0%, #ffc21c 100%);
-    color: #111827;
+    @apply bg-[linear-gradient(135deg,#ffe178_0%,#ffc21c_100%)] text-[#111827];
   }
 
   .bottom {
-    margin-top: 0;
+    @apply mt-0;
   }
 
   .bottom-hint {
-    display: none;
+    @apply hidden;
   }
 
   .mobile-bottom-actions {
-    margin-top: 34px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    @apply mt-[34px] flex items-center justify-between;
   }
 
   .mobile-link-btn {
-    border: 0;
-    background: transparent;
-    padding: 0;
-    color: #333;
-    font-size: 14px;
-    font-weight: 500;
+    @apply border-0 bg-transparent p-0 text-[#333] text-sm font-medium;
   }
 
   .mobile-link-btn--primary {
-    font-weight: 700;
+    @apply font-bold;
   }
 }
 </style>

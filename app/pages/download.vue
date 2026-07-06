@@ -32,183 +32,109 @@ useHead({
 
 <style scoped>
 .download-page {
-  min-height: 100vh;
-  background:
-    radial-gradient(circle at 12% 0%, rgba(255, 199, 28, 0.18), transparent 28%),
-    radial-gradient(circle at 86% 12%, rgba(33, 138, 255, 0.14), transparent 30%),
-    linear-gradient(180deg, #f8fafc 0%, #eef3f9 52%, #f8fafc 100%);
-  color: #111827;
+  @apply min-h-screen text-[#111827];
+  background: radial-gradient(circle at 12% 0%, rgba(255, 199, 28, 0.18), transparent 28%), radial-gradient(circle at 86% 12%, rgba(33, 138, 255, 0.14), transparent 30%), linear-gradient(180deg, #f8fafc 0%, #eef3f9 52%, #f8fafc 100%);
 }
 
 .download-header {
-  padding: 24px 0;
-  text-align: center;
+  @apply py-6 text-center;
 }
 
 .download-logo {
-  display: inline-block;
+  @apply inline-block;
 }
 
 .download-logo img {
-  width: 160px;
-  height: auto;
+  @apply w-[160px] h-auto;
 }
 
 .download-main {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px 80px;
+  @apply flex items-center justify-center py-10 px-5 pb-20;
 }
 
 .download-card {
-  width: 420px;
-  max-width: 100%;
-  padding: 40px 32px;
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  border-radius: 24px;
-  box-shadow: 0 22px 60px rgba(15, 23, 42, 0.12);
-  text-align: center;
-  backdrop-filter: blur(14px);
+  @apply w-[420px] max-w-full py-10 px-8 bg-white/[0.92] border border-white/[0.9] rounded-[24px] shadow-[0_22px_60px_rgba(15,23,42,0.12)] text-center backdrop-blur-[14px];
 }
 
 .download-qr {
-  width: 140px;
-  height: 140px;
-  margin-bottom: 24px;
-  border-radius: 12px;
+  @apply w-[140px] h-[140px] mb-6 rounded-xl;
 }
 
 .download-card h1 {
-  margin: 0 0 12px;
-  font-size: 22px;
-  font-weight: 800;
+  @apply m-0 mb-3 text-[22px] font-extrabold;
 }
 
 .download-desc {
-  margin: 0 0 24px;
-  color: #64748b;
-  font-size: 14px;
-  line-height: 1.6;
+  @apply m-0 mb-6 text-slate-500 text-sm leading-relaxed;
 }
 
 .download-tips {
-  text-align: left;
-  padding: 18px 20px;
-  background: #fffbeb;
-  border: 1px solid rgba(251, 191, 36, 0.25);
-  border-radius: 14px;
-  margin-bottom: 24px;
+  @apply text-left py-[18px] px-5 bg-amber-50 border border-[rgba(251,191,36,0.25)] rounded-[14px] mb-6;
 }
 
 .download-tips p {
-  margin: 0 0 8px;
-  color: #92400e;
-  font-size: 14px;
-  font-weight: 700;
+  @apply m-0 mb-2 text-amber-800 text-sm font-bold;
 }
 
 .download-tips ul {
-  margin: 0;
-  padding-left: 18px;
-  color: #a16207;
-  font-size: 13px;
-  line-height: 1.8;
+  @apply m-0 pl-[18px] text-yellow-700 text-[13px] leading-[1.8];
 }
 
 .download-back {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 44px;
-  padding: 0 28px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #ffe178 0%, #ffc21c 100%);
-  color: #111827;
-  font-size: 15px;
-  font-weight: 800;
-  text-decoration: none;
-  transition: transform 0.2s;
+  @apply inline-flex items-center justify-center h-11 px-7 rounded-full bg-[linear-gradient(135deg,#ffe178_0%,#ffc21c_100%)] text-[#111827] text-[15px] font-extrabold no-underline transition-transform duration-200;
 }
 
 .download-back:hover {
-  transform: translateY(-2px);
+  @apply -translate-y-0.5;
 }
 
 @media (max-width: 768px) {
   .download-page {
-    background:
-      linear-gradient(180deg, rgba(255, 198, 26, 0.12) 0%, rgba(255, 198, 26, 0.03) 32%, rgba(248, 250, 252, 0.98) 100%),
-      #f8fafc;
+    background: linear-gradient(180deg, rgba(255, 198, 26, 0.12) 0%, rgba(255, 198, 26, 0.03) 32%, rgba(248, 250, 252, 0.98) 100%), #f8fafc;
   }
 
   .download-header {
-    height: 68px;
-    padding: 0 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(32, 33, 36, 0.9);
-    backdrop-filter: blur(14px);
-    position: sticky;
-    top: 0;
-    z-index: 20;
+    @apply h-[68px] px-4 flex items-center justify-center bg-[rgba(32,33,36,0.9)] backdrop-blur-[14px] sticky top-0 z-[20];
   }
 
   .download-logo img {
-    width: 158px;
+    @apply w-[158px];
   }
 
   .download-main {
-    padding: 24px 16px 40px;
-    align-items: stretch;
+    @apply py-6 px-4 pb-10 items-stretch;
   }
 
   .download-card {
-    width: 100%;
-    padding: 28px 20px;
-    border-radius: 20px;
-    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+    @apply w-full py-7 px-5 rounded-[20px] shadow-[0_12px_30px_rgba(15,23,42,0.08)];
   }
 
   .download-qr {
-    width: 168px;
-    height: 168px;
-    margin-bottom: 20px;
+    @apply w-[168px] h-[168px] mb-5;
   }
 
   .download-card h1 {
-    font-size: 28px;
-    line-height: 1.2;
+    @apply text-[28px] leading-tight;
   }
 
   .download-desc {
-    margin-bottom: 20px;
-    font-size: 16px;
-    line-height: 1.7;
+    @apply mb-5 text-base leading-[1.7];
   }
 
   .download-tips {
-    padding: 16px;
-    margin-bottom: 22px;
-    border-radius: 16px;
+    @apply p-4 mb-[22px] rounded-2xl;
   }
 
   .download-tips p {
-    font-size: 15px;
+    @apply text-[15px];
   }
 
   .download-tips ul {
-    padding-left: 20px;
-    font-size: 14px;
-    line-height: 1.8;
+    @apply pl-5 text-sm leading-[1.8];
   }
 
   .download-back {
-    width: 100%;
-    height: 50px;
-    font-size: 16px;
+    @apply w-full h-[50px] text-base;
   }
 }
 </style>

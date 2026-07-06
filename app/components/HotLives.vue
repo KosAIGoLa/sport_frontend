@@ -47,158 +47,106 @@ const hotLives = [
 
 <style scoped>
 .inner {
-  width: 1200px;
-  margin: 0 auto;
+  @apply w-[1200px] mx-auto;
 }
 .hot {
-  margin-top: 42px;
-  position: relative;
+  @apply mt-[42px] relative;
 }
 .hot-title {
-  margin-bottom: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  @apply mb-[18px] flex items-center justify-between;
 }
 .hot-live {
-  vertical-align: middle;
+  @apply align-middle;
 }
 .hot-live img {
-  width: 183px;
-  margin-top: 2px;
+  @apply w-[183px] mt-0.5;
 }
 .hot-title .more {
-  margin-top: 12px;
-  color: #777;
-  font-size: 14px;
-  font-weight: 400;
-  background: url('/assets/icon-more.png') no-repeat right;
-  padding-right: 13px;
-  background-position: right center;
-  background-size: 10px auto;
-  cursor: pointer;
-  text-decoration: none;
-  float: right;
+  @apply mt-3 text-[#777] text-sm font-normal bg-[url('/assets/icon-more.png')_no-repeat_right_center] pr-[13px] bg-[length:10px_auto] cursor-pointer no-underline float-right;
 }
 .hot-title .more:hover {
-  color: #ffc71c;
-  background: url('/assets/icon-more-hover.png') no-repeat right;
-  background-position: right center;
-  background-size: 10px auto;
+  @apply text-[#ffc71c] bg-[url('/assets/icon-more-hover.png')_no-repeat_right_center] bg-[length:10px_auto];
 }
 .hot-content {
-  list-style: none;
-  font-size: 0;
-  padding: 0;
-  margin: 0;
+  @apply list-none text-[0] p-0 m-0;
 }
 .hot-content li {
-  height: 236px;
-  width: 285px;
-  margin: 0 20px 20px 0;
-  background-color: #fff;
-  display: inline-block;
-  border-radius: 18px;
-  vertical-align: top;
-  overflow: hidden;
-  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.08);
-  transition: transform 0.22s, box-shadow 0.22s;
+  @apply h-[236px] w-[285px] mr-5 mb-5 bg-white inline-block rounded-[18px] align-top overflow-hidden shadow-[0_14px_36px_rgba(15,23,42,0.08)] transition-[transform,box-shadow] duration-[0.22s];
 }
 .hot-content li:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 24px 54px rgba(15, 23, 42, 0.16);
+  @apply -translate-y-1.5 shadow-[0_24px_54px_rgba(15,23,42,0.16)];
 }
 .hot-content li:nth-child(4n) {
-  margin-right: 0;
+  @apply mr-0;
 }
 .hot-content li :deep(.live-card) {
-  border-radius: 18px;
-  overflow: hidden;
-  height: 100%;
+  @apply rounded-[18px] overflow-hidden h-full;
 }
 
 @media screen and (max-width: 1400px) {
   .inner {
-    width: 960px;
+    @apply w-[960px];
   }
   .hot {
-    margin-top: 36px;
+    @apply mt-9;
   }
   .hot-content li {
-    height: 196px;
-    width: 228px;
-    margin: 0 16px 56px 0;
+    @apply h-[196px] w-[228px] mr-4 mb-14;
   }
 }
 
 @media (max-width: 768px) {
   .inner {
-    width: 100%;
+    @apply w-full;
   }
 
   .hot {
-    margin-top: 24px;
-    padding: 0 16px;
+    @apply mt-6 px-4;
   }
 
   .hot-title {
-    margin-bottom: 14px;
+    @apply mb-3.5;
   }
 
   .hot-live img {
-    width: 146px;
+    @apply w-[146px];
   }
 
   .hot-title .more {
-    display: none;
+    @apply hidden;
   }
 
   .hot-content {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px;
+    @apply grid grid-cols-2 gap-3.5;
   }
 
   .hot-content li,
   .hot-content li:nth-child(4n) {
-    width: auto;
-    height: auto;
-    margin: 0;
-    border-radius: 14px;
-    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+    @apply w-auto h-auto m-0 rounded-[14px] shadow-[0_10px_24px_rgba(15,23,42,0.08)];
   }
 
   .hot-content li:hover {
-    transform: none;
-    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+    @apply transform-none shadow-[0_10px_24px_rgba(15,23,42,0.08)];
   }
 
   .hot-content li :deep(.live-card__cover) {
-    border-radius: 14px 14px 0 0;
-    height: 122px;
+    @apply rounded-t-[14px] h-[122px];
   }
 
   .hot-content li :deep(.live-card__img) {
-    border-radius: 14px 14px 0 0;
+    @apply rounded-t-[14px];
   }
 
   .hot-content li :deep(.live-card__info) {
-    padding: 10px 10px 12px;
-    background: #fff;
+    @apply p-2.5 pb-3 bg-white;
   }
 
   .hot-content li :deep(.live-card__title) {
-    font-size: 13px;
-    line-height: 1.4;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    white-space: normal;
+    @apply text-[13px] leading-[1.4] line-clamp-2 whitespace-normal;
   }
 
   .hot-content li :deep(.live-card__info-meta) {
-    margin-top: 6px;
-    font-size: 12px;
+    @apply mt-1.5 text-xs;
   }
 }
 </style>
