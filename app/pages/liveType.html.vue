@@ -1,6 +1,6 @@
 <template>
   <div class="live-type-page" :style="{ '--live-title': `'${t('page.liveCenterTitle')}'`, '--live-subtitle': `'${t('page.liveCenterSubtitle')}'` }">
-    <PageHeader page="live" :is-logged-in="isLoggedIn" :count="4" :active-mobile-tab="mobileTab" mobile-aria-label="直播分类" @login="openLogin" @logout="isLoggedIn = false" />
+    <PageHeader page="live" :is-logged-in="isLoggedIn" :count="4" :active-mobile-tab="mobileTab" mobile-aria-label="直播分类" @login="openLogin" @logout="handleLogout" />
     <main class="live-type-main">
       <LiveCategory
         title-image="/assets/hot-live.png"
@@ -16,7 +16,7 @@
     <LoginModal
       v-model:visible="loginVisible"
       :type="loginType"
-      @success="isLoggedIn = true; loginVisible = false"
+      @success="handleLogin(); loginVisible = false"
     />
     <MobileStickyBar :is-logged-in="isLoggedIn" active-tab="live" @login="openLogin" />
   </div>
@@ -31,7 +31,7 @@ const { t } = useI18n()
 useHead(() => ({
   title: t('page.titleLive')
 }))
-const isLoggedIn = ref(false)
+const { isLoggedIn, login: handleLogin, logout: handleLogout } = useAuth()
 const loginVisible = ref(false)
 const loginType = ref('login')
 const route = useRoute()

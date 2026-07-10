@@ -1,14 +1,15 @@
 <template>
   <div class="user-menu" :class="`user-menu--tail-${tailAlign}`">
     <div class="user-menu__top">
-      <img class="user-menu__avatar" src="/assets/frog-avatar.png" alt="avatar">
+      <img class="user-menu__avatar" src="https://uc2.qiecdn.com/avatar.php?uid=28030520&size=middle&force=1" alt="avatar" @error="e => e.target.src = '/assets/frog-avatar.png'">
       <div class="user-menu__info">
         <div class="user-menu__row">
           <span class="user-menu__name">企鹅玩家Kc2hl9</span>
           <button type="button" class="user-menu__logout" @click="$emit('logout')">退出</button>
         </div>
         <div class="user-menu__badges">
-          <span v-for="i in 5" :key="i" class="user-menu__badge"></span>
+          <span class="user-menu__badge-label">奖牌</span>
+          <span v-for="i in 6" :key="i" class="user-menu__badge"></span>
         </div>
         <div class="user-menu__level">
           <span class="user-menu__lv">LV.1</span>
@@ -22,11 +23,17 @@
       <div class="user-menu__wealth-title">我的财富：</div>
       <div class="user-menu__wealth-row">
         <div class="user-menu__asset">
-          <span class="user-menu__coin"></span>
+          <svg class="user-menu__coin" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" fill="#ff4d4f"/>
+            <path d="M8 9c-1.5 2-1.5 4.5 0 6 1.5 2 3.5 2 5 1 2-1.5 2-3.5 1-5.5-1.5-2-3.5-3-5-3-1 0-1.5 1-2.5 1.5z" fill="white"/>
+          </svg>
           <span>0.00</span>
         </div>
         <div class="user-menu__asset">
-          <span class="user-menu__fire"></span>
+          <svg class="user-menu__fire" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" fill="#ff7a45"/>
+            <path d="M12 7.5c-1.5 2.2-2.2 4.2-2.2 6.5 0 2.2 1.4 3.8 3.2 3.8s3.2-1.6 3.2-3.8c0-2.3-.8-4.3-2.2-6.5z" fill="white"/>
+          </svg>
           <span>0</span>
         </div>
         <button type="button" class="user-menu__recharge">充值</button>
@@ -34,27 +41,35 @@
     </div>
 
     <div class="user-menu__actions">
-      <NuxtLink to="/user.html" class="user-menu__action">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-        <span>个人中心</span>
-      </NuxtLink>
-      <NuxtLink to="/user.html" class="user-menu__action">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-        <span>我的关注</span>
-      </NuxtLink>
-      <NuxtLink to="/user.html" class="user-menu__action user-menu__action--active">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-        <span>我的消息</span>
-      </NuxtLink>
-      <NuxtLink to="/user.html" class="user-menu__action">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
-        <span>申请直播</span>
+      <NuxtLink
+        v-for="item in actions"
+        :key="item.label"
+        to="/user.html"
+        class="user-menu__action"
+        :class="{ 'user-menu__action--active': item.active }"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" v-html="item.icon"/>
+        <span>{{ item.label }}</span>
       </NuxtLink>
     </div>
   </div>
 </template>
 
 <script setup>
+const icons = {
+  user: `<circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>`,
+  heart: `<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>`,
+  message: `<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 7l10 7 10-7"/>`,
+  camera: `<rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/>`
+}
+
+const actions = [
+  { label: '个人中心', icon: icons.user, active: false },
+  { label: '我的关注', icon: icons.heart, active: false },
+  { label: '我的消息', icon: icons.message, active: true },
+  { label: '申请直播', icon: icons.camera, active: false }
+]
+
 defineProps({
   tailAlign: { type: String, default: 'right' }
 })
@@ -63,7 +78,7 @@ defineEmits(['logout'])
 
 <style scoped>
 .user-menu {
-  @apply relative w-[280px] bg-white rounded-[12px] shadow-[0_12px_40px_rgba(0,0,0,0.15)] p-4 text-[#333] select-none;
+  @apply relative w-[320px] bg-white rounded-[12px] shadow-[0_12px_40px_rgba(0,0,0,0.15)] p-4 text-[#333] select-none;
 }
 .user-menu::before {
   @apply content-[''] absolute -top-2 w-0 h-0 border-l-[8px] border-r-[8px] border-b-[8px] border-l-transparent border-r-transparent border-b-white;
@@ -78,7 +93,7 @@ defineEmits(['logout'])
   @apply flex gap-3 pb-3 border-b border-gray-100;
 }
 .user-menu__avatar {
-  @apply w-[56px] h-[56px] rounded-full object-cover shrink-0;
+  @apply w-[64px] h-[64px] rounded-full object-cover shrink-0 ring-2 ring-white shadow-md;
 }
 .user-menu__info {
   @apply flex-1 min-w-0;
@@ -93,7 +108,10 @@ defineEmits(['logout'])
   @apply text-xs text-gray-400 bg-transparent border-0 cursor-pointer hover:text-[#f8c21b];
 }
 .user-menu__badges {
-  @apply flex gap-1 mb-2;
+  @apply flex items-center gap-1 mb-2;
+}
+.user-menu__badge-label {
+  @apply text-sm text-gray-600 mr-1;
 }
 .user-menu__badge {
   @apply w-6 h-6 rounded-full bg-gray-200;
@@ -102,7 +120,7 @@ defineEmits(['logout'])
   @apply flex items-center gap-2 text-xs;
 }
 .user-menu__lv {
-  @apply px-1.5 py-0.5 rounded-full bg-[#f8c21b] text-white font-bold;
+  @apply px-1.5 py-0.5 rounded-full bg-[#90ee90] text-white font-bold;
 }
 .user-menu__progress {
   @apply flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden;
@@ -126,10 +144,10 @@ defineEmits(['logout'])
   @apply flex items-center gap-1.5 text-sm font-semibold;
 }
 .user-menu__coin {
-  @apply w-4 h-4 rounded-full bg-red-500;
+  @apply w-4 h-4 text-red-500;
 }
 .user-menu__fire {
-  @apply w-4 h-4 rounded-full bg-orange-500;
+  @apply w-4 h-4 text-orange-500;
 }
 .user-menu__recharge {
   @apply h-7 px-4 rounded-full bg-red-500 text-white text-xs font-bold border-0 cursor-pointer;

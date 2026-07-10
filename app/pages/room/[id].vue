@@ -6,7 +6,7 @@
       force-solid
       back
       @login="openLogin"
-      @logout="isLoggedIn = false"
+      @logout="handleLogout"
     />
     <main class="room-main">
       <section class="room-shell">
@@ -325,7 +325,7 @@
     <LoginModal
       v-model:visible="loginVisible"
       :type="loginType"
-      @success="isLoggedIn = true"
+      @success="handleLogin"
     />
     <div class="gift-effects">
       <div
@@ -361,7 +361,7 @@ const pageTitle = computed(() => `${t('page.titleRoom')} ${roomId.value}`)
 useHead(() => ({
   title: pageTitle.value
 }))
-const isLoggedIn = ref(false)
+const { isLoggedIn, login: handleLogin, logout: handleLogout } = useAuth()
 const loginVisible = ref(false)
 const loginType = ref('login')
 const isMuted = ref(true)

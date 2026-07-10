@@ -3,7 +3,7 @@
     <SiteHeader
       :is-logged-in="isLoggedIn"
       @login="openLogin"
-      @logout="isLoggedIn = false"
+      @logout="handleLogout"
     />
     <main>
       <HeroSection id="living-room" />
@@ -22,7 +22,7 @@
     <LoginModal
       v-model:visible="loginVisible"
       :type="loginType"
-      @success="isLoggedIn = true"
+      @success="handleLogin"
     />
   </div>
 </template>
@@ -32,7 +32,7 @@ const { t, locale } = useI18n()
 useHead(() => ({
   title: t('page.titleHome')
 }))
-const isLoggedIn = ref(false)
+const { isLoggedIn, login: handleLogin, logout: handleLogout } = useAuth()
 const loginVisible = ref(false)
 const loginType = ref('login')
 

@@ -4,7 +4,7 @@
       :is-logged-in="isLoggedIn"
       force-solid
       @login="openLogin"
-      @logout="handleLogout"
+      @logout="onLogout"
     />
 
     <main class="user-center-wrapper">
@@ -34,7 +34,7 @@
       <section class="user-content">
         <div class="user-profile-card">
           <div class="user-profile-left">
-            <img class="user-avatar" src="/assets/frog-avatar.png" alt="avatar">
+            <img class="user-avatar" src="https://uc2.qiecdn.com/avatar.php?uid=28030520&size=middle&force=1" alt="avatar" @error="e => e.target.src = '/assets/frog-avatar.png'">
             <div class="user-info">
               <div class="user-name-row">
                 <h1 class="user-name">企鹅玩家Kc2hI9</h1>
@@ -322,7 +322,7 @@
     </main>
 
     <SiteFooter />
-    <LoginModal v-model:visible="loginVisible" :type="loginType" @success="isLoggedIn = true" />
+    <LoginModal v-model:visible="loginVisible" :type="loginType" @success="handleLogin" />
   </div>
 </template>
 
@@ -333,7 +333,7 @@ useHead(() => ({
 }))
 
 const router = useRouter()
-const isLoggedIn = ref(true)
+const { isLoggedIn, login: handleLogin, logout: handleLogout } = useAuth()
 const loginVisible = ref(false)
 const loginType = ref('login')
 const activeMenu = ref('profile')
@@ -392,8 +392,8 @@ function openLogin(type) {
   loginVisible.value = true
 }
 
-function handleLogout() {
-  isLoggedIn.value = false
+function onLogout() {
+  handleLogout()
   router.push('/')
 }
 </script>

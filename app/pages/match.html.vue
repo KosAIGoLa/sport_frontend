@@ -1,6 +1,6 @@
 <template>
   <div class="match-page" :style="{ '--match-title': `'${t('page.matchCenterTitle')}'`, '--match-subtitle': `'${t('page.matchCenterSubtitle')}'` }">
-    <PageHeader page="match" :is-logged-in="isLoggedIn" :count="4" :active-mobile-tab="matchTab" mobile-aria-label="赛程分类" @login="openLogin" @logout="isLoggedIn = false" />
+    <PageHeader page="match" :is-logged-in="isLoggedIn" :count="4" :active-mobile-tab="matchTab" mobile-aria-label="赛程分类" @login="openLogin" @logout="handleLogout" />
 
     <main class="match-wrapper">
       <MobileOnly tag="div" class="match-mobile-day-title">{{ t('page.today') }}</MobileOnly>
@@ -82,7 +82,7 @@
     <LoginModal
       v-model:visible="loginVisible"
       :type="loginType"
-      @success="isLoggedIn = true; loginVisible = false"
+      @success="handleLogin(); loginVisible = false"
     />
     <MobileStickyBar active-tab="schedule" hide-ad @login="openLogin" />
   </div>
@@ -99,9 +99,9 @@ useHead(() => ({
 }))
 const route = useRoute()
 const activeDay = ref(0)
+const { isLoggedIn, login: handleLogin, logout: handleLogout } = useAuth()
 const loginVisible = ref(false)
 const loginType = ref('login')
-const isLoggedIn = ref(false)
 
 const matchTab = computed(() => {
   const tab = typeof route.query.tab === 'string' ? route.query.tab : ''
