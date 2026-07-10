@@ -23,7 +23,7 @@
             <span>{{ item.label }}</span>
           </a>
         </nav>
-        <button type="button" class="apply-live-sidebar-btn" @click="goToRealname">
+        <button type="button" class="apply-live-sidebar-btn" @click="handleMenuClick({ key: 'realname' })">
           <svg viewBox="0 0 24 24" fill="currentColor">
             <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z" />
           </svg>
@@ -235,41 +235,13 @@
           <div class="wealth-table-wrap">
             <table class="wealth-table">
               <thead>
-                <tr v-if="activeWealthTab === 'eggs'">
-                  <th>时间</th>
-                  <th>主播</th>
-                  <th>类型</th>
-                  <th>额度</th>
-                </tr>
-                <tr v-else-if="activeWealthTab === 'equipment'">
-                  <th>消费时间</th>
-                  <th>使用点</th>
-                  <th>物品</th>
-                  <th>数量</th>
-                </tr>
-                <tr v-else-if="activeWealthTab === 'tickets'">
-                  <th>消费时间</th>
-                  <th>直播间</th>
-                  <th>类型</th>
-                  <th>额度</th>
-                </tr>
-                <tr v-else-if="activeWealthTab === 'coupons'">
-                  <th>时间</th>
-                  <th>卡券名称</th>
-                  <th>方式</th>
-                  <th>数量</th>
-                </tr>
-                <tr v-else>
-                  <th>消费时间</th>
-                  <th>主播</th>
-                  <th>礼物</th>
-                  <th>单价（鹅肝）</th>
-                  <th>数量</th>
+                <tr>
+                  <th v-for="col in wealthColumns" :key="col">{{ col }}</th>
                 </tr>
               </thead>
               <tbody>
                 <tr class="empty-row">
-                  <td :colspan="activeWealthTab === 'eggs' || activeWealthTab === 'equipment' || activeWealthTab === 'tickets' || activeWealthTab === 'coupons' ? 4 : 5">{{ activeWealthTab === 'equipment' ? '--暂无使用记录--' : activeWealthTab === 'tickets' ? '--暂无数据--' : activeWealthTab === 'coupons' ? '--暂无卡券明细--' : '--暂无消费记录--' }}</td>
+                  <td :colspan="wealthColumns.length">{{ wealthEmptyText }}</td>
                 </tr>
               </tbody>
             </table>
@@ -443,23 +415,6 @@
           </div>
         </div>
 
-        <div v-else-if="activeMenu === 'realname'" class="realname-panel">
-          <div class="info-card">
-            <div class="info-card-icon idcard">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
-              </svg>
-            </div>
-            <div class="info-card-body">
-              <div class="info-card-title-row">
-                <h3>实名认证</h3>
-                <a href="javascript:;" class="action-link">立即认证</a>
-              </div>
-              <p>尚未实名认证，无法申请直播间</p>
-            </div>
-          </div>
-        </div>
-
         <div v-else-if="activeMenu === 'space'" class="space-panel">
           <div class="space-header">
             <img class="space-avatar" src="/assets/frog-avatar.png" alt="avatar">
@@ -598,11 +553,6 @@ function confirmNickname() {
   activeTab.value = 'basic'
 }
 
-function goToRealname() {
-  activeMenu.value = 'profile'
-  activeTab.value = 'realname'
-}
-
 function handleMenuClick(item) {
   if (item.key === 'realname') {
     activeMenu.value = 'profile'
@@ -713,6 +663,25 @@ const wealthTabs = [
   { key: 'tickets', label: '门票消费' },
   { key: 'coupons', label: '卡券明细' }
 ]
+
+const wealthColumns = computed(() => {
+  switch (activeWealthTab.value) {
+    case 'eggs': return ['时间', '主播', '类型', '额度']
+    case 'equipment': return ['消费时间', '使用点', '物品', '数量']
+    case 'tickets': return ['消费时间', '直播间', '类型', '额度']
+    case 'coupons': return ['时间', '卡券名称', '方式', '数量']
+    default: return ['消费时间', '主播', '礼物', '单价（鹅肝）', '数量']
+  }
+})
+
+const wealthEmptyText = computed(() => {
+  switch (activeWealthTab.value) {
+    case 'equipment': return '--暂无使用记录--'
+    case 'tickets': return '--暂无数据--'
+    case 'coupons': return '--暂无卡券明细--'
+    default: return '--暂无消费记录--'
+  }
+})
 
 const tabKeys = tabs.map(item => item.key)
 watch(() => route.query.tab, (val) => {
@@ -1228,9 +1197,6 @@ function onLogout() {
 }
 .room-table .empty-row td {
   @apply text-center text-[#999] py-8;
-}
-.realname-panel {
-  @apply bg-white rounded-xl shadow-sm p-6;
 }
 .space-panel {
   @apply bg-white rounded-xl shadow-sm overflow-hidden;
