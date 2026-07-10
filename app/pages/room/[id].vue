@@ -405,8 +405,13 @@
 
 <script setup>
 import Player from 'xgplayer'
+import Danmu from 'xgplayer/es/plugins/danmu/index.js'
+import FlvPlugin from 'xgplayer-flv'
 const { t } = useI18n()
 import 'xgplayer/dist/index.min.css'
+import 'xgplayer/es/plugins/danmu/index.css'
+const TEST_STREAM_URL = 'https://hwplay.zoxo5.com/live/66210_1783707587.flv?auth_key=1783721091-0-0-99f8e337138da7eb73dd3203845ec9cb'
+const PROXY_STREAM_URL = `/api/proxy?url=${encodeURIComponent(TEST_STREAM_URL)}`
 
 const route = useRoute()
 const roomId = computed(() => route.params.id || '990645')
@@ -645,6 +650,46 @@ function unmuteVideo() {
   if (player.paused) player.play()
 }
 
+function createRoomDanmuComments() {
+  const baseStyle = {
+    color: '#ffffff',
+    fontSize: '15px',
+    textShadow: '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 1px 4px rgba(0,0,0,0.8)'
+  }
+
+  const messages = [
+    `🎙️ ${roomInfo.anchor} 开始讲重点了`,
+    `⚽ ${roomInfo.name} 这场节奏很顺`,
+    `🔥 当前热度 ${roomInfo.hot}`,
+    '👍 画面和声音这一版舒服很多',
+    '📣 继续看这波临场变化',
+    '🧐 主队这套首发阵容有意思',
+    '😤 刚才那球该进了吧',
+    '⚡ 防守反击打得很快',
+    '⏱️ 裁判这个VAR看得有点久',
+    '💪 中场控制力明显上来了',
+    '🔄 这换人效果立竿见影',
+    '⏰ 最后十分钟估计要搏命了'
+  ]
+
+  const comments = []
+  const totalRounds = 5
+  for (let round = 0; round < totalRounds; round++) {
+    messages.forEach((txt, idx) => {
+      const globalIdx = round * messages.length + idx
+      comments.push({
+        id: `${roomId.value}-${globalIdx + 1}`,
+        start: globalIdx * 1000 + round * 200,
+        duration: 10000 + (idx % 4) * 1500,
+        txt,
+        style: baseStyle,
+        mode: idx % 5 === 2 ? 'top' : idx % 5 === 4 ? 'bottom' : 'scroll'
+      })
+    })
+  }
+  return comments
+}
+
 let player = null
 onMounted(() => {
   if (route.query.vt) {
@@ -655,11 +700,13 @@ onMounted(() => {
   }
   player = new Player({
     id: 'xgplayer-container',
-    url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    url: PROXY_STREAM_URL,
     poster: '/assets/covers/main-poster-bright.png',
+    plugins: [FlvPlugin, Danmu],
     width: '100%',
     height: '100%',
-    autoplay: false,
+    autoplay: true,
+    autoplayMuted: true,
     playsinline: true,
     cssFullscreen: true,
     fluid: false,
@@ -673,7 +720,24 @@ onMounted(() => {
     rotate: false,
     download: false,
     keyShortcut: 'off',
-    ignores: ['definition', 'test', 'volume', 'replay']
+    ignores: ['definition', 'test', 'volume', 'replay'],
+    danmu: {
+      comments: createRoomDanmuComments(),
+      defaultOpen: true,
+      closeDefaultBtn: false,
+      panel: false,
+      opacity: 1,
+      fontSize: 15,
+      area: {
+        start: 0.08,
+        end: 0.76
+      },
+      mouseControl: false,
+      switchConfig: {
+        position: 'controlsRight',
+        index: 5
+      }
+    }
   })
   player.muted = true
   player.on('volumechange', () => {
@@ -837,6 +901,46 @@ const recommendedLives = [
 }
 .xgplayer-container :deep(.xgplayer-controls) {
   @apply bg-[linear-gradient(180deg,transparent_0%,rgba(15,23,42,0.82)_100%)];
+}
+.xgplayer-container :deep(.xgplayer-controls .xg-right-grid) {
+  @apply gap-2;
+}
+.xgplayer-container :deep(.xgplayer-controls .xgplayer-icon[data-state]) {
+  @apply rounded-full transition-all duration-200;
+}
+.xgplayer-container :deep(.xgplayer-controls .xgplayer-icon[data-state]:hover) {
+  background: rgba(255, 255, 255, 0.12);
+}
+.xgplayer-container :deep(.xgplayer-controls .xgplayer-icon[data-state='active']) {
+  background: rgba(255, 92, 76, 0.18);
+}
+.xgplayer-container :deep(.xgplayer-controls .danmu-icon) {
+  @apply min-w-[36px] h-9 px-2.5 rounded-full;
+}
+.xgplayer-container :deep(.xgplayer-controls .danmu-icon .xgplayer-icon) {
+  @apply flex items-center justify-center w-full h-full;
+}
+.xgplayer-container :deep(.xgplayer-controls .danmu-icon .danmu-switch-open) {
+  display: none;
+}
+.xgplayer-container :deep(.xgplayer-controls .danmu-icon .danmu-switch-closed) {
+  display: inline-flex;
+}
+.xgplayer-container :deep(.xgplayer-controls .danmu-icon[data-state='active'] .danmu-switch-open) {
+  display: inline-flex;
+}
+.xgplayer-container :deep(.xgplayer-controls .danmu-icon[data-state='active'] .danmu-switch-closed) {
+  display: none;
+}
+.xgplayer-container :deep(.xgplayer-controls .danmu-switch) {
+  @apply inline-flex items-center justify-center w-7 h-7 rounded-full border border-white/15 bg-white/10 text-white text-[13px] font-semibold;
+  backdrop-filter: blur(8px);
+}
+.xgplayer-container :deep(.xgplayer-controls .xgplayer-icon[data-state='active'] .danmu-switch) {
+  @apply border-[#ff8d82]/40 bg-[#ff5c4c]/20 text-white;
+}
+.xgplayer-container :deep(.xgplayer-controls .xgplayer-icon .xg-tips) {
+  @apply text-[12px];
 }
 .video-live-badge {
   @apply absolute top-[18px] left-[18px] z-[4] inline-flex items-center gap-2 h-[30px] px-3.5 rounded-full bg-[rgba(239,68,68,0.92)] text-white text-[13px] font-extrabold shadow-[0_8px_22px_rgba(239,68,68,0.26)] pointer-events-none;

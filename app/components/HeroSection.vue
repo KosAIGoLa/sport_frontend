@@ -24,7 +24,7 @@
             <p>{{ t('common.loading') }}</p>
           </div>
         </div>
-        <div class="inLiveRoom" role="button" tabindex="0" @click="goRoom" @keydown.enter.prevent="goRoom">{{ t('common.enterLiveRoom') }}</div>
+        <div v-if="showEnterRoomButton" class="inLiveRoom" role="button" tabindex="0" @click="goRoom" @keydown.enter.prevent="goRoom">{{ t('common.enterLiveRoom') }}</div>
         <div v-if="isMuted" class="unmute-btn" role="button" tabindex="0" @click="unmuteVideo" @keydown.enter.prevent="unmuteVideo">{{ t('common.unmute') }}</div>
         <div class="live-title" aria-hidden="true">
           <img class="live-cover" :src="rooms[currentRoom].cover" alt="">
@@ -52,8 +52,13 @@
 <script setup>
 import Player from 'xgplayer'
 import 'xgplayer/dist/index.min.css'
+import 'xgplayer/es/plugins/danmu/index.css'
+import Danmu from 'xgplayer/es/plugins/danmu/index.js'
+import FlvPlugin from 'xgplayer-flv'
 
 const { t } = useI18n()
+const TEST_STREAM_URL = 'https://hwplay.zoxo5.com/live/66210_1783707587.flv?auth_key=1783721091-0-0-99f8e337138da7eb73dd3203845ec9cb'
+const PROXY_STREAM_URL = `/api/proxy?url=${encodeURIComponent(TEST_STREAM_URL)}`
 
 const rooms = [
   { title: '🔥世欧预  丹麦  VS  乌克兰', cover: '/assets/covers/hot1.png', poster: '/assets/covers/main-poster-bright.png', anchor: '初六', viewers: '5.39w', roomId: '3150351' },
@@ -65,6 +70,47 @@ const rooms = [
 const currentRoom = ref(0)
 const isLoading = ref(false)
 const isMuted = ref(true)
+const showEnterRoomButton = ref(true)
+
+function createDanmuComments(room, roomIndex) {
+  const baseStyle = {
+    color: '#ffffff',
+    fontSize: '16px',
+    textShadow: '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 1px 4px rgba(0,0,0,0.8)'
+  }
+
+  const messages = [
+    `⚽ ${room.anchor} 开播了，今天重点讲讲战术`,
+    `🔥 ${room.title} 这节奏看着真过瘾`,
+    `👀 在线 ${room.viewers}，聊天室很热`,
+    '💪 主队这开场压迫给得足',
+    '📣 主播继续，节奏别断',
+    '⚡ 这波反击打得漂亮',
+    '🧤 门将这波扑救可以',
+    '🔄 下半场应该会变阵',
+    '🤔 裁判这判罚有点争议',
+    '✨ 前场配合越来越顺了',
+    '🎯 期待一个绝杀',
+    '🎙️ 这解说比官方频道带劲'
+  ]
+
+  const comments = []
+  const totalRounds = 5
+  for (let round = 0; round < totalRounds; round++) {
+    messages.forEach((txt, idx) => {
+      const globalIdx = round * messages.length + idx
+      comments.push({
+        id: `${roomIndex}-${globalIdx + 1}`,
+        start: globalIdx * 1000 + round * 200,
+        duration: 10000 + (idx % 4) * 1500,
+        txt,
+        style: baseStyle,
+        mode: idx % 5 === 2 ? 'top' : idx % 5 === 4 ? 'bottom' : 'scroll'
+      })
+    })
+  }
+  return comments
+}
 
 let player = null
 
@@ -76,24 +122,50 @@ function initPlayer() {
   isLoading.value = true
   player = new Player({
     id: 'hero-xgplayer',
-    url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    url: PROXY_STREAM_URL,
     poster: rooms[currentRoom.value].poster,
+    plugins: [FlvPlugin, Danmu],
     width: '100%',
     height: '100%',
-    autoplay: false,
+    autoplay: true,
+    autoplayMuted: true,
     playsinline: true,
     cssFullscreen: true,
     fluid: false,
     fitVideoSize: 'cover',
     lang: 'zh-cn',
     controls: true,
-    controlsMode: 'bottom'
+    controlsMode: 'bottom',
+    danmu: {
+      comments: createDanmuComments(rooms[currentRoom.value], currentRoom.value),
+      defaultOpen: true,
+      closeDefaultBtn: false,
+      panel: false,
+      opacity: 1,
+      fontSize: 16,
+      area: {
+        start: 0.08,
+        end: 0.74
+      },
+      mouseControl: false,
+      switchConfig: {
+        position: 'controlsRight',
+        index: 6
+      }
+    }
   })
   player.on('play', () => {
     isLoading.value = false
+    showEnterRoomButton.value = false
   })
   player.on('canplay', () => {
     isLoading.value = false
+  })
+  player.on('pause', () => {
+    showEnterRoomButton.value = true
+  })
+  player.on('ended', () => {
+    showEnterRoomButton.value = true
   })
   player.muted = true
   player.on('volumechange', () => {
@@ -109,6 +181,7 @@ onMounted(() => {
 })
 
 watch(currentRoom, () => {
+  showEnterRoomButton.value = true
   initPlayer()
 })
 
@@ -209,6 +282,49 @@ function goRoom() {
 }
 .xgplayer-container video {
   @apply object-cover brightness-[1.2] contrast-[1.1];
+}
+:deep(.xgplayer-controls) {
+  @apply px-4 pb-3;
+}
+:deep(.xgplayer-controls .xg-right-grid) {
+  @apply gap-2;
+}
+:deep(.xgplayer-controls .xgplayer-icon[data-state]) {
+  @apply rounded-full transition-all duration-200;
+}
+:deep(.xgplayer-controls .xgplayer-icon[data-state]:hover) {
+  background: rgba(255, 255, 255, 0.12);
+}
+:deep(.xgplayer-controls .xgplayer-icon[data-state='active']) {
+  background: rgba(255, 92, 76, 0.18);
+}
+:deep(.xgplayer-controls .danmu-icon) {
+  @apply min-w-[36px] h-9 px-2.5 rounded-full;
+}
+:deep(.xgplayer-controls .danmu-icon .xgplayer-icon) {
+  @apply flex items-center justify-center w-full h-full;
+}
+:deep(.xgplayer-controls .danmu-icon .danmu-switch-open) {
+  display: none;
+}
+:deep(.xgplayer-controls .danmu-icon .danmu-switch-closed) {
+  display: inline-flex;
+}
+:deep(.xgplayer-controls .danmu-icon[data-state='active'] .danmu-switch-open) {
+  display: inline-flex;
+}
+:deep(.xgplayer-controls .danmu-icon[data-state='active'] .danmu-switch-closed) {
+  display: none;
+}
+:deep(.xgplayer-controls .danmu-switch) {
+  @apply inline-flex items-center justify-center w-7 h-7 rounded-full border border-white/15 bg-white/10 text-white text-[13px] font-semibold;
+  backdrop-filter: blur(8px);
+}
+:deep(.xgplayer-controls .xgplayer-icon[data-state='active'] .danmu-switch) {
+  @apply border-[#ff8d82]/40 bg-[#ff5c4c]/20 text-white;
+}
+:deep(.xgplayer-controls .xgplayer-icon .xg-tips) {
+  @apply text-[12px];
 }
 .video-mask {
   @apply absolute top-0 left-0 w-full h-full bg-[linear-gradient(180deg,rgba(0,0,0,0.04)_0%,rgba(0,0,0,0.12)_42%,rgba(0,0,0,0.56)_100%)] z-[2] pointer-events-none transition-colors duration-300;
