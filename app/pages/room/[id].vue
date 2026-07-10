@@ -25,9 +25,9 @@
               </div>
             </div>
             <div class="anchor-actions">
-              <button type="button">{{ t('page.follow') }}</button>
-              <img class="code-icon" src="/assets/icon-code.png" alt="">
-              <span class="down-arrow"></span>
+              <button type="button" :class="['follow-btn', { 'follow-btn--active': isFollowed }]" :disabled="isFollowed" @click="handleFollow">
+                {{ isFollowed ? t('page.followed') : t('page.follow') }}
+              </button>
             </div>
           </DesktopOnly>
 
@@ -68,21 +68,37 @@
               <span class="ad-badge">{{ t('page.recommended') }}</span>
               <span class="ad-text">浏览器输入66chat8.cc下载66APP，添加主播助理66号：C99999，备注老万领取每日电子波胆进V</span>
             </DesktopOnly>
-            <DesktopOnly tag="div" class="coin-bar">
-              <div class="coin-count">
-                <strong>0</strong>
-                <span>{{ t('page.myCoins') }}</span>
-              </div>
-              <div class="coin-icons">
-                <button type="button" class="coin-btn"><img src="/assets/icon-code.png" alt=""></button>
-                <button type="button" class="coin-btn gift-btn" @click="sendGift">
-                  <img src="/assets/gift.png" alt="">
-                </button>
-                <button type="button" class="coin-btn"><img src="/assets/face.png" alt=""></button>
-              </div>
-              <a href="javascript:;">{{ t('page.howToGetCoins') }}</a>
+            <DesktopOnly tag="div" class="player-assets">
+              <span class="player-assets__item">
+                <IconEgg icon-class="player-assets__icon egg" />
+                鹅蛋：0
+              </span>
+              <span class="player-assets__item">
+                <IconLiver icon-class="player-assets__icon liver" />
+                鹅肝：0
+              </span>
+              <NuxtLink class="player-assets__btn player-assets__btn--recharge" to="/recharge.html">充值</NuxtLink>
+              <button type="button" class="player-assets__btn player-assets__btn--equipment" @click="openEquipmentModal">装备</button>
             </DesktopOnly>
           </div>
+          <DesktopOnly tag="div" class="fun-guess-section">
+            <div class="fun-guess-header">
+              <div class="fun-guess-title">
+                <span class="fun-guess-icon">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0 0 11 15.9V19H7v2h10v-2h-4v-3.1a5.01 5.01 0 0 0 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg>
+                </span>
+                趣猜
+              </div>
+              <div class="fun-guess-actions">
+                <NuxtLink class="fun-guess-actions__btn" to="/user.html?menu=guess">记录</NuxtLink>
+                <NuxtLink class="fun-guess-actions__btn" to="/news.html">规则</NuxtLink>
+              </div>
+            </div>
+            <div class="fun-guess-empty">
+              <img class="fun-guess-empty__img" src="/assets/appointment-penguin.png" alt="">
+              <p>暂无趣猜</p>
+            </div>
+          </DesktopOnly>
         </div>
 
         <aside :class="['chat-room', `mobile-panel-${activeMobilePanel}`]">
@@ -92,9 +108,9 @@
               <button :class="{ active: activeMobilePanel === 'rank' }" type="button" @click="setMobilePanel('rank')">{{ t('page.rank') }}</button>
               <button :class="{ active: activeMobilePanel === 'schedule' }" type="button" @click="setMobilePanel('schedule')">{{ t('page.schedule') }}</button>
             </div>
-            <button type="button" class="mobile-room-tabs__follow">
+            <button type="button" class="mobile-room-tabs__follow" :class="{ 'mobile-room-tabs__follow--active': isFollowed }" :disabled="isFollowed" @click="handleFollow">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.1 21.35l-1.1-1.02C5.14 14.9 2 12.06 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.56-3.14 6.4-8.9 11.83l-1 .92z"/></svg>
-              {{ t('nav.follow') }}
+              {{ isFollowed ? t('page.followed') : t('nav.follow') }}
             </button>
           </MobileOnly>
           <div class="notice">
@@ -201,7 +217,7 @@
               </div>
             </div>
           </div>
-          <MobileOnly tag="div" class="mobile-schedule-panel">
+          <MobileOnly tag="div" class="mobile-schedule-panel only-mobile">
             <div v-for="game in schedules" :key="`mobile-${game.title}`" class="mobile-schedule-card">
               <div class="mobile-schedule-card__time">
                 <strong>{{ game.date }}</strong>
@@ -343,6 +359,47 @@
         <span class="gift-glow">{{ gift.text }}</span>
       </div>
     </div>
+
+    <div v-if="followModalVisible" class="follow-modal-overlay" @click.self="closeFollowModal">
+      <div class="follow-modal">
+        <div class="follow-modal__header">
+          <span>{{ followCountdown }}{{ t('page.closeInSeconds') }}</span>
+          <button type="button" class="follow-modal__close" aria-label="关闭" @click="closeFollowModal">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+          </button>
+        </div>
+        <div class="follow-modal__body">
+          <svg class="follow-modal__icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+          <span class="follow-modal__text">{{ t('page.followSuccess') }}</span>
+        </div>
+      </div>
+    </div>
+    <div v-if="equipmentModalVisible" class="equipment-modal-overlay" @click.self="closeEquipmentModal">
+      <div class="equipment-modal">
+        <div class="equipment-modal__header">
+          <div class="equipment-modal__brand">
+            <div class="equipment-modal__icon-box">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 6h-2c0-2.76-2.24-5-5-5S7 3.24 7 6H5c-1.1 0-2 .9-2 2v9c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-7-3c1.66 0 3 1.34 3 3H9c0-1.66 1.34-3 3-3zm0 13c-2.76 0-5-2.24-5-5h2c0 1.66 1.34 3 3 3s3-1.34 3-3h2c0 2.76-2.24 5-5 5z"/></svg>
+            </div>
+            <div class="equipment-modal__title">
+              <h3>装备包</h3>
+              <p>点击即可免费使用礼物道具</p>
+            </div>
+          </div>
+          <button type="button" class="equipment-modal__close" aria-label="关闭" @click="closeEquipmentModal">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+          </button>
+        </div>
+        <div class="equipment-modal__body">
+          <div class="equipment-grid">
+            <div v-for="n in 15" :key="n" class="equipment-grid__slot"></div>
+          </div>
+        </div>
+        <div class="equipment-modal__footer">
+          <a class="equipment-modal__link" href="javascript:;">如何获取？</a>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -375,6 +432,56 @@ function setMobilePanel(panel) {
   activeMobilePanel.value = panel
   if (panel === 'chat') activeChatTab.value = 'chat'
   if (panel === 'rank') activeChatTab.value = 'rank'
+}
+
+const isFollowed = ref(false)
+const followModalVisible = ref(false)
+const followCountdown = ref(3)
+let followTimer = null
+
+function clearFollowTimer() {
+  if (followTimer) {
+    clearInterval(followTimer)
+    followTimer = null
+  }
+}
+
+function closeFollowModal() {
+  clearFollowTimer()
+  followModalVisible.value = false
+  followCountdown.value = 3
+}
+
+function handleFollow() {
+  if (!isLoggedIn.value) {
+    openLogin('login')
+    return
+  }
+  if (isFollowed.value) return
+  isFollowed.value = true
+  followCountdown.value = 3
+  followModalVisible.value = true
+  clearFollowTimer()
+  followTimer = setInterval(() => {
+    followCountdown.value -= 1
+    if (followCountdown.value <= 0) {
+      closeFollowModal()
+    }
+  }, 1000)
+}
+
+onUnmounted(() => {
+  clearFollowTimer()
+})
+
+const equipmentModalVisible = ref(false)
+
+function openEquipmentModal() {
+  equipmentModalVisible.value = true
+}
+
+function closeEquipmentModal() {
+  equipmentModalVisible.value = false
 }
 
 const roomInfo = {
@@ -705,22 +812,19 @@ const recommendedLives = [
   @apply text-[#777] no-underline;
 }
 .anchor-actions {
-  @apply flex items-center gap-6;
+  @apply flex items-center gap-4 shrink-0;
 }
-.anchor-actions button {
-  @apply w-[74px] h-10 border-0 rounded-[20px] text-white bg-[#ffc400] text-base cursor-pointer;
+.follow-btn {
+  @apply w-[74px] h-10 border-0 rounded-[20px] text-white bg-[#ffc400] text-base cursor-pointer transition-colors duration-200;
 }
-.code-icon {
-  @apply w-[26px] h-[26px] opacity-[0.62];
-}
-.down-arrow {
-  @apply w-[14px] h-[14px] border-r-2 border-b-2 border-[#aaa] rotate-45;
+.follow-btn--active {
+  @apply bg-[#ff5a4f] cursor-default;
 }
 .match-player {
-  @apply bg-white rounded-3xl overflow-hidden shadow-[0_22px_60px_rgba(15,23,42,0.12)];
+  @apply bg-white overflow-hidden shadow-[0_22px_60px_rgba(15,23,42,0.12)];
 }
 .video-stage {
-  @apply relative h-[484px] bg-slate-900 overflow-hidden rounded-t-3xl;
+  @apply relative h-[484px] bg-slate-900 overflow-hidden;
 }
 .video-player-wrap {
   @apply relative w-full h-full isolate;
@@ -812,41 +916,59 @@ const recommendedLives = [
 .player-ad {
   @apply h-9 flex items-center gap-2.5 px-4 overflow-hidden text-[#7c2d12] bg-[linear-gradient(135deg,#fffbeb_0%,#fef3c7_100%)] text-[13px] leading-[1.4] border-t border-slate-200/[0.9];
 }
+.player-assets {
+  @apply h-12 flex items-center justify-end gap-3 px-4 bg-white border-t border-slate-200/[0.9] text-sm text-[#444];
+}
+.player-assets__item {
+  @apply flex items-center gap-1.5;
+}
+.player-assets__icon {
+  @apply w-5 h-5;
+}
+.player-assets__btn {
+  @apply inline-flex items-center h-7 px-2.5 rounded-full border text-[12px] font-medium no-underline transition-colors;
+}
+.player-assets__btn--recharge {
+  @apply border-[#ff5a1f] text-[#ff5a1f] hover:bg-[#ff5a1f] hover:text-white;
+}
+.player-assets__btn--equipment {
+  @apply border-[#3b82f6] text-[#3b82f6] hover:bg-[#3b82f6] hover:text-white;
+}
+.fun-guess-section {
+  @apply mt-2.5 bg-white rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)] overflow-hidden;
+}
+.fun-guess-header {
+  @apply h-14 flex items-center justify-between px-4 border-b border-slate-100;
+}
+.fun-guess-title {
+  @apply flex items-center gap-2 text-[#333] text-base font-bold;
+}
+.fun-guess-icon {
+  @apply w-7 h-7 rounded-full bg-[#ffc21c] text-white flex items-center justify-center;
+}
+.fun-guess-icon svg {
+  @apply w-4 h-4;
+}
+.fun-guess-actions {
+  @apply flex items-center gap-2;
+}
+.fun-guess-actions__btn {
+  @apply inline-flex items-center justify-center h-7 px-3 rounded border border-slate-200 bg-white text-[#333] text-[13px] no-underline cursor-pointer transition-colors hover:border-slate-300 hover:bg-slate-50;
+}
+.fun-guess-empty {
+  @apply flex flex-col items-center justify-center py-12 text-center;
+}
+.fun-guess-empty__img {
+  @apply w-28 h-28 object-contain mb-3;
+}
+.fun-guess-empty p {
+  @apply m-0 text-[#333] text-base;
+}
 .ad-badge {
   @apply shrink-0 h-5 px-2 rounded-full bg-[linear-gradient(135deg,#ffe178_0%,#ffc21c_100%)] text-[#111827] text-[11px] font-extrabold leading-5;
 }
 .ad-text {
   @apply overflow-hidden whitespace-nowrap text-ellipsis;
-}
-.coin-bar {
-  @apply h-16 flex items-center bg-white border-t border-slate-200/[0.9];
-}
-.coin-count {
-  @apply w-[170px] h-16 pl-[22px] flex flex-col justify-center border-r border-slate-200/[0.9];
-}
-.coin-count strong {
-  @apply block text-2xl leading-7 font-extrabold text-slate-900;
-}
-.coin-count span {
-  @apply text-slate-500 text-[13px] font-medium;
-}
-.coin-icons {
-  @apply flex-1 flex items-center justify-center gap-[18px];
-}
-.coin-btn {
-  @apply w-11 h-11 border-0 rounded-full bg-slate-100 inline-flex items-center justify-center cursor-pointer transition-[background,transform] duration-200;
-}
-.coin-btn:hover {
-  @apply bg-slate-200 -translate-y-0.5;
-}
-.coin-btn img {
-  @apply w-6 h-6 object-contain;
-}
-.coin-bar a {
-  @apply w-[150px] text-slate-500 text-sm font-semibold no-underline transition-colors duration-200;
-}
-.coin-bar a:hover {
-  @apply text-amber-500;
 }
 .chat-room {
   @apply h-[666px] flex flex-col bg-white/[0.92] border border-white/[0.9] rounded-3xl shadow-[0_22px_60px_rgba(15,23,42,0.12)] overflow-hidden backdrop-blur-[14px];
@@ -1443,6 +1565,79 @@ const recommendedLives = [
   50% { opacity: 0.5; transform: scale(1.3); }
 }
 
+.follow-modal-overlay {
+  @apply fixed inset-0 z-50 flex items-center justify-center bg-[rgba(0,0,0,0.55)] backdrop-blur-sm;
+}
+.follow-modal {
+  @apply w-[min(360px,calc(100%-40px))] rounded-2xl bg-white shadow-[0_20px_60px_rgba(0,0,0,0.18)] overflow-hidden;
+}
+.follow-modal__header {
+  @apply flex items-center justify-between px-4 py-3 bg-[linear-gradient(135deg,#ff5a4f_0%,#ff7f7f_100%)] text-white text-sm font-medium;
+}
+.follow-modal__close {
+  @apply p-1 border-0 bg-transparent text-white cursor-pointer;
+}
+.follow-modal__close svg {
+  @apply w-5 h-5;
+}
+.follow-modal__body {
+  @apply flex flex-col items-center justify-center gap-3 px-6 py-8 text-center;
+}
+.follow-modal__icon {
+  @apply w-12 h-12 text-[#52c41a];
+}
+.follow-modal__text {
+  @apply text-[#333] text-base font-medium leading-snug;
+}
+.equipment-modal-overlay {
+  @apply fixed inset-0 z-50 flex items-center justify-center bg-[rgba(0,0,0,0.55)] backdrop-blur-sm;
+}
+.equipment-modal {
+  @apply w-[min(420px,calc(100%-40px))] rounded-2xl bg-white shadow-[0_20px_60px_rgba(0,0,0,0.18)] overflow-hidden;
+}
+.equipment-modal__header {
+  @apply flex items-start justify-between px-6 pt-6 pb-4;
+}
+.equipment-modal__brand {
+  @apply flex items-center gap-3;
+}
+.equipment-modal__icon-box {
+  @apply w-14 h-14 rounded-2xl bg-[#3b82f6] text-white flex items-center justify-center;
+}
+.equipment-modal__icon-box svg {
+  @apply w-8 h-8;
+}
+.equipment-modal__title {
+  @apply flex flex-col gap-1;
+}
+.equipment-modal__title h3 {
+  @apply m-0 text-[#333] text-xl font-bold leading-tight;
+}
+.equipment-modal__title p {
+  @apply m-0 text-[#999] text-sm leading-tight;
+}
+.equipment-modal__close {
+  @apply p-1 border-0 bg-transparent text-[#999] cursor-pointer;
+}
+.equipment-modal__close svg {
+  @apply w-6 h-6;
+}
+.equipment-modal__body {
+  @apply px-6 pb-2;
+}
+.equipment-grid {
+  @apply grid grid-cols-5 gap-3;
+}
+.equipment-grid__slot {
+  @apply aspect-square rounded-xl bg-[#e5e7eb];
+}
+.equipment-modal__footer {
+  @apply flex justify-end px-6 py-4;
+}
+.equipment-modal__link {
+  @apply text-[#3b82f6] text-sm no-underline hover:underline;
+}
+
 @media screen and (max-width: 1260px) {
   .room-main {
     @apply w-[1180px];
@@ -1490,17 +1685,19 @@ const recommendedLives = [
   .mobile-room-tabs__follow svg {
     @apply w-4 h-4;
   }
+  .mobile-room-tabs__follow--active {
+    @apply bg-[linear-gradient(135deg,#ff6b6b_0%,#ff5a4f_100%)];
+  }
   .anchor-bar,
   .score-board,
-  .player-ad,
-  .coin-bar {
+  .player-ad {
     @apply hidden;
   }
   .match-player {
-    @apply mt-0 rounded-t-[16px] shadow-[0_10px_24px_rgba(15,23,42,0.08)] overflow-hidden;
+    @apply mt-0 shadow-[0_10px_24px_rgba(15,23,42,0.08)] overflow-hidden;
   }
   .video-stage {
-    @apply h-auto aspect-[16/9] rounded-t-[16px];
+    @apply h-auto aspect-[16/9];
   }
   .video-live-badge {
     @apply top-3 left-3 h-7 px-3 text-xs;
@@ -1638,7 +1835,7 @@ const recommendedLives = [
     @apply flex;
   }
   .mobile-panel-chat .mobile-schedule-panel {
-    @apply flex flex-[0_0_auto] order-10 max-h-[160px] overflow-y-auto;
+    @apply hidden;
   }
   .mobile-panel-rank .rank-list {
     @apply block;
