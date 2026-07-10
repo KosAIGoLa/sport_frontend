@@ -13,7 +13,7 @@
       <LiveCategory id="football-live" title-image="/assets/football-live.png" :title-alt="t('page.footballLive')" :lives="footballLives" />
       <LiveCategory id="all-live" title-image="/assets/hot-live.png" :title-alt="t('page.allLive')" more-link="/liveType.html" :lives="allLives" />
     </main>
-    <RightFix />
+    <RightFix :is-logged-in="isLoggedIn" @login="openLogin" />
     <SiteFooter />
     <MobileStickyBar
       :is-logged-in="isLoggedIn"
