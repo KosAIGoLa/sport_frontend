@@ -83,10 +83,10 @@ function goRoom(item) {
   @apply text-[#f8c21b];
 }
 :deep(.carousel-prev) {
-  @apply left-0;
+  @apply left-5;
 }
 :deep(.carousel-next) {
-  @apply right-0;
+  @apply right-5;
 }
 
 @media screen and (max-width: 1400px) {
