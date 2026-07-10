@@ -29,8 +29,16 @@
           </a>
         </DesktopOnly>
         <DesktopOnly tag="div" class="live-auth">
-          <button type="button" class="login-btn" @click="openLogin('login')">{{ t('auth.login') }}</button>
-          <button type="button" @click="openLogin('register')">{{ t('auth.register') }}</button>
+          <template v-if="!isLoggedIn">
+            <button type="button" class="login-btn" @click="openLogin('login')">{{ t('auth.login') }}</button>
+            <button type="button" @click="openLogin('register')">{{ t('auth.register') }}</button>
+          </template>
+          <div v-else class="user-avatar-trigger">
+            <UserAvatar :count="4" />
+            <div class="user-avatar-popup">
+              <UserMenu @logout="isLoggedIn = false" />
+            </div>
+          </div>
         </DesktopOnly>
       </div>
     </header>
@@ -49,10 +57,9 @@
     <LoginModal
       v-model:visible="loginVisible"
       :type="loginType"
-      @success="isLoggedIn = true"
+      @success="isLoggedIn = true; loginVisible = false"
     />
-    <MobileStickyBar :is-logged-in="isLoggedIn" active-tab="live" @login="openLogin" @follow="followVisible = true" />
-    <MobileFollowPanel :visible="followVisible" @login="openLogin" />
+    <MobileStickyBar :is-logged-in="isLoggedIn" active-tab="live" @login="openLogin" />
   </div>
 </template>
 
@@ -68,7 +75,6 @@ useHead(() => ({
 const isLoggedIn = ref(false)
 const loginVisible = ref(false)
 const loginType = ref('login')
-const followVisible = ref(false)
 const route = useRoute()
 const isMobileView = ref(false)
 
@@ -92,7 +98,6 @@ onMounted(() => {
 })
 
 function openLogin(type) {
-  followVisible.value = false
   loginType.value = type
   loginVisible.value = true
 }
@@ -176,6 +181,15 @@ const allLives = [
 
 .live-auth .login-btn::before {
   @apply content-[''] inline-block w-2 h-2 mr-1.5 bg-green-500 rounded-full align-[1px] shadow-[0_0_0_5px_rgba(34,197,94,0.12)];
+}
+.user-avatar-trigger {
+  @apply relative flex items-center h-full cursor-pointer;
+}
+.user-avatar-popup {
+  @apply hidden absolute top-full right-0 pt-2 z-[102];
+}
+.user-avatar-trigger:hover .user-avatar-popup {
+  @apply block;
 }
 
 .live-type-main {

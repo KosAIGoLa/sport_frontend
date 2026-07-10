@@ -15,7 +15,7 @@
       <span class="h-9 px-3.5 rounded-md bg-[#ffc61a] text-[#111827] inline-flex items-center justify-center text-sm font-extrabold shrink-0 basis-auto">{{ t('nav.downloadApp') }}</span>
     </button>
 
-    <nav class="fixed left-0 right-0 bottom-0 z-[36] h-[92px] bg-white border-t border-[rgba(226,232,240,0.95)] grid grid-cols-4 pb-[env(safe-area-inset-bottom)]" aria-label="底部导航">
+    <nav class="fixed left-0 right-0 bottom-0 z-[36] h-[92px] bg-white/80 border-t border-[rgba(226,232,240,0.95)] grid grid-cols-4 pb-[env(safe-area-inset-bottom)]" aria-label="底部导航">
       <component
         v-for="item in tabs"
         :key="item.label"
@@ -27,12 +27,12 @@
         @click="handleTabClick(item)"
       >
         <span
-          class="relative w-[58px] h-[38px] inline-flex items-center justify-center before:content-[''] before:absolute before:inset-0 before:rounded-full before:bg-transparent before:transition-colors before:duration-200 active:before:bg-[#fff4d6]"
-          :class="{ 'before:bg-[#ffc61a]': currentActiveTab === item.key }"
+          class="relative w-[58px] h-[38px] inline-flex items-center justify-center before:content-[''] before:absolute before:inset-0 before:rounded-full before:transition-colors before:duration-200"
+          :class="currentActiveTab === item.key ? 'before:bg-[#ffc61a]' : 'before:bg-transparent active:before:bg-[#fff4d6]'"
         >
           <svg
-            class="w-[30px] h-[30px] fill-none stroke-current stroke-[1.9] relative z-[1] active:text-[#f4b400]"
-            :class="{ 'text-white': currentActiveTab === item.key }"
+            class="w-[30px] h-[30px] fill-none stroke-current stroke-[1.9] relative z-[1]"
+            :class="currentActiveTab === item.key ? 'text-white' : 'text-gray-800 active:text-[#f4b400]'"
             viewBox="0 0 24 24"
             aria-hidden="true"
           >

@@ -130,6 +130,7 @@ export default {
     titleLive: 'All Live',
     titleSchedule: 'Schedule',
     titleRoom: 'Live Room',
+    titleUserCenter: 'User Center',
     titleDownload: 'Download 857 Live APP'
   }
 }

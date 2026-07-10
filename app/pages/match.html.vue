@@ -29,8 +29,16 @@
           </a>
         </DesktopOnly>
         <DesktopOnly tag="div" class="match-auth">
-          <button type="button" class="login-btn" @click="openLogin('login')">{{ t('auth.login') }}</button>
-          <button type="button" @click="openLogin('register')">{{ t('auth.register') }}</button>
+          <template v-if="!isLoggedIn">
+            <button type="button" class="login-btn" @click="openLogin('login')">{{ t('auth.login') }}</button>
+            <button type="button" @click="openLogin('register')">{{ t('auth.register') }}</button>
+          </template>
+          <div v-else class="user-avatar-trigger">
+            <UserAvatar :count="4" />
+            <div class="user-avatar-popup">
+              <UserMenu @logout="isLoggedIn = false" />
+            </div>
+          </div>
         </DesktopOnly>
       </div>
     </header>
@@ -115,10 +123,9 @@
     <LoginModal
       v-model:visible="loginVisible"
       :type="loginType"
-      @success="loginVisible = false"
+      @success="isLoggedIn = true; loginVisible = false"
     />
-    <MobileStickyBar active-tab="schedule" hide-ad @follow="followVisible = true" @login="openLogin" />
-    <MobileFollowPanel :visible="followVisible" @login="openLogin" />
+    <MobileStickyBar active-tab="schedule" hide-ad @login="openLogin" />
   </div>
 </template>
 
@@ -135,7 +142,7 @@ const route = useRoute()
 const activeDay = ref(0)
 const loginVisible = ref(false)
 const loginType = ref('login')
-const followVisible = ref(false)
+const isLoggedIn = ref(false)
 
 const matchTab = computed(() => {
   const tab = typeof route.query.tab === 'string' ? route.query.tab : ''
@@ -341,7 +348,6 @@ const matches = [
 ]
 
 function openLogin(type) {
-  followVisible.value = false
   loginType.value = type
   loginVisible.value = true
 }
@@ -415,6 +421,15 @@ function openMatchDetail(match) {
 }
 .match-auth .login-btn::before {
   @apply content-[''] inline-block w-2 h-2 mr-1.5 bg-green-500 rounded-full align-[1px] shadow-[0_0_0_5px_rgba(34,197,94,0.12)];
+}
+.user-avatar-trigger {
+  @apply relative flex items-center h-full cursor-pointer;
+}
+.user-avatar-popup {
+  @apply hidden absolute top-full right-0 pt-2 z-[102];
+}
+.user-avatar-trigger:hover .user-avatar-popup {
+  @apply block;
 }
 .match-wrapper {
   @apply w-[1200px] min-h-[calc(100vh-312px)] mx-auto pt-[42px] pb-16;
@@ -570,7 +585,7 @@ function openMatchDetail(match) {
     @apply w-[158px] h-auto block;
   }
   .match-mobile-tabs {
-    @apply h-[74px] px-4 bg-[rgba(255,198,26,0.92)] backdrop-blur-[10px] flex items-center gap-[38px] overflow-x-auto;
+    @apply h-[74px] px-4 bg-[rgba(255,198,26,0.8)] backdrop-blur-[10px] flex items-center gap-[38px] overflow-x-auto;
   }
   .match-mobile-tabs a {
     @apply relative shrink-0 text-white no-underline text-[22px] font-extrabold leading-none;

@@ -130,6 +130,7 @@ export default {
     titleLive: '全部直播',
     titleSchedule: '赛程',
     titleRoom: '直播间',
+    titleUserCenter: '个人中心',
     titleDownload: '下载 857 直播 APP'
   }
 }

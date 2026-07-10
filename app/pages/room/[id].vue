@@ -92,7 +92,7 @@
               <button :class="{ active: activeMobilePanel === 'rank' }" type="button" @click="setMobilePanel('rank')">{{ t('page.rank') }}</button>
               <button :class="{ active: activeMobilePanel === 'schedule' }" type="button" @click="setMobilePanel('schedule')">{{ t('page.schedule') }}</button>
             </div>
-            <button type="button" class="mobile-room-tabs__follow" @click="followVisible = true">
+            <button type="button" class="mobile-room-tabs__follow">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.1 21.35l-1.1-1.02C5.14 14.9 2 12.06 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.56-3.14 6.4-8.9 11.83l-1 .92z"/></svg>
               {{ t('nav.follow') }}
             </button>
@@ -327,8 +327,6 @@
       :type="loginType"
       @success="isLoggedIn = true"
     />
-    <MobileFollowPanel :visible="followVisible" @login="openLogin" />
-
     <div class="gift-effects">
       <div
         v-for="gift in giftEffects"
@@ -366,11 +364,9 @@ useHead(() => ({
 const isLoggedIn = ref(false)
 const loginVisible = ref(false)
 const loginType = ref('login')
-const followVisible = ref(false)
 const isMuted = ref(true)
 
 function openLogin(type) {
-  followVisible.value = false
   loginType.value = type
   loginVisible.value = true
 }

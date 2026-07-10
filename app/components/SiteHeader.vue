@@ -89,52 +89,11 @@
             </div>
           </div>
           <div class="header-avatar">
-            <img class="special-avatar avatar" src="/assets/avatar.png" alt="avatar">
-            <div class="newMsg"></div>
+            <div class="avatar-wrap">
+              <UserAvatar :count="msgCount" />
+            </div>
             <div class="submenu avatar-submenu">
-              <div class="submenu-box">
-                <div class="top float-clear">
-                  <div class="top-up float-clear">
-                    <img class="avatar" src="/assets/avatar.png" alt="">
-                    <span class="nickname ellipsis">DH0ZGW</span>
-                    <div class="identity">主播</div>
-                    <div class="btn-logout" @click="logout">{{ t('auth.logout') }}</div>
-                  </div>
-                  <div class="top-down">
-                    <progress class="grow-progress" value="1" max="200"></progress>
-                    <div class="grow-box">
-                      <span class="text">经验值</span>
-                      <span class="cur-grow">1</span>
-                      <span>/</span>
-                      <span class="max-grow">200</span>
-                    </div>
-                    <div class="grow-tip">
-                      <span>还差</span>
-                      <span class="diff-grow">199</span>
-                      <span>经验到下一等级</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="bottom">
-                  <div class="bottom-btn ucenter">
-                    <div class="icon home-icon"></div>
-                    <span>个人中心</span>
-                    <div class="msg-num singular"></div>
-                  </div>
-                  <div class="bottom-btn concern">
-                    <div class="icon concern-icon"></div>
-                    <span>我的关注</span>
-                  </div>
-                  <div class="bottom-btn subscribe">
-                    <div class="icon subscribe-icon"></div>
-                    <span>我的预约</span>
-                  </div>
-                </div>
-                <div class="anchor-center">
-                  <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
-                  <span>主播中心</span>
-                </div>
-              </div>
+              <UserMenu tail-align="center" @logout="logout" />
             </div>
           </div>
         </div>
@@ -154,6 +113,7 @@ const props = defineProps({
 const emit = defineEmits(['login', 'logout'])
 
 const isScrolled = ref(false)
+const msgCount = ref(4)
 const router = useRouter()
 const route = useRoute()
 
@@ -362,77 +322,17 @@ function goBack() {
   @apply w-[60px] h-[60px] block mx-auto mb-2.5;
 }
 
+.avatar-wrap {
+  @apply relative;
+}
 .header-avatar img.avatar {
   @apply w-[34px] h-[34px] rounded-full object-cover;
 }
+.newMsg {
+  @apply absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-red-500 text-white text-xs font-bold flex items-center justify-center border-2 border-white z-10;
+}
 .avatar-submenu .submenu-box {
-  @apply w-[220px] p-0;
-}
-.avatar-submenu .top {
-  @apply p-[15px] border-b border-[#f0f0f0];
-}
-.avatar-submenu .top-up {
-  @apply relative mb-2.5;
-}
-.avatar-submenu .top-up img.avatar {
-  @apply w-12 h-12 float-left mr-2.5;
-}
-.avatar-submenu .nickname {
-  @apply block text-sm text-[#333] max-w-[80px];
-}
-.avatar-submenu .identity {
-  @apply inline-block text-xs text-white bg-[#f8c21b] py-0.5 px-1.5 rounded-[3px] mt-1;
-}
-.avatar-submenu .btn-logout {
-  @apply float-right text-xs text-[#999] cursor-pointer mt-1.5;
-}
-.avatar-submenu .btn-logout:hover {
-  @apply text-[#f8c21b];
-}
-.grow-progress {
-  @apply w-full h-1 mb-1.5 rounded-sm;
-}
-.grow-box {
-  @apply text-xs text-[#999] mb-1;
-}
-.grow-tip {
-  @apply text-xs text-[#f8c21b];
-}
-.avatar-submenu .bottom {
-  @apply py-2.5 px-[15px] border-b border-[#f0f0f0];
-}
-.bottom-btn {
-  @apply flex items-center py-2 text-[13px] text-[#555] cursor-pointer;
-}
-.bottom-btn:hover {
-  @apply text-[#f8c21b];
-}
-.bottom-btn .icon {
-  @apply w-[18px] h-[18px] mr-2.5 bg-contain bg-no-repeat bg-center;
-}
-.home-icon {
-  @apply bg-[url('/assets/icon-home.png')];
-}
-.concern-icon {
-  @apply bg-[url('/assets/icon-concern.png')];
-}
-.subscribe-icon {
-  @apply bg-[url('/assets/icon-subscribe.png')];
-}
-.bottom-btn:hover .home-icon {
-  @apply bg-[url('/assets/icon-home-active.png')];
-}
-.bottom-btn:hover .concern-icon {
-  @apply bg-[url('/assets/icon-concern-active.png')];
-}
-.bottom-btn:hover .subscribe-icon {
-  @apply bg-[url('/assets/icon-subscribe-active.png')];
-}
-.anchor-center {
-  @apply py-3 px-[15px] text-[13px] text-white bg-[#f8c21b] text-center cursor-pointer rounded-b-md flex items-center justify-center;
-}
-.anchor-center svg {
-  @apply mr-1.5;
+  @apply w-auto p-0 bg-transparent border-0 shadow-none;
 }
 
 @media screen and (max-width: 1200px) {
