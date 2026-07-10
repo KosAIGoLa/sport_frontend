@@ -53,6 +53,7 @@ export default {
     liveNow: '直播中',
     watching: '观看',
     enterLiveRoom: '进入直播间',
+    unmute: '点击取消静音',
     loading: '加载中...',
     liveStream: '赛事直播'
   },

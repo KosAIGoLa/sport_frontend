@@ -44,6 +44,7 @@
                   <h2>瑞典超 埃尔夫斯堡-哈马比 主黄</h2>
                   <p>实时比分 <strong>2-0</strong></p>
                 </div>
+                <div v-if="isMuted" class="unmute-btn" role="button" tabindex="0" @click.stop="unmuteVideo" @keydown.enter.prevent.stop="unmuteVideo">{{ t('common.unmute') }}</div>
               </div>
             </div>
             <DesktopOnly tag="div" class="score-board">
@@ -348,7 +349,7 @@
 </template>
 
 <script setup>
-import Player from 'xgplayer'
+import Player, { Events } from 'xgplayer'
 const { t } = useI18n()
 import 'xgplayer/dist/index.min.css'
 
@@ -366,6 +367,7 @@ const isLoggedIn = ref(false)
 const loginVisible = ref(false)
 const loginType = ref('login')
 const followVisible = ref(false)
+const isMuted = ref(true)
 
 function openLogin(type) {
   followVisible.value = false
@@ -534,6 +536,12 @@ function openRedPacket(item) {
   })
 }
 
+function unmuteVideo() {
+  if (!player) return
+  player.muted = false
+  if (player.paused) player.play()
+}
+
 let player = null
 onMounted(() => {
   if (route.query.vt) {
@@ -563,6 +571,10 @@ onMounted(() => {
     download: false,
     keyShortcut: 'off',
     ignores: ['definition', 'test', 'volume', 'replay']
+  })
+  player.muted = true
+  player.on(Events.VOLUME_CHANGE, () => {
+    isMuted.value = player.muted
   })
 })
 
@@ -751,6 +763,12 @@ const recommendedLives = [
 }
 .video-meta p strong {
   @apply text-[#ffc21c] text-lg ml-1.5;
+}
+.unmute-btn {
+  @apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border border-white/[0.36] text-white h-[44px] leading-[44px] px-5 rounded-full bg-white/[0.16] shadow-[0_12px_28px_rgba(0,0,0,0.24)] text-base font-semibold cursor-pointer transition-all duration-200 z-[15] backdrop-blur-[10px];
+}
+.unmute-btn:hover {
+  @apply bg-white text-[#111827];
 }
 .score-board {
   @apply h-auto max-h-[220px] overflow-y-auto bg-slate-50 border-t border-slate-200/[0.9];
@@ -1505,6 +1523,9 @@ const recommendedLives = [
   }
   .video-meta p strong {
     @apply text-[15px];
+  }
+  .unmute-btn {
+    @apply h-9 leading-9 px-4 text-sm;
   }
   .notice {
     @apply px-3.5 py-2.5 border-b border-slate-200/[0.86];

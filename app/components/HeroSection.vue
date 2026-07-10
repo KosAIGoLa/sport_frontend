@@ -22,6 +22,7 @@
           </div>
         </div>
         <div class="inLiveRoom" role="button" tabindex="0" @click="goRoom" @keydown.enter.prevent="goRoom">{{ t('common.enterLiveRoom') }}</div>
+        <div v-if="isMuted" class="unmute-btn" role="button" tabindex="0" @click="unmuteVideo" @keydown.enter.prevent="unmuteVideo">{{ t('common.unmute') }}</div>
         <div class="live-title" aria-hidden="true">
           <img class="live-cover" :src="rooms[currentRoom].cover" alt="">
           <div class="info">
@@ -46,7 +47,7 @@
 </template>
 
 <script setup>
-import Player from 'xgplayer'
+import Player, { Events } from 'xgplayer'
 import 'xgplayer/dist/index.min.css'
 
 const { t } = useI18n()
@@ -60,6 +61,7 @@ const rooms = [
 ]
 const currentRoom = ref(0)
 const isLoading = ref(false)
+const isMuted = ref(true)
 
 let player = null
 
@@ -90,6 +92,10 @@ function initPlayer() {
   player.on('canplay', () => {
     isLoading.value = false
   })
+  player.muted = true
+  player.on(Events.VOLUME_CHANGE, () => {
+    isMuted.value = player.muted
+  })
   setTimeout(() => {
     isLoading.value = false
   }, 1200)
@@ -102,6 +108,12 @@ onMounted(() => {
 watch(currentRoom, () => {
   initPlayer()
 })
+
+function unmuteVideo() {
+  if (!player) return
+  player.muted = false
+  if (player.paused) player.play()
+}
 
 function goRoom() {
   const roomId = rooms[currentRoom.value]?.roomId
@@ -193,6 +205,12 @@ function goRoom() {
 }
 .inLiveRoom:hover {
   @apply bg-[#f8c21b] text-white;
+}
+.unmute-btn {
+  @apply absolute left-1/2 top-[58%] -translate-x-1/2 -translate-y-1/2 border border-white/[0.36] text-white h-[44px] leading-[44px] px-5 rounded-full bg-white/[0.16] shadow-[0_12px_28px_rgba(0,0,0,0.24)] text-base font-semibold cursor-pointer transition-all duration-200 z-[13] backdrop-blur-[10px];
+}
+.unmute-btn:hover {
+  @apply bg-white text-[#111827];
 }
 .live-title {
   @apply absolute left-2.5 bottom-2.5 flex items-center gap-2.5 text-white z-10 max-w-[60%];
@@ -287,6 +305,9 @@ function goRoom() {
   .inLiveRoom {
     @apply top-[42%];
   }
+  .unmute-btn {
+    @apply top-[56%];
+  }
 }
 
 @media (max-width: 768px) {
@@ -298,6 +319,7 @@ function goRoom() {
   .hero-status,
   .hero-meta,
   .inLiveRoom,
+  .unmute-btn,
   .live-title,
   .video-mask,
   .loading {

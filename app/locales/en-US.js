@@ -53,6 +53,7 @@ export default {
     liveNow: 'Live',
     watching: 'watching',
     enterLiveRoom: 'Enter Live Room',
+    unmute: 'Click to Unmute',
     loading: 'Loading...',
     liveStream: 'Live Match'
   },
