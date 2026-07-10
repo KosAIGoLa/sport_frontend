@@ -79,7 +79,10 @@ const allLives = [
 <style scoped>
 .live-type-page {
   @apply min-h-screen text-[#111827];
-  background: radial-gradient(circle at 12% 0%, rgba(255, 199, 28, 0.18), transparent 28%), radial-gradient(circle at 86% 12%, rgba(33, 138, 255, 0.14), transparent 30%), linear-gradient(180deg, #f8fafc 0%, #eef3f9 52%, #f8fafc 100%);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(243, 182, 31, 0.14), transparent 28%),
+    radial-gradient(circle at 86% 12%, rgba(59, 130, 246, 0.09), transparent 30%),
+    linear-gradient(180deg, var(--app-bg) 0%, var(--app-bg-soft) 52%, var(--app-bg) 100%);
 }
 .live-type-main {
   @apply relative pt-5 px-0 pb-[72px];
@@ -104,7 +107,7 @@ const allLives = [
 
 @media (max-width: 768px) {
   .live-type-page {
-    @apply bg-[#f5f5f5];
+    background: #f4f6fa;
   }
   .live-type-main::before,
   .live-type-main::after {

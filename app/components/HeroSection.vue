@@ -1,5 +1,8 @@
 <template>
   <section class="living-room">
+    <div class="hero-effects" aria-hidden="true">
+      <span v-for="i in 16" :key="i" class="hero-particle" :class="`particle-${i}`"></span>
+    </div>
     <div class="video-inner inner">
       <div class="video-box">
         <div class="hero-status">
@@ -124,11 +127,52 @@ function goRoom() {
 
 <style scoped>
 .living-room {
-  @apply h-[620px] bg-[linear-gradient(180deg,rgba(7,10,28,0.32)_0%,rgba(7,10,28,0.72)_100%),url('/assets/banner.jpg')_center/cover_no-repeat] relative overflow-hidden;
+  @apply h-[620px] relative overflow-hidden bg-transparent;
 }
 .living-room::before {
-  @apply content-[''] absolute inset-0 bg-[radial-gradient(circle_at_20%_18%,rgba(255,199,28,0.28),transparent_26%),radial-gradient(circle_at_82%_28%,rgba(33,138,255,0.2),transparent_30%)] pointer-events-none;
+  @apply content-[''] absolute inset-0 pointer-events-none;
+  background: url('/player-bg.png') center / cover no-repeat;
+  animation: heroZoom 24s infinite alternate ease-in-out;
 }
+.living-room::after {
+  @apply content-[''] absolute inset-0 pointer-events-none;
+  background: radial-gradient(circle at 50% 45%, rgba(255, 255, 255, 0.16), transparent 55%);
+}
+@keyframes heroZoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.08); }
+}
+@keyframes floatUp {
+  0% { transform: translateY(0) scale(0.6); opacity: 0; }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.6; }
+  100% { transform: translateY(-620px) scale(1.2); opacity: 0; }
+}
+.hero-effects {
+  @apply absolute inset-0 pointer-events-none overflow-hidden z-[0];
+}
+.hero-particle {
+  @apply absolute bottom-0 rounded-full pointer-events-none;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 215, 0, 0.6) 40%, transparent 80%);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+  animation: floatUp 12s infinite linear;
+}
+.hero-particle.particle-1 { left: 6%; width: 4px; height: 4px; animation-duration: 14s; animation-delay: 0s; }
+.hero-particle.particle-2 { left: 12%; width: 6px; height: 6px; animation-duration: 11s; animation-delay: 1.2s; }
+.hero-particle.particle-3 { left: 18%; width: 3px; height: 3px; animation-duration: 16s; animation-delay: 2.5s; }
+.hero-particle.particle-4 { left: 24%; width: 5px; height: 5px; animation-duration: 13s; animation-delay: 0.8s; }
+.hero-particle.particle-5 { left: 30%; width: 4px; height: 4px; animation-duration: 15s; animation-delay: 3.2s; }
+.hero-particle.particle-6 { left: 36%; width: 6px; height: 6px; animation-duration: 10s; animation-delay: 2s; }
+.hero-particle.particle-7 { left: 42%; width: 3px; height: 3px; animation-duration: 17s; animation-delay: 4.5s; }
+.hero-particle.particle-8 { left: 48%; width: 5px; height: 5px; animation-duration: 12s; animation-delay: 1.5s; }
+.hero-particle.particle-9 { left: 54%; width: 4px; height: 4px; animation-duration: 14s; animation-delay: 3.8s; }
+.hero-particle.particle-10 { left: 60%; width: 6px; height: 6px; animation-duration: 11s; animation-delay: 0.5s; }
+.hero-particle.particle-11 { left: 66%; width: 3px; height: 3px; animation-duration: 16s; animation-delay: 2.8s; }
+.hero-particle.particle-12 { left: 72%; width: 5px; height: 5px; animation-duration: 13s; animation-delay: 4s; }
+.hero-particle.particle-13 { left: 78%; width: 4px; height: 4px; animation-duration: 15s; animation-delay: 1s; }
+.hero-particle.particle-14 { left: 84%; width: 6px; height: 6px; animation-duration: 10s; animation-delay: 3.5s; }
+.hero-particle.particle-15 { left: 90%; width: 3px; height: 3px; animation-duration: 17s; animation-delay: 5s; }
+.hero-particle.particle-16 { left: 96%; width: 5px; height: 5px; animation-duration: 12s; animation-delay: 2.2s; }
 .inner {
   @apply w-[1200px] mx-auto;
 }
@@ -264,7 +308,7 @@ function goRoom() {
     @apply w-[960px];
   }
   .living-room {
-    @apply h-[528px] bg-[url('/assets/banner-528.jpg')] bg-cover;
+    @apply h-[528px];
   }
   .video-inner {
     @apply h-[528px] pt-[74px];
@@ -315,6 +359,8 @@ function goRoom() {
     @apply h-auto bg-[#f5f5f5] pt-[180px];
   }
   .living-room::before,
+  .living-room::after,
+  .hero-effects,
   .video-list,
   .hero-status,
   .hero-meta,

@@ -64,13 +64,8 @@ function openLogin(type) {
 </script>
 
 <style>
-html {
-  @apply scroll-smooth;
-}
 body {
-  @apply m-0 p-0 font-sans text-[#111827] antialiased;
-  background: radial-gradient(circle at 12% 8%, rgba(255, 199, 28, 0.16), transparent 28%), radial-gradient(circle at 88% 18%, rgba(33, 138, 255, 0.14), transparent 30%), linear-gradient(180deg, #f8fafc 0%, #eef3f9 42%, #f8fafc 100%);
-  text-rendering: optimizeLegibility;
+  @apply font-sans antialiased;
 }
 * {
   @apply box-border;
@@ -95,13 +90,9 @@ h6 {
 main {
   @apply pt-0;
 }
-::selection {
-  @apply bg-[rgba(255,199,28,0.35)];
-}
-
 @media (max-width: 768px) {
   body {
-    @apply bg-[#f5f5f5];
+    background: #f4f6fa;
   }
 
   .index-wrapper {

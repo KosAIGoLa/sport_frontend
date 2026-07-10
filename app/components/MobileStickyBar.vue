@@ -12,7 +12,7 @@
         <strong class="text-[13px] font-extrabold">857直播</strong>
         <span class="text-[11px] text-white/80 whitespace-nowrap overflow-hidden text-ellipsis">{{ t('common.liveStream') }}</span>
       </div>
-      <span class="h-8 px-3 rounded-md bg-[#ffc61a] text-[#111827] inline-flex items-center justify-center text-[13px] font-extrabold shrink-0 basis-auto">{{ t('nav.downloadApp') }}</span>
+      <span class="h-8 px-3 rounded-md bg-[#f3b61f] text-[#111827] inline-flex items-center justify-center text-[13px] font-extrabold shrink-0 basis-auto">{{ t('nav.downloadApp') }}</span>
     </button>
 
     <nav class="fixed left-0 right-0 bottom-0 z-[36] h-[76px] bg-white/80 border-t border-[rgba(226,232,240,0.95)] grid grid-cols-4 pb-[env(safe-area-inset-bottom)]" aria-label="底部导航">
@@ -28,11 +28,11 @@
       >
         <span
           class="relative w-[50px] h-[32px] inline-flex items-center justify-center before:content-[''] before:absolute before:inset-0 before:rounded-full before:transition-colors before:duration-200"
-          :class="currentActiveTab === item.key ? 'before:bg-[#ffc61a]' : 'before:bg-transparent active:before:bg-[#fff4d6]'"
+          :class="currentActiveTab === item.key ? 'before:bg-[#f3b61f]' : 'before:bg-transparent active:before:bg-[#fff7dc]'"
         >
           <svg
             class="w-[24px] h-[24px] fill-none stroke-current stroke-[1.9] relative z-[1]"
-            :class="currentActiveTab === item.key ? 'text-white' : 'text-gray-800 active:text-[#f4b400]'"
+            :class="currentActiveTab === item.key ? 'text-white' : 'text-gray-800 active:text-[#e8a910]'"
             viewBox="0 0 24 24"
             aria-hidden="true"
           >
@@ -49,7 +49,7 @@
         <a class="mx-auto mb-3 flex h-[46px] items-center justify-center rounded-[6px] bg-[#f7f7ff] px-3 text-[18px] font-medium text-blue-600 underline" href="https://857zbw8.live" target="_blank" rel="noopener noreferrer">857zbw8.live</a>
         <a class="mx-auto mb-4 flex h-[46px] items-center justify-center rounded-[6px] bg-[#f7f7ff] px-3 text-[18px] font-medium text-blue-600 underline" href="https://857zbw9.live" target="_blank" rel="noopener noreferrer">857zbw9.live</a>
         <p class="m-0 mb-4 text-[14px] font-medium leading-6 text-[#333]">{{ t('notice.bookmarkTip') }}</p>
-        <button type="button" class="h-[46px] w-[176px] rounded-[7px] border-0 bg-[#ffc61a] text-[18px] font-extrabold text-white" @click="confirmNotice">{{ t('notice.ok') }}</button>
+        <button type="button" class="h-[46px] w-[176px] rounded-[7px] border-0 bg-[#f3b61f] text-[18px] font-extrabold text-white" @click="confirmNotice">{{ t('notice.ok') }}</button>
       </div>
     </div>
   </div>

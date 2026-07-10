@@ -34,7 +34,10 @@ useHead(() => ({
 <style scoped>
 .download-page {
   @apply min-h-screen text-[#111827];
-  background: radial-gradient(circle at 12% 0%, rgba(255, 199, 28, 0.18), transparent 28%), radial-gradient(circle at 86% 12%, rgba(33, 138, 255, 0.14), transparent 30%), linear-gradient(180deg, #f8fafc 0%, #eef3f9 52%, #f8fafc 100%);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(243, 182, 31, 0.14), transparent 28%),
+    radial-gradient(circle at 86% 12%, rgba(59, 130, 246, 0.08), transparent 30%),
+    linear-gradient(180deg, var(--app-bg) 0%, var(--app-bg-soft) 52%, var(--app-bg) 100%);
 }
 
 .download-header {
@@ -54,7 +57,9 @@ useHead(() => ({
 }
 
 .download-card {
-  @apply w-[400px] max-w-full py-8 px-7 bg-white/[0.92] border border-white/[0.9] rounded-[22px] shadow-[0_18px_48px_rgba(15,23,42,0.10)] text-center backdrop-blur-[14px];
+  @apply w-[400px] max-w-full py-8 px-7 rounded-[22px] shadow-[0_18px_48px_rgba(15,23,42,0.10)] text-center backdrop-blur-[14px];
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
 }
 
 .download-qr {
@@ -70,7 +75,9 @@ useHead(() => ({
 }
 
 .download-tips {
-  @apply text-left py-4 px-4 bg-amber-50 border border-[rgba(251,191,36,0.25)] rounded-[14px] mb-6;
+  @apply text-left py-4 px-4 rounded-[14px] mb-6;
+  background: var(--app-accent-soft);
+  border: 1px solid rgba(243, 182, 31, 0.22);
 }
 
 .download-tips p {
@@ -82,7 +89,8 @@ useHead(() => ({
 }
 
 .download-back {
-  @apply inline-flex items-center justify-center h-10 px-6 rounded-full bg-[linear-gradient(135deg,#ffe178_0%,#ffc21c_100%)] text-[#111827] text-[14px] font-extrabold no-underline transition-transform duration-200;
+  @apply inline-flex items-center justify-center h-10 px-6 rounded-full text-[#111827] text-[14px] font-extrabold no-underline transition-transform duration-200;
+  background: linear-gradient(135deg, #f7ca4b 0%, var(--app-accent) 100%);
 }
 
 .download-back:hover {
@@ -91,7 +99,7 @@ useHead(() => ({
 
 @media (max-width: 768px) {
   .download-page {
-    background: linear-gradient(180deg, rgba(255, 198, 26, 0.12) 0%, rgba(255, 198, 26, 0.03) 32%, rgba(248, 250, 252, 0.98) 100%), #f8fafc;
+    background: linear-gradient(180deg, rgba(243, 182, 31, 0.09) 0%, rgba(243, 182, 31, 0.02) 32%, rgba(246, 248, 252, 0.98) 100%), #f6f8fc;
   }
 
   .download-header {
