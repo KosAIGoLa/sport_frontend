@@ -64,7 +64,7 @@ const mobileTabs = computed(() => {
 
 <style scoped>
 .page-header {
-  @apply sticky top-0 z-[100] h-[72px] bg-white/[0.86] border-b border-slate-200/[0.9] shadow-[0_16px_40px_rgba(15,23,42,0.08)] backdrop-blur-[18px];
+  @apply relative z-[100] h-[72px] bg-white/[0.86] border-b border-slate-200/[0.9] shadow-[0_16px_40px_rgba(15,23,42,0.08)] backdrop-blur-[18px];
 }
 .page-header__inner {
   @apply w-[1200px] h-full mx-auto flex items-center;

@@ -663,7 +663,7 @@ const recommendedLives = [
 
 <style scoped>
 .room-page {
-  @apply min-h-screen text-[#333] pt-[72px] bg-[linear-gradient(to_bottom,#25284d_0,#25284d_748px,#eef0f5_748px)];
+  @apply min-h-screen text-[#333] bg-[linear-gradient(to_bottom,#25284d_0,#25284d_748px,#eef0f5_748px)];
 }
 .room-main {
   @apply w-[1200px] mx-auto py-3.5 pb-11;
@@ -1454,7 +1454,7 @@ const recommendedLives = [
 
 @media (max-width: 768px) {
   .room-page {
-    @apply pt-[68px] bg-[linear-gradient(180deg,rgba(255,198,26,0.12)_0%,rgba(255,198,26,0.03)_26%,#f8fafc_100%)];
+    @apply bg-[linear-gradient(180deg,rgba(255,198,26,0.12)_0%,rgba(255,198,26,0.03)_26%,#f8fafc_100%)];
   }
   .room-main {
     @apply w-full pt-3.5 px-4 pb-0;

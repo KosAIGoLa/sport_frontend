@@ -330,7 +330,7 @@ function openMatchDetail(match) {
   @apply overflow-hidden whitespace-nowrap text-ellipsis;
 }
 .match-wrapper {
-  @apply w-[1200px] min-h-[calc(100vh-312px)] mx-auto pt-[42px] pb-16;
+  @apply w-[1200px] min-h-[calc(100vh-312px)] mx-auto pt-5 pb-16;
 }
 .match-wrapper::before {
   content: var(--match-title);

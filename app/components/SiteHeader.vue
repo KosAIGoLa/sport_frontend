@@ -1,5 +1,5 @@
 <template>
-  <header class="header-wrapper" :class="{ active: isScrolled || forceSolid }">
+  <header class="header-wrapper" :class="{ active: isScrolled || forceSolid, 'header-wrapper--static': !floating }">
     <div class="header-inner clearfix">
       <MobileOnly tag="div" class="mobile-header">
         <div class="mobile-header__top">
@@ -129,7 +129,8 @@ const props = defineProps({
   isLoggedIn: { type: Boolean, default: false },
   activeMenu: { type: String, default: 'home' },
   forceSolid: { type: Boolean, default: false },
-  back: { type: Boolean, default: false }
+  back: { type: Boolean, default: false },
+  floating: { type: Boolean, default: false }
 })
 const emit = defineEmits(['login', 'logout'])
 
@@ -200,6 +201,9 @@ function goBack() {
 
 .header-wrapper {
   @apply fixed top-0 left-0 w-full h-[72px] z-[100] bg-white border-b border-[rgba(229,231,235,0.85)] shadow-[0_16px_40px_rgba(15,23,42,0.08)] backdrop-blur-[18px] transition-[background,box-shadow,border-color] duration-300 text-[#111827];
+}
+.header-wrapper--static {
+  @apply relative;
 }
 .header-wrapper.active {
   @apply bg-white border-[rgba(229,231,235,0.85)] shadow-[0_16px_40px_rgba(15,23,42,0.08)] text-[#111827];

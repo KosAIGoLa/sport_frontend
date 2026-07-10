@@ -9,7 +9,16 @@
         </div>
         <div class="user-menu__badges">
           <span class="user-menu__badge-label">奖牌</span>
-          <span v-for="i in 6" :key="i" class="user-menu__badge"></span>
+          <span v-for="(medal, idx) in medals" :key="idx" class="user-menu__badge" :class="`user-menu__badge--${medal.type}`">
+            <svg v-if="medal.type === 'shield'" viewBox="0 0 24 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L4 6v8c0 6 3.5 10 8 12 4.5-2 8-6 8-12V6l-8-4z" :fill="medal.bg" stroke="#9ca3af" stroke-width="1.5"/>
+              <text x="12" y="17" text-anchor="middle" fill="white" font-size="8" font-weight="bold">{{ medal.text }}</text>
+            </svg>
+            <svg v-else viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="10" :fill="medal.bg" stroke="#9ca3af" stroke-width="1.5"/>
+              <text x="12" y="15.5" text-anchor="middle" fill="white" font-size="8" font-weight="bold">{{ medal.text }}</text>
+            </svg>
+          </span>
         </div>
         <div class="user-menu__level">
           <span class="user-menu__lv">LV.1</span>
@@ -36,7 +45,7 @@
           </svg>
           <span>0</span>
         </div>
-        <button type="button" class="user-menu__recharge">充值</button>
+        <NuxtLink class="user-menu__recharge" to="/recharge.html">充值</NuxtLink>
       </div>
     </div>
 
@@ -44,7 +53,7 @@
       <NuxtLink
         v-for="item in actions"
         :key="item.label"
-        to="/user.html"
+        :to="item.to"
         class="user-menu__action"
         :class="{ 'user-menu__action--active': item.active }"
       >
@@ -64,10 +73,19 @@ const icons = {
 }
 
 const actions = [
-  { label: '个人中心', icon: icons.user, active: false },
-  { label: '我的关注', icon: icons.heart, active: false },
-  { label: '我的消息', icon: icons.message, active: true },
-  { label: '申请直播', icon: icons.camera, active: false }
+  { label: '个人中心', icon: icons.user, to: '/user.html?menu=profile', active: false },
+  { label: '我的关注', icon: icons.heart, to: '/user.html?menu=follow', active: false },
+  { label: '我的消息', icon: icons.message, to: '/user.html?menu=message', active: false },
+  { label: '申请直播', icon: icons.camera, to: '/user.html', active: false }
+]
+
+const medals = [
+  { type: 'circle', text: '76', bg: '#ed1c24' },
+  { type: 'circle', text: 'LAL', bg: '#552583' },
+  { type: 'shield', text: '最佳', bg: '#6b7280' },
+  { type: 'circle', text: 'DEN', bg: '#0e2240' },
+  { type: 'shield', text: 'MVP', bg: '#f59e0b' },
+  { type: 'circle', text: 'POR', bg: '#e03a3e' }
 ]
 
 defineProps({
@@ -114,7 +132,13 @@ defineEmits(['logout'])
   @apply text-sm text-gray-600 mr-1;
 }
 .user-menu__badge {
-  @apply w-6 h-6 rounded-full bg-gray-200;
+  @apply w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden;
+}
+.user-menu__badge--shield {
+  @apply h-7 rounded-md bg-transparent;
+}
+.user-menu__badge svg {
+  @apply w-full h-full;
 }
 .user-menu__level {
   @apply flex items-center gap-2 text-xs;
@@ -150,7 +174,7 @@ defineEmits(['logout'])
   @apply w-4 h-4 text-orange-500;
 }
 .user-menu__recharge {
-  @apply h-7 px-4 rounded-full bg-red-500 text-white text-xs font-bold border-0 cursor-pointer;
+  @apply inline-flex items-center h-7 px-4 rounded-full bg-red-500 text-white text-xs font-bold no-underline cursor-pointer;
 }
 .user-menu__actions {
   @apply grid grid-cols-4 gap-1 pt-3;
