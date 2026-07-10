@@ -11,6 +11,7 @@ export default {
     live: 'Live',
     follow: 'Following',
     appointment: 'Bookings',
+    history: 'History',
     profile: 'Me'
   },
   auth: {

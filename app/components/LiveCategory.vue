@@ -2,10 +2,10 @@
   <div class="liveType-wrapper">
     <div class="section-head">
       <img class="section-title" :src="titleImage" :alt="titleAlt">
-      <a class="section-more" :href="moreLink">
+      <NuxtLink class="section-more" :to="moreLink">
         <span>{{ t('page.viewMore') }}</span>
         <img src="/assets/more.png" alt="">
-      </a>
+      </NuxtLink>
     </div>
     <div v-if="showFilter" class="category-tabs">
       <button
@@ -78,18 +78,15 @@ watch(() => props.initialCategory, (val) => {
 }
 
 .section-head {
-  @apply h-[42px] leading-[42px];
-}
-.section-head::after {
-  @apply content-[''] block h-0 clear-both invisible;
+  @apply flex items-center justify-between gap-4 min-h-[42px];
 }
 
 .section-title {
-  @apply float-left w-[132px] h-8 mt-[5px] block;
+  @apply w-[132px] h-8 block shrink-0;
 }
 
 .section-more {
-  @apply float-right inline-flex items-center h-[42px] text-slate-500 no-underline text-base;
+  @apply inline-flex items-center h-[42px] shrink-0 text-slate-500 no-underline text-sm whitespace-nowrap;
 }
 
 .section-more img {
@@ -117,19 +114,15 @@ watch(() => props.initialCategory, (val) => {
 }
 
 .category-list {
-  @apply list-none overflow-hidden p-0 m-0;
+  @apply list-none p-0 m-0 grid grid-cols-5 gap-[18px];
 }
 
 .category-list li {
-  @apply m-0 mr-[17.5px] mb-[18px] align-top relative w-[226px] h-[224px] bg-white rounded-[18px] cursor-pointer inline-block float-left overflow-hidden shadow-[0_14px_34px_rgba(15,23,42,0.08)] transition-[transform,box-shadow] duration-[0.22s];
+  @apply m-0 relative w-full min-w-0 h-[224px] bg-white rounded-[18px] cursor-pointer overflow-hidden shadow-[0_14px_34px_rgba(15,23,42,0.08)] transition-[transform,box-shadow] duration-[0.22s];
 }
 
 .category-list li:hover {
   @apply -translate-y-1.5 shadow-[0_24px_54px_rgba(15,23,42,0.16)];
-}
-
-.category-list li:nth-child(5n) {
-  @apply mr-0;
 }
 
 .category-list li :deep(.live-card) {
@@ -152,21 +145,41 @@ watch(() => props.initialCategory, (val) => {
   @apply h-[22px] leading-[22px] text-base text-[#b5b5b5] mt-[18px] select-none;
 }
 
+@media screen and (max-width: 1400px) {
+  .liveType-wrapper {
+    @apply w-[960px];
+  }
+
+  .category-list {
+    @apply grid-cols-4 gap-4;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .liveType-wrapper {
+    @apply w-[min(960px,calc(100%-24px))];
+  }
+
+  .category-list {
+    @apply grid-cols-3;
+  }
+}
+
 @media (max-width: 768px) {
   .liveType-wrapper {
     @apply w-full pt-6 px-4 pb-0;
   }
 
   .section-head {
-    @apply h-auto leading-none flex items-center justify-between;
+    @apply min-h-0;
   }
 
   .section-title {
-    @apply float-none w-[116px] h-auto m-0;
+    @apply w-[116px] h-auto m-0;
   }
 
   .section-more {
-    @apply float-none h-auto text-[13px];
+    @apply h-auto text-[13px];
   }
 
   .category-tabs {
@@ -177,9 +190,8 @@ watch(() => props.initialCategory, (val) => {
     @apply grid grid-cols-2 gap-3.5;
   }
 
-  .category-list li,
-  .category-list li:nth-child(5n) {
-    @apply w-auto h-auto m-0 float-none rounded-[14px] shadow-[0_10px_24px_rgba(15,23,42,0.08)];
+  .category-list li {
+    @apply w-auto h-auto m-0 rounded-[14px] shadow-[0_10px_24px_rgba(15,23,42,0.08)];
   }
 
   .category-list li:hover {

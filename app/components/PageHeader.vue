@@ -112,22 +112,22 @@ const mobileTabs = computed(() => {
     @apply block w-full;
   }
   .page-header__mobile-top {
-    @apply h-[68px] px-4 bg-[rgba(32,33,36,0.9)] backdrop-blur-[10px] flex items-center justify-between;
+    @apply h-[60px] px-4 bg-[rgba(32,33,36,0.9)] backdrop-blur-[10px] flex items-center justify-between;
   }
   .page-header__mobile-logo {
-    @apply w-[158px] h-auto block;
+    @apply w-[136px] h-auto block;
   }
   .page-header__mobile-download {
-    @apply min-w-[108px] h-[42px] px-4 rounded-md bg-[#ffc61a] text-white no-underline text-base font-extrabold inline-flex items-center justify-center;
+    @apply min-w-[96px] h-[36px] px-3 rounded-md bg-[#ffc61a] text-white no-underline text-[14px] font-extrabold inline-flex items-center justify-center;
   }
   .page-header__mobile-tabs {
-    @apply h-[74px] px-4 bg-[rgba(255,198,26,0.92)] backdrop-blur-[10px] flex items-center gap-[38px] overflow-x-auto;
+    @apply h-[58px] px-4 bg-[rgba(255,198,26,0.92)] backdrop-blur-[10px] flex items-center gap-6 overflow-x-auto;
   }
   .page-header__mobile-tabs a {
-    @apply relative shrink-0 text-white no-underline text-[22px] font-extrabold leading-none;
+    @apply relative shrink-0 text-white no-underline text-[16px] font-bold leading-none;
   }
   .page-header__mobile-tabs a.active::after {
-    @apply content-[''] absolute left-1/2 -bottom-[14px] w-3 h-1.5 -ml-1.5 rounded-full bg-white;
+    @apply content-[''] absolute left-1/2 -bottom-[10px] w-2.5 h-1 -ml-1.5 rounded-full bg-white;
   }
   .page-header__logo,
   .page-header__nav,

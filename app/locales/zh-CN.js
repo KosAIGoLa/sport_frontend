@@ -11,6 +11,7 @@ export default {
     live: '直播',
     follow: '关注',
     appointment: '预约',
+    history: '历史',
     profile: '我的'
   },
   auth: {

@@ -65,35 +65,10 @@
         </div>
         <div v-else class="had-login">
           <div class="header-subscribe">
-            <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-            <span>{{ t('nav.appointment') }}</span>
+            <IconFollow icon-class="icon-svg" />
+            <span>{{ t('nav.follow') }}</span>
             <div class="submenu subscribe-submenu">
               <div class="submenu-box subscribe-submenu-box">
-                <div class="concern-empty">
-                  <svg class="concern-empty__img" viewBox="0 0 160 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <ellipse cx="80" cy="85" rx="55" ry="60" fill="#cbd5e1"/>
-                    <ellipse cx="80" cy="95" rx="30" ry="38" fill="white"/>
-                    <circle cx="62" cy="70" r="5" fill="#334155"/>
-                    <circle cx="98" cy="70" r="5" fill="#334155"/>
-                    <path d="M75 82 L85 82 L80 92 Z" fill="#f59e0b"/>
-                    <path d="M58 76 Q52 88 58 100" stroke="#60a5fa" stroke-width="4" fill="none" stroke-linecap="round"/>
-                    <path d="M102 76 Q108 88 102 100" stroke="#60a5fa" stroke-width="4" fill="none" stroke-linecap="round"/>
-                    <path d="M25 85 Q12 105 25 120" stroke="#cbd5e1" stroke-width="12" fill="none" stroke-linecap="round"/>
-                    <path d="M135 85 Q148 105 135 120" stroke="#cbd5e1" stroke-width="12" fill="none" stroke-linecap="round"/>
-                    <path d="M50 40 Q60 30 70 40" stroke="#94a3b8" stroke-width="3" fill="none" stroke-linecap="round"/>
-                    <path d="M90 40 Q100 30 110 40" stroke="#94a3b8" stroke-width="3" fill="none" stroke-linecap="round"/>
-                  </svg>
-                  <p class="concern-empty__text">你的预约列表空空如也~</p>
-                </div>
-                <a class="concern-empty__footer" href="/match.html">查看全部</a>
-              </div>
-            </div>
-          </div>
-          <div class="header-concern">
-            <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-            <span>{{ t('nav.follow') }}</span>
-            <div class="submenu concern-submenu">
-              <div class="submenu-box concern-submenu-box">
                 <template v-if="followItems.length">
                   <div class="concern-list">
                     <a
@@ -142,6 +117,59 @@
               </div>
             </div>
           </div>
+          <div class="header-concern">
+            <IconHistory icon-class="icon-svg" />
+            <span>{{ t('nav.history') }}</span>
+            <div class="submenu concern-submenu">
+              <div class="submenu-box concern-submenu-box">
+                <template v-if="historyItems.length">
+                  <div class="concern-list">
+                    <a
+                      v-for="item in historyItems"
+                      :key="item.id"
+                      :href="item.link"
+                      class="concern-item"
+                    >
+                      <div class="concern-item__title">{{ item.title }}</div>
+                      <div class="concern-item__meta">
+                        <span class="concern-item__meta-item">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><polygon points="10 9 16 12 10 15 10 9"/></svg>
+                          {{ item.timeAgo }}
+                        </span>
+                        <span class="concern-item__meta-item">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                          {{ item.author }}
+                        </span>
+                        <span class="concern-item__meta-item">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                          {{ item.heat }}
+                        </span>
+                      </div>
+                    </a>
+                  </div>
+                </template>
+                <template v-else>
+                  <div class="concern-empty">
+                    <svg class="concern-empty__img" viewBox="0 0 160 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <ellipse cx="80" cy="85" rx="55" ry="60" fill="#cbd5e1"/>
+                      <ellipse cx="80" cy="95" rx="30" ry="38" fill="white"/>
+                      <circle cx="62" cy="70" r="5" fill="#334155"/>
+                      <circle cx="98" cy="70" r="5" fill="#334155"/>
+                      <path d="M75 82 L85 82 L80 92 Z" fill="#f59e0b"/>
+                      <path d="M58 76 Q52 88 58 100" stroke="#60a5fa" stroke-width="4" fill="none" stroke-linecap="round"/>
+                      <path d="M102 76 Q108 88 102 100" stroke="#60a5fa" stroke-width="4" fill="none" stroke-linecap="round"/>
+                      <path d="M25 85 Q12 105 25 120" stroke="#cbd5e1" stroke-width="12" fill="none" stroke-linecap="round"/>
+                      <path d="M135 85 Q148 105 135 120" stroke="#cbd5e1" stroke-width="12" fill="none" stroke-linecap="round"/>
+                      <path d="M50 40 Q60 30 70 40" stroke="#94a3b8" stroke-width="3" fill="none" stroke-linecap="round"/>
+                      <path d="M90 40 Q100 30 110 40" stroke="#94a3b8" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    </svg>
+                    <p class="concern-empty__text">你的历史列表空空如也~</p>
+                  </div>
+                </template>
+                <a class="concern-empty__footer" href="/user.html?menu=history">查看全部</a>
+              </div>
+            </div>
+          </div>
           <div class="header-avatar">
             <UserAvatarWithMenu :count="msgCount" menu-align="center" @logout="logout" />
           </div>
@@ -152,6 +180,9 @@
 </template>
 
 <script setup>
+import IconFollow from './IconFollow.vue'
+import IconHistory from './IconHistory.vue'
+
 const { t } = useI18n()
 const props = defineProps({
   isLoggedIn: { type: Boolean, default: false },
@@ -184,6 +215,26 @@ const followItems = [
     link: '/room/2'
   }
 ]
+
+const historyItems = [
+  {
+    id: 1,
+    title: '[直播] 【阿祖】U20 法国VS立陶宛',
+    timeAgo: '2小时前',
+    author: '阿祖又收了',
+    heat: '49694',
+    link: '/room/1'
+  },
+  {
+    id: 2,
+    title: '[直播] 乔氏台球002的直播间',
+    timeAgo: '2小时前',
+    author: '乔氏台球002',
+    heat: '1016',
+    link: '/room/2'
+  }
+]
+
 const route = useRoute()
 
 onMounted(() => {
@@ -478,15 +529,15 @@ function goBack() {
   }
 
   .mobile-header__top {
-    @apply h-[68px] px-4 bg-white flex items-center justify-between;
+    @apply h-[60px] px-4 bg-white flex items-center justify-between;
   }
 
   .mobile-header__logo {
-    @apply w-[158px] h-auto block;
+    @apply w-[136px] h-auto block;
   }
 
   .mobile-header__download {
-    @apply min-w-[108px] h-[42px] px-4 rounded-md bg-[#ffc61a] text-white no-underline text-base font-extrabold inline-flex items-center justify-center;
+    @apply min-w-[96px] h-[36px] px-3 rounded-md bg-[#ffc61a] text-white no-underline text-[14px] font-extrabold inline-flex items-center justify-center;
   }
 
   .mobile-header__back {
@@ -494,19 +545,19 @@ function goBack() {
   }
 
   .mobile-header__back svg {
-    @apply w-7 h-7 block;
+    @apply w-6 h-6 block;
   }
 
   .mobile-header__tabs {
-    @apply h-[74px] px-4 bg-white flex items-center gap-9 overflow-x-auto;
+    @apply h-[58px] px-4 bg-white flex items-center gap-6 overflow-x-auto;
   }
 
   .mobile-header__tabs a {
-    @apply relative shrink-0 text-[#111827] no-underline text-[22px] font-extrabold leading-none;
+    @apply relative shrink-0 text-[#111827] no-underline text-[16px] font-bold leading-none;
   }
 
   .mobile-header__tabs a.active::after {
-    @apply content-[''] absolute left-1/2 -bottom-[14px] w-3 h-1.5 -ml-1.5 rounded-full bg-[#ffc61a];
+    @apply content-[''] absolute left-1/2 -bottom-[10px] w-2.5 h-1 -ml-1.5 rounded-full bg-[#ffc61a];
   }
 }
 </style>

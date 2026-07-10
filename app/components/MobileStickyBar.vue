@@ -3,35 +3,35 @@
     <button
       v-if="adVisible && !props.hideAd"
       type="button"
-      class="fixed left-0 right-0 bottom-[92px] z-[35] h-[66px] px-4 border-0 bg-[rgba(17,17,17,0.5)] text-white flex items-center gap-3 text-left"
+      class="fixed left-0 right-0 bottom-[76px] z-[35] h-[56px] px-4 border-0 bg-[rgba(17,17,17,0.5)] text-white flex items-center gap-3 text-left"
       @click="adVisible = false"
     >
       <span class="text-lg leading-none text-white/80">×</span>
-      <img class="w-[112px] h-auto shrink-0 basis-auto" src="/assets/logo-mobile-wap.png" alt="857直播">
+      <img class="w-[98px] h-auto shrink-0 basis-auto" src="/assets/logo-mobile-wap.png" alt="857直播">
       <div class="flex min-w-0 flex-1 flex-col gap-0.5">
-        <strong class="text-sm font-extrabold">857直播</strong>
+        <strong class="text-[13px] font-extrabold">857直播</strong>
         <span class="text-[11px] text-white/80 whitespace-nowrap overflow-hidden text-ellipsis">{{ t('common.liveStream') }}</span>
       </div>
-      <span class="h-9 px-3.5 rounded-md bg-[#ffc61a] text-[#111827] inline-flex items-center justify-center text-sm font-extrabold shrink-0 basis-auto">{{ t('nav.downloadApp') }}</span>
+      <span class="h-8 px-3 rounded-md bg-[#ffc61a] text-[#111827] inline-flex items-center justify-center text-[13px] font-extrabold shrink-0 basis-auto">{{ t('nav.downloadApp') }}</span>
     </button>
 
-    <nav class="fixed left-0 right-0 bottom-0 z-[36] h-[92px] bg-white/80 border-t border-[rgba(226,232,240,0.95)] grid grid-cols-4 pb-[env(safe-area-inset-bottom)]" aria-label="底部导航">
+    <nav class="fixed left-0 right-0 bottom-0 z-[36] h-[76px] bg-white/80 border-t border-[rgba(226,232,240,0.95)] grid grid-cols-4 pb-[env(safe-area-inset-bottom)]" aria-label="底部导航">
       <component
         v-for="item in tabs"
         :key="item.label"
         :is="item.href ? NuxtLink : 'button'"
         :to="item.href || undefined"
         :type="item.href ? undefined : 'button'"
-        class="border-0 bg-transparent flex flex-col items-center justify-center gap-2 text-gray-800 no-underline text-base font-bold leading-none active:text-gray-900"
+        class="border-0 bg-transparent flex flex-col items-center justify-center gap-1.5 text-gray-800 no-underline text-[13px] font-bold leading-none active:text-gray-900"
         :class="{ 'text-gray-900': currentActiveTab === item.key }"
         @click="handleTabClick(item)"
       >
         <span
-          class="relative w-[58px] h-[38px] inline-flex items-center justify-center before:content-[''] before:absolute before:inset-0 before:rounded-full before:transition-colors before:duration-200"
+          class="relative w-[50px] h-[32px] inline-flex items-center justify-center before:content-[''] before:absolute before:inset-0 before:rounded-full before:transition-colors before:duration-200"
           :class="currentActiveTab === item.key ? 'before:bg-[#ffc61a]' : 'before:bg-transparent active:before:bg-[#fff4d6]'"
         >
           <svg
-            class="w-[30px] h-[30px] fill-none stroke-current stroke-[1.9] relative z-[1]"
+            class="w-[24px] h-[24px] fill-none stroke-current stroke-[1.9] relative z-[1]"
             :class="currentActiveTab === item.key ? 'text-white' : 'text-gray-800 active:text-[#f4b400]'"
             viewBox="0 0 24 24"
             aria-hidden="true"
@@ -43,13 +43,13 @@
       </component>
     </nav>
     <div v-if="noticeVisible" class="fixed inset-0 z-[80] bg-black/45 flex items-center justify-center px-6" @click.self="confirmNotice">
-      <div class="w-full max-w-[335px] rounded-[4px] bg-white px-8 pt-6 pb-9 text-center shadow-[0_18px_48px_rgba(0,0,0,0.28)]">
-        <h2 class="m-0 mb-5 text-[32px] font-extrabold leading-none text-[#333]">{{ t('notice.title') }}</h2>
-        <div class="mb-3 text-[21px] font-bold text-[#333]">{{ t('notice.backupUrl') }}</div>
-        <a class="mx-auto mb-3 flex h-[54px] items-center justify-center rounded-[4px] bg-[#f7f7ff] text-[22px] font-medium text-blue-600 underline" href="https://857zbw8.live" target="_blank" rel="noopener noreferrer">857zbw8.live</a>
-        <a class="mx-auto mb-4 flex h-[54px] items-center justify-center rounded-[4px] bg-[#f7f7ff] text-[22px] font-medium text-blue-600 underline" href="https://857zbw9.live" target="_blank" rel="noopener noreferrer">857zbw9.live</a>
-        <p class="m-0 mb-4 text-[16px] font-medium leading-6 text-[#333]">{{ t('notice.bookmarkTip') }}</p>
-        <button type="button" class="h-[52px] w-[208px] rounded-[7px] border-0 bg-[#ffc61a] text-[23px] font-extrabold text-white" @click="confirmNotice">{{ t('notice.ok') }}</button>
+      <div class="w-full max-w-[335px] rounded-[8px] bg-white px-7 pt-6 pb-8 text-center shadow-[0_18px_48px_rgba(0,0,0,0.28)]">
+        <h2 class="m-0 mb-4 text-[24px] font-extrabold leading-none text-[#333]">{{ t('notice.title') }}</h2>
+        <div class="mb-3 text-[16px] font-bold text-[#333]">{{ t('notice.backupUrl') }}</div>
+        <a class="mx-auto mb-3 flex h-[46px] items-center justify-center rounded-[6px] bg-[#f7f7ff] px-3 text-[18px] font-medium text-blue-600 underline" href="https://857zbw8.live" target="_blank" rel="noopener noreferrer">857zbw8.live</a>
+        <a class="mx-auto mb-4 flex h-[46px] items-center justify-center rounded-[6px] bg-[#f7f7ff] px-3 text-[18px] font-medium text-blue-600 underline" href="https://857zbw9.live" target="_blank" rel="noopener noreferrer">857zbw9.live</a>
+        <p class="m-0 mb-4 text-[14px] font-medium leading-6 text-[#333]">{{ t('notice.bookmarkTip') }}</p>
+        <button type="button" class="h-[46px] w-[176px] rounded-[7px] border-0 bg-[#ffc61a] text-[18px] font-extrabold text-white" @click="confirmNotice">{{ t('notice.ok') }}</button>
       </div>
     </div>
   </div>
@@ -108,4 +108,3 @@ onMounted(() => {
 
 const currentActiveTab = computed(() => transientActiveTab.value || props.activeTab)
 </script>
-

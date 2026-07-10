@@ -666,7 +666,7 @@ const recommendedLives = [
   @apply min-h-screen text-[#333] bg-[linear-gradient(to_bottom,#25284d_0,#25284d_748px,#eef0f5_748px)];
 }
 .room-main {
-  @apply w-[1200px] mx-auto py-3.5 pb-11;
+  @apply w-[min(1200px,calc(100%-24px))] mx-auto py-3.5 pb-11;
 }
 .room-shell {
   @apply grid grid-cols-[860px_330px] gap-2.5 mb-12;
@@ -1457,10 +1457,10 @@ const recommendedLives = [
     @apply bg-[linear-gradient(180deg,rgba(255,198,26,0.12)_0%,rgba(255,198,26,0.03)_26%,#f8fafc_100%)];
   }
   .room-main {
-    @apply w-full pt-3.5 px-4 pb-0;
+    @apply w-full pt-2.5 px-3 pb-0;
   }
   .room-shell {
-    @apply flex flex-col h-[calc(100vh-82px)] mb-0;
+    @apply flex flex-col h-[calc(100vh-72px)] mb-0;
   }
   .room-left,
   .chat-room {
@@ -1470,7 +1470,7 @@ const recommendedLives = [
     @apply flex-[0_0_auto] overflow-visible bg-transparent shadow-none rounded-none;
   }
   .chat-room {
-    @apply relative mt-0 overflow-hidden bg-white shadow-[0_12px_30px_rgba(15,23,42,0.08)] rounded-b-[18px] flex flex-col flex-[1_1_auto] h-auto min-h-0;
+    @apply relative mt-0 overflow-hidden bg-white shadow-[0_10px_24px_rgba(15,23,42,0.08)] rounded-b-[16px] flex flex-col flex-[1_1_auto] h-auto min-h-0;
   }
   .mobile-room-tabs {
     @apply flex items-stretch justify-between gap-0 border-b border-slate-200/[0.9] bg-white;
@@ -1479,16 +1479,16 @@ const recommendedLives = [
     @apply min-w-0 flex-1 grid grid-cols-3;
   }
   .mobile-room-tabs__list button {
-    @apply h-[52px] min-w-0 border-0 bg-transparent text-neutral-500 text-sm font-bold whitespace-nowrap;
+    @apply h-[46px] min-w-0 border-0 bg-transparent text-neutral-500 text-[13px] font-bold whitespace-nowrap;
   }
   .mobile-room-tabs__list button.active {
     @apply text-amber-500;
   }
   .mobile-room-tabs__follow {
-    @apply flex-[0_0_88px] border-0 inline-flex items-center justify-center gap-1.5 bg-[linear-gradient(135deg,#ffd84f_0%,#ffc21c_100%)] text-white text-sm font-extrabold;
+    @apply flex-[0_0_78px] border-0 inline-flex items-center justify-center gap-1 bg-[linear-gradient(135deg,#ffd84f_0%,#ffc21c_100%)] text-white text-[13px] font-extrabold;
   }
   .mobile-room-tabs__follow svg {
-    @apply w-[18px] h-[18px];
+    @apply w-4 h-4;
   }
   .anchor-bar,
   .score-board,
@@ -1497,10 +1497,10 @@ const recommendedLives = [
     @apply hidden;
   }
   .match-player {
-    @apply mt-0 rounded-t-[18px] shadow-[0_12px_30px_rgba(15,23,42,0.08)] overflow-hidden;
+    @apply mt-0 rounded-t-[16px] shadow-[0_10px_24px_rgba(15,23,42,0.08)] overflow-hidden;
   }
   .video-stage {
-    @apply h-auto aspect-[16/9] rounded-t-[18px];
+    @apply h-auto aspect-[16/9] rounded-t-[16px];
   }
   .video-live-badge {
     @apply top-3 left-3 h-7 px-3 text-xs;
@@ -1512,7 +1512,7 @@ const recommendedLives = [
     @apply h-[22px] text-[10px] mb-1.5;
   }
   .video-meta h2 {
-    @apply text-[15px] leading-[1.3];
+    @apply text-[14px] leading-[1.3];
   }
   .video-meta p {
     @apply text-xs;
@@ -1547,7 +1547,7 @@ const recommendedLives = [
   }
   .chat-list,
   .rank-list {
-    @apply flex-[1_1_auto] h-auto min-h-[220px] px-3.5 py-3 overflow-y-auto;
+    @apply flex-[1_1_auto] h-auto min-h-[200px] px-3 py-2.5 overflow-y-auto;
   }
   .chat-msg {
     @apply gap-2.5;
@@ -1564,7 +1564,7 @@ const recommendedLives = [
   .announcement-text,
   .activity-text,
   .entry-text {
-    @apply text-sm leading-[1.6];
+    @apply text-[13px] leading-[1.55];
   }
   .chat-toolbar {
     @apply !hidden;
@@ -1573,18 +1573,18 @@ const recommendedLives = [
     @apply w-10 h-10 shrink-0;
   }
   .chat-send {
-    @apply flex-[0_0_auto] px-3.5 py-2.5 pb-[calc(10px+env(safe-area-inset-bottom,0))] gap-2.5 items-center bg-white border-t border-slate-200/[0.9] shadow-[0_-6px_16px_rgba(15,23,42,0.05)];
+    @apply flex-[0_0_auto] px-3 py-2 pb-[calc(10px+env(safe-area-inset-bottom,0))] gap-2 items-center bg-white border-t border-slate-200/[0.9] shadow-[0_-6px_16px_rgba(15,23,42,0.05)];
   }
   .send-input-wrap {
-    @apply flex-[1_1_auto] min-h-[48px] px-4 rounded-full bg-gray-100;
+    @apply flex-[1_1_auto] min-h-[42px] px-3.5 rounded-full bg-gray-100;
   }
   .send-login,
   .send-input-wrap input,
   .send-btn {
-    @apply text-[15px];
+    @apply text-[14px];
   }
   .send-btn {
-    @apply flex-[0_0_48px] w-12 h-12 p-0 rounded-[14px] bg-transparent shadow-none text-[0px] justify-center;
+    @apply flex-[0_0_42px] w-[42px] h-[42px] p-0 rounded-[12px] bg-transparent shadow-none text-[0px] justify-center;
   }
   .send-btn:hover {
     @apply transform-none;
@@ -1593,7 +1593,7 @@ const recommendedLives = [
     @apply hidden;
   }
   .send-gift-icon {
-    @apply block w-8 h-8;
+    @apply block w-7 h-7;
   }
   .send-btn__label {
     @apply hidden;
@@ -1661,7 +1661,7 @@ const recommendedLives = [
     @apply hidden;
   }
   .video-list {
-    @apply grid-cols-2 gap-3.5;
+    @apply grid-cols-2 gap-3;
   }
   .video-list li {
     @apply rounded-[14px] overflow-hidden shadow-[0_10px_24px_rgba(15,23,42,0.08)];

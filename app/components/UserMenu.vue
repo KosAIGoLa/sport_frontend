@@ -32,17 +32,11 @@
       <div class="user-menu__wealth-title">我的财富：</div>
       <div class="user-menu__wealth-row">
         <div class="user-menu__asset">
-          <svg class="user-menu__coin" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="12" cy="12" r="10" fill="#ff4d4f"/>
-            <path d="M8 9c-1.5 2-1.5 4.5 0 6 1.5 2 3.5 2 5 1 2-1.5 2-3.5 1-5.5-1.5-2-3.5-3-5-3-1 0-1.5 1-2.5 1.5z" fill="white"/>
-          </svg>
+          <IconLiver icon-class="user-menu__liver" />
           <span>0.00</span>
         </div>
         <div class="user-menu__asset">
-          <svg class="user-menu__fire" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="12" cy="12" r="10" fill="#ff7a45"/>
-            <path d="M12 7.5c-1.5 2.2-2.2 4.2-2.2 6.5 0 2.2 1.4 3.8 3.2 3.8s3.2-1.6 3.2-3.8c0-2.3-.8-4.3-2.2-6.5z" fill="white"/>
-          </svg>
+          <IconEgg icon-class="user-menu__egg" />
           <span>0</span>
         </div>
         <NuxtLink class="user-menu__recharge" to="/recharge.html">充值</NuxtLink>
@@ -57,7 +51,8 @@
         class="user-menu__action"
         :class="{ 'user-menu__action--active': item.active }"
       >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" v-html="item.icon"/>
+        <IconFollow v-if="item.iconComponent" icon-class="user-menu__action-icon" />
+        <svg v-else viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" v-html="item.icon"/>
         <span>{{ item.label }}</span>
       </NuxtLink>
     </div>
@@ -65,16 +60,19 @@
 </template>
 
 <script setup>
+import IconFollow from './IconFollow.vue'
+import IconLiver from './IconLiver.vue'
+import IconEgg from './IconEgg.vue'
+
 const icons = {
   user: `<circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>`,
-  heart: `<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>`,
   message: `<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 7l10 7 10-7"/>`,
   camera: `<rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/>`
 }
 
 const actions = [
   { label: '个人中心', icon: icons.user, to: '/user.html?menu=profile', active: false },
-  { label: '我的关注', icon: icons.heart, to: '/user.html?menu=follow', active: false },
+  { label: '我的关注', iconComponent: IconFollow, to: '/user.html?menu=follow', active: false },
   { label: '我的消息', icon: icons.message, to: '/user.html?menu=message', active: false },
   { label: '申请直播', icon: icons.camera, to: '/user.html?menu=profile&tab=realname', active: false }
 ]
@@ -167,11 +165,11 @@ defineEmits(['logout'])
 .user-menu__asset {
   @apply flex items-center gap-1.5 text-sm font-semibold;
 }
-.user-menu__coin {
-  @apply w-4 h-4 text-red-500;
+.user-menu__liver {
+  @apply w-4 h-4;
 }
-.user-menu__fire {
-  @apply w-4 h-4 text-orange-500;
+.user-menu__egg {
+  @apply w-4 h-4;
 }
 .user-menu__recharge {
   @apply inline-flex items-center h-7 px-4 rounded-full bg-red-500 text-white text-xs font-bold no-underline cursor-pointer;

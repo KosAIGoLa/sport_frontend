@@ -87,7 +87,7 @@ const allLives = [
 
 .live-type-main::before {
   content: var(--live-title);
-  @apply block w-[1200px] mx-auto mb-2 text-slate-900 text-[30px] font-[850] tracking-[-0.4px];
+  @apply block w-[1200px] mx-auto mb-2 text-slate-900 text-[24px] font-[800];
 }
 
 .live-type-main::after {

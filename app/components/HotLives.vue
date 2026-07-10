@@ -2,7 +2,7 @@
   <section class="hot inner">
     <div class="hot-title">
       <span class="hot-live"><img src="/assets/hot-live.png" alt=""></span>
-      <a href="/liveType.html" class="more">查看更多</a>
+      <NuxtLink to="/liveType.html" class="more">查看更多</NuxtLink>
     </div>
     <ul class="hot-content">
       <li v-for="(live, idx) in hotLives" :key="idx">
@@ -62,7 +62,7 @@ const hotLives = [
   @apply w-[183px] mt-0.5;
 }
 .hot-title .more {
-  @apply mt-3 text-[#777] text-sm font-normal bg-[url('/assets/icon-more.png')_no-repeat_right_center] pr-[13px] bg-[length:10px_auto] cursor-pointer no-underline float-right;
+  @apply text-[#777] text-sm font-normal bg-[url('/assets/icon-more.png')_no-repeat_right_center] pr-[13px] bg-[length:10px_auto] cursor-pointer no-underline shrink-0 whitespace-nowrap;
 }
 .hot-title .more:hover {
   @apply text-[#ffc71c] bg-[url('/assets/icon-more-hover.png')_no-repeat_right_center] bg-[length:10px_auto];

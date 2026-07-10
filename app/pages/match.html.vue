@@ -334,17 +334,17 @@ function openMatchDetail(match) {
 }
 .match-wrapper::before {
   content: var(--match-title);
-  @apply block mb-2 text-slate-900 text-[30px] font-[850] tracking-[-0.4px];
+  @apply block mb-2 text-slate-900 text-[24px] font-[800];
 }
 .match-wrapper::after {
   content: var(--match-subtitle);
   @apply block -mt-0.5 mb-5 text-slate-500 text-sm;
 }
 .date-list {
-  @apply h-24 mb-6 p-2.5 bg-white/[0.88] border border-white/[0.92] rounded-[24px] shadow-[0_22px_60px_rgba(15,23,42,0.1)] backdrop-blur-[14px] grid grid-cols-7 gap-2;
+  @apply h-20 mb-5 p-2 bg-white/[0.88] border border-white/[0.92] rounded-[20px] shadow-[0_18px_48px_rgba(15,23,42,0.08)] backdrop-blur-[14px] grid grid-cols-7 gap-2;
 }
 .date-item {
-  @apply relative appearance-none border-0 rounded-[18px] bg-transparent text-slate-500 cursor-pointer text-lg leading-none transition-all duration-[0.22s];
+  @apply relative appearance-none border-0 rounded-[14px] bg-transparent text-slate-500 cursor-pointer text-[15px] leading-none transition-all duration-[0.22s];
 }
 .date-item:hover {
   @apply bg-slate-50;
@@ -354,10 +354,10 @@ function openMatchDetail(match) {
   @apply block;
 }
 .date-item .day {
-  @apply mb-2.5 text-lg font-[750];
+  @apply mb-1.5 text-[15px] font-[750];
 }
 .date-item .date {
-  @apply text-sm;
+  @apply text-[12px];
 }
 .date-item.active {
   @apply bg-[linear-gradient(135deg,#ffe178_0%,#ffc21c_100%)] text-[#111827] shadow-[0_12px_26px_rgba(248,194,27,0.28)];
@@ -366,28 +366,28 @@ function openMatchDetail(match) {
   @apply relative;
 }
 .match-card {
-  @apply min-h-[138px] mb-3.5 bg-white/[0.92] border border-slate-200/[0.82] rounded-[22px] flex items-center overflow-hidden shadow-[0_14px_36px_rgba(15,23,42,0.08)] transition-[transform,box-shadow,border-color] duration-[0.22s];
+  @apply min-h-[124px] mb-3 bg-white/[0.92] border border-slate-200/[0.82] rounded-[18px] flex items-center overflow-hidden shadow-[0_12px_28px_rgba(15,23,42,0.07)] transition-[transform,box-shadow,border-color] duration-[0.22s];
 }
 .match-card:hover {
   @apply -translate-y-1 border-[rgba(255,194,28,0.55)] shadow-[0_24px_54px_rgba(15,23,42,0.14)];
 }
 .match-card .left {
-  @apply w-[430px] h-full min-h-[138px] flex items-center border-r border-slate-200/[0.9];
+  @apply w-[410px] h-full min-h-[124px] flex items-center border-r border-slate-200/[0.9];
 }
 .info {
-  @apply w-[140px] pl-[34px];
+  @apply w-[132px] pl-7;
 }
 .info .name {
-  @apply max-w-[95px] mb-3 text-slate-900 text-base font-extrabold;
+  @apply max-w-[95px] mb-2 text-slate-900 text-[14px] font-bold;
 }
 .info .time {
-  @apply inline-flex h-[26px] items-center px-2.5 rounded-full bg-slate-100 text-slate-500 text-xs font-bold;
+  @apply inline-flex h-6 items-center px-2 rounded-full bg-slate-100 text-slate-500 text-[11px] font-bold;
 }
 .team {
-  @apply w-[245px] flex items-center justify-between gap-2.5;
+  @apply w-[236px] flex items-center justify-between gap-2;
 }
 .team-row {
-  @apply h-10 flex items-center text-[#111827] text-base font-[650] min-w-0;
+  @apply h-9 flex items-center text-[#111827] text-[14px] font-[650] min-w-0;
 }
 .team-row--host {
   @apply justify-end flex-1;
@@ -396,10 +396,10 @@ function openMatchDetail(match) {
   @apply justify-start flex-1;
 }
 .team-vs {
-  @apply shrink-0 text-red-500 text-xl font-black;
+  @apply shrink-0 text-red-500 text-[18px] font-black;
 }
 .match-cover {
-  @apply w-[34px] h-[34px] mr-3 object-contain shrink-0 drop-shadow-[0_6px_10px_rgba(15,23,42,0.12)];
+  @apply w-[30px] h-[30px] mr-2.5 object-contain shrink-0 drop-shadow-[0_6px_10px_rgba(15,23,42,0.12)];
 }
 .team-row span {
   @apply max-w-[140px];
@@ -414,13 +414,13 @@ function openMatchDetail(match) {
   @apply flex items-center gap-[22px] min-w-0;
 }
 .avatar-box {
-  @apply relative w-[86px] text-center text-slate-700 text-[13px] font-[650];
+  @apply relative w-[80px] text-center text-slate-700 text-[12px] font-[650];
 }
 .avatar-box .avatar {
-  @apply block w-14 h-14 mx-auto mb-[7px] border-[3px] border-white rounded-full object-cover shadow-[0_10px_24px_rgba(15,23,42,0.12)];
+  @apply block w-12 h-12 mx-auto mb-1.5 border-[3px] border-white rounded-full object-cover shadow-[0_10px_24px_rgba(15,23,42,0.12)];
 }
 .avatar-box .anchor-name {
-  @apply w-[86px] h-5 leading-5;
+  @apply w-[80px] h-5 leading-5;
 }
 .avatar-box .live {
   @apply absolute top-10 left-[52px] w-7 h-[13px] object-contain;
@@ -429,10 +429,10 @@ function openMatchDetail(match) {
   @apply w-[18px] h-7 border-0 bg-transparent opacity-0 shrink-0;
 }
 .living-box {
-  @apply w-[132px] h-9 mr-9 rounded-full bg-[linear-gradient(135deg,#ffe178_0%,#ffc21c_100%)] shadow-[0_10px_24px_rgba(248,194,27,0.26)] flex items-center justify-center text-[#111827] text-sm font-extrabold shrink-0;
+  @apply w-[118px] h-8 mr-7 rounded-full bg-[linear-gradient(135deg,#ffe178_0%,#ffc21c_100%)] shadow-[0_10px_24px_rgba(248,194,27,0.22)] flex items-center justify-center text-[#111827] text-[13px] font-bold shrink-0;
 }
 .living-box img {
-  @apply w-[11px] h-3 mr-1.5 object-contain;
+  @apply w-[10px] h-[11px] mr-1 object-contain;
 }
 .living-box--pending {
   @apply w-auto bg-none bg-transparent text-[#9a9a9a] shadow-none rounded-none;

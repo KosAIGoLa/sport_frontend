@@ -18,6 +18,10 @@ A clone of the 857 Live sports streaming platform built with Nuxt 4 + Vue 3.
 │   │   ├── HotAnchors.vue         # Popular anchors carousel
 │   │   ├── HotLives.vue           # Popular live cards
 │   │   ├── Icon.vue               # SVG icon component
+│   │   ├── IconLiver.vue          # Liver asset icon
+│   │   ├── IconEgg.vue            # Egg asset icon
+│   │   ├── IconFollow.vue         # Follow / heart icon
+│   │   ├── IconHistory.vue        # History icon
 │   │   ├── LiveCard.vue           # Generic live card
 │   │   ├── LiveCategory.vue       # Categorized live list
 │   │   ├── LoginModal.vue         # Login / register modal

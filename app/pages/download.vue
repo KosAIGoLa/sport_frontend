@@ -54,15 +54,15 @@ useHead(() => ({
 }
 
 .download-card {
-  @apply w-[420px] max-w-full py-10 px-8 bg-white/[0.92] border border-white/[0.9] rounded-[24px] shadow-[0_22px_60px_rgba(15,23,42,0.12)] text-center backdrop-blur-[14px];
+  @apply w-[400px] max-w-full py-8 px-7 bg-white/[0.92] border border-white/[0.9] rounded-[22px] shadow-[0_18px_48px_rgba(15,23,42,0.10)] text-center backdrop-blur-[14px];
 }
 
 .download-qr {
-  @apply w-[140px] h-[140px] mb-6 rounded-xl mx-auto block;
+  @apply w-[128px] h-[128px] mb-5 rounded-xl mx-auto block;
 }
 
 .download-card h1 {
-  @apply m-0 mb-3 text-[22px] font-extrabold;
+  @apply m-0 mb-3 text-[20px] font-extrabold;
 }
 
 .download-desc {
@@ -70,7 +70,7 @@ useHead(() => ({
 }
 
 .download-tips {
-  @apply text-left py-[18px] px-5 bg-amber-50 border border-[rgba(251,191,36,0.25)] rounded-[14px] mb-6;
+  @apply text-left py-4 px-4 bg-amber-50 border border-[rgba(251,191,36,0.25)] rounded-[14px] mb-6;
 }
 
 .download-tips p {
@@ -82,7 +82,7 @@ useHead(() => ({
 }
 
 .download-back {
-  @apply inline-flex items-center justify-center h-11 px-7 rounded-full bg-[linear-gradient(135deg,#ffe178_0%,#ffc21c_100%)] text-[#111827] text-[15px] font-extrabold no-underline transition-transform duration-200;
+  @apply inline-flex items-center justify-center h-10 px-6 rounded-full bg-[linear-gradient(135deg,#ffe178_0%,#ffc21c_100%)] text-[#111827] text-[14px] font-extrabold no-underline transition-transform duration-200;
 }
 
 .download-back:hover {
@@ -107,19 +107,19 @@ useHead(() => ({
   }
 
   .download-card {
-    @apply w-full py-7 px-5 rounded-[20px] shadow-[0_12px_30px_rgba(15,23,42,0.08)];
+    @apply w-full py-6 px-5 rounded-[18px] shadow-[0_12px_30px_rgba(15,23,42,0.08)];
   }
 
   .download-qr {
-    @apply w-[168px] h-[168px] mb-5;
+    @apply w-[148px] h-[148px] mb-4;
   }
 
   .download-card h1 {
-    @apply text-[28px] leading-tight;
+    @apply text-[22px] leading-tight;
   }
 
   .download-desc {
-    @apply mb-5 text-base leading-[1.7];
+    @apply mb-5 text-[14px] leading-[1.7];
   }
 
   .download-tips {
@@ -127,7 +127,7 @@ useHead(() => ({
   }
 
   .download-tips p {
-    @apply text-[15px];
+    @apply text-[14px];
   }
 
   .download-tips ul {
@@ -135,7 +135,7 @@ useHead(() => ({
   }
 
   .download-back {
-    @apply w-full h-[50px] text-base;
+    @apply w-full h-[46px] text-[15px];
   }
 }
 </style>

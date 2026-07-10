@@ -17,9 +17,10 @@
             :class="{ active: isMenuActive(item.key) }"
             @click.prevent="handleMenuClick(item)"
           >
-            <svg class="menu-icon" viewBox="0 0 24 24" fill="currentColor">
+            <svg v-if="item.path" class="menu-icon" viewBox="0 0 24 24" fill="currentColor">
               <path :d="item.path" />
             </svg>
+            <component :is="item.component" v-else-if="item.component" icon-class="menu-icon" />
             <span>{{ item.label }}</span>
           </a>
         </nav>
@@ -32,7 +33,7 @@
       </aside>
 
       <section class="user-content">
-        <div v-if="activeMenu === 'profile'" class="user-profile-card">
+        <div class="user-profile-card">
           <div class="user-profile-left">
             <img class="user-avatar" src="https://uc2.qiecdn.com/avatar.php?uid=28030520&size=middle&force=1" alt="avatar" @error="e => e.target.src = '/assets/frog-avatar.png'">
             <div class="user-info">
@@ -51,22 +52,11 @@
               </div>
               <div class="user-assets-row">
                 <span class="asset">
-                  <svg class="asset-icon liver" viewBox="0 0 220 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M45 65 Q35 95 55 125 Q75 150 115 145 Q165 140 185 105 Q190 65 165 45 Q125 30 80 40 Q55 45 45 65Z" fill="#E8B88C" stroke="#D89E6F" stroke-width="18"/>
-                    <path d="M70 55 Q55 75 68 105 Q85 125 105 118 Q130 115 145 85 Q150 60 125 48" fill="#F0C9A0" opacity="0.85"/>
-                    <path d="M65 55 Q85 45 115 55 Q145 70 155 95" fill="none" stroke="#FFF4E0" stroke-width="22" opacity="0.65"/>
-                    <ellipse cx="95" cy="68" rx="28" ry="18" fill="#FFF8E8" opacity="0.5"/>
-                    <path d="M80 80 Q95 72 115 85" fill="none" stroke="#E0A57A" stroke-width="6" opacity="0.4"/>
-                    <path d="M70 105 Q90 98 120 112" fill="none" stroke="#E0A57A" stroke-width="5" opacity="0.35"/>
-                  </svg>
+                  <IconLiver icon-class="asset-icon liver" />
                   鹅肝：0.00
                 </span>
                 <span class="asset">
-                  <svg class="asset-icon egg" viewBox="0 0 200 250" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <ellipse cx="100" cy="125" rx="70" ry="95" fill="#F4E8C1" stroke="#D4B88A" stroke-width="12"/>
-                    <ellipse cx="70" cy="95" rx="25" ry="45" fill="#FFF8E1" opacity="0.7"/>
-                    <ellipse cx="100" cy="205" rx="45" ry="15" fill="#E8D9B0" opacity="0.4"/>
-                  </svg>
+                  <IconEgg icon-class="asset-icon egg" />
                   鹅蛋：0
                 </span>
                 <NuxtLink class="recharge-btn" to="/recharge.html">充值</NuxtLink>
@@ -303,6 +293,50 @@
           </div>
         </div>
 
+        <div v-else-if="activeMenu === 'history'" class="history-panel">
+          <div class="history-toolbar">
+            <label class="history-filter">
+              <input v-model="historyOnlyLive" type="checkbox">
+              <span>只看直播</span>
+            </label>
+            <span class="history-count">共 {{ filteredHistoryList.length }} 条</span>
+          </div>
+          <div v-if="filteredHistoryList.length" class="history-grid">
+            <a
+              v-for="item in filteredHistoryList"
+              :key="item.id"
+              :href="item.link"
+              class="history-card"
+            >
+              <div class="history-card__cover">
+                <img class="history-card__image" :src="item.cover" :alt="item.title" @error="e => e.target.src = '/assets/banner-528.jpg'">
+                <span v-if="item.isLive" class="history-card__badge">
+                  <span class="history-card__badge-bg"></span>
+                  <span class="history-card__badge-text">正在直播</span>
+                </span>
+                <div class="history-card__cover-meta">
+                  <span class="history-card__cover-author">{{ item.author }}</span>
+                  <span class="history-card__cover-viewers">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5C21.27 7.61 17 4.5 12 4.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                    {{ item.viewers }}
+                  </span>
+                </div>
+              </div>
+              <div class="history-card__body">
+                <div class="history-card__title">{{ item.title }}</div>
+                <div class="history-card__footer">
+                  <img class="history-card__avatar" :src="item.avatar" :alt="item.author" @error="e => e.target.src = '/assets/avatar.png'">
+                  <div class="history-card__meta">
+                    <span class="history-card__author">{{ item.author }}</span>
+                    <span class="history-card__subline">直播回放 · 最近观看</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <EmptyState v-else image="/assets/appointment-penguin.png" text="暂无观看历史" />
+        </div>
+
         <div v-else-if="activeMenu === 'appointment'" class="appointment-panel">
           <EmptyState image="/assets/appointment-penguin.png" text="你还没有预约任何比赛" />
         </div>
@@ -456,6 +490,10 @@
 </template>
 
 <script setup>
+import IconFollow from '../components/IconFollow.vue'
+import IconLiver from '../components/IconLiver.vue'
+import IconEgg from '../components/IconEgg.vue'
+
 const { t } = useI18n()
 useHead(() => ({
   title: t('page.titleUserCenter')
@@ -601,6 +639,31 @@ const followList = [
   }
 ]
 
+const historyOnlyLive = ref(false)
+const historyList = [
+  {
+    id: 1,
+    title: '乔氏台球002的直播间',
+    author: '乔氏台球002',
+    avatar: '/assets/avatar.png',
+    cover: '/assets/teams/team1.png',
+    viewers: '1016',
+    isLive: true,
+    link: '/room/1'
+  },
+  {
+    id: 2,
+    title: '【阿祖】U20 法国VS立陶宛',
+    author: '阿祖又收了',
+    avatar: '/assets/avatar.png',
+    cover: '/assets/teams/team2.png',
+    viewers: '5.0万',
+    isLive: true,
+    link: '/room/2'
+  }
+]
+const filteredHistoryList = computed(() => historyOnlyLive.value ? historyList.filter(item => item.isLive) : historyList)
+
 const medals = [
   { name: '76人', icon: '🏀', color: '#ed1c24' },
   { name: '湖人', icon: '💛', color: '#552583' },
@@ -616,7 +679,7 @@ const menu = [
   { key: 'profile', label: '我的资料', path: 'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z' },
   { key: 'message', label: '我的消息', path: 'M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z' },
   { key: 'wealth', label: '我的财富', path: 'M20 7H4a2 2 0 00-2 2v9a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2zm-6 7a1.5 1.5 0 110-3 1.5 1.5 0 010 3z' },
-  { key: 'follow', label: '我的关注', path: 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z' },
+  { key: 'follow', label: '我的关注', component: IconFollow },
   { key: 'order', label: '视频订单', path: 'M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z' },
   { key: 'history', label: '观看历史', path: 'M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z' },
   { key: 'appointment', label: '赛事预约', path: 'M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h2v2H7zm4 0h2v2h-2zm4 0h2v2h-2z' },
@@ -716,22 +779,22 @@ function onLogout() {
 
 <style scoped>
 .user-center-page {
-  @apply min-h-screen bg-[#f5f5f5];
+  @apply min-h-screen bg-[#f7f7f7];
 }
 .user-center-wrapper {
-  @apply w-[1200px] mx-auto py-8 flex gap-5;
+  @apply w-[min(1200px,calc(100%-24px))] mx-auto py-3 flex gap-0;
 }
 .user-sidebar {
-  @apply w-[180px] shrink-0 bg-white rounded-xl shadow-sm overflow-hidden;
+  @apply w-[182px] shrink-0 bg-white border border-[#efefef] overflow-hidden;
 }
 .user-menu a {
-  @apply flex items-center gap-3 px-5 py-4 text-[#666] text-sm font-medium transition-colors relative hover:text-[#f84c4c];
+  @apply flex items-center gap-3 px-6 py-7 text-[15px] text-[#9ca3af] font-normal transition-colors relative hover:text-[#ff5a4f];
 }
 .user-menu a.active {
-  @apply text-[#f84c4c] bg-[#fff5f5];
+  @apply text-[#ff5a4f] bg-[#fff8f7];
 }
 .user-menu a.active::before {
-  @apply content-[''] absolute left-0 top-0 bottom-0 w-1 bg-[#f84c4c];
+  @apply content-[''] absolute left-0 top-0 bottom-0 w-2 bg-[#ff4d3a];
 }
 .apply-live-sidebar-btn {
   @apply mx-5 mt-4 mb-5 w-[calc(100%-40px)] flex items-center justify-center gap-2 px-4 py-2.5 rounded-md bg-[#ff4d4f] text-white text-sm font-medium border-0 cursor-pointer hover:bg-[#ff7875] transition-colors;
@@ -743,67 +806,67 @@ function onLogout() {
   @apply w-5 h-5;
 }
 .user-content {
-  @apply flex-1 min-w-0;
+  @apply flex-1 min-w-0 bg-white border border-l-0 border-[#efefef];
 }
 .user-profile-card {
-  @apply bg-white rounded-xl shadow-sm p-6 flex items-start justify-between mb-5;
+  @apply bg-white px-8 pt-7 pb-6 flex items-start justify-between mb-0 border-b border-[#efefef];
 }
 .user-profile-left {
-  @apply flex gap-5;
+  @apply flex gap-6;
 }
 .user-avatar {
-  @apply w-[88px] h-[88px] rounded-lg object-cover;
+  @apply w-[132px] h-[132px] rounded-none object-cover border border-[#efefef];
 }
 .user-info {
-  @apply flex flex-col gap-3 pt-1;
+  @apply flex flex-col gap-4 pt-1;
 }
 .user-name-row {
   @apply flex items-center gap-2;
 }
 .user-name {
-  @apply text-xl font-bold text-[#333];
+  @apply text-[18px] leading-none font-medium text-[#444];
 }
 .edit-icon {
-  @apply w-4 h-4 text-[#999] cursor-pointer hover:text-[#f84c4c];
+  @apply w-4 h-4 text-[#9ca3af] cursor-pointer hover:text-[#ff5a4f];
 }
 .user-level-row {
-  @apply flex items-center gap-3 text-xs;
+  @apply flex items-center gap-4 text-xs;
 }
 .level-badge {
-  @apply px-2 py-0.5 rounded-full bg-[#52c41a] text-white font-bold;
+  @apply px-3 py-0.5 rounded bg-[#b7efa2] text-white font-normal text-[11px] leading-5;
 }
 .level-track {
-  @apply w-[200px] h-2 bg-[#eee] rounded-full overflow-hidden;
+  @apply w-[220px] h-3 bg-[#c8c8c8] rounded-full overflow-hidden;
 }
 .level-fill {
-  @apply h-full bg-[#52c41a] rounded-full;
+  @apply h-full bg-[#9bdc82] rounded-full;
 }
 .level-rule {
-  @apply text-[#999] hover:text-[#f84c4c];
+  @apply text-[12px] text-[#8d94a3] hover:text-[#ff5a4f];
 }
 .user-assets-row {
-  @apply flex items-center gap-4 text-sm text-[#333];
+  @apply flex items-center gap-8 text-[14px] text-[#444];
 }
 .asset {
-  @apply flex items-center gap-1.5;
+  @apply flex items-center gap-2;
 }
 .asset-icon {
-  @apply w-4 h-4;
+  @apply w-5 h-5;
 }
 .recharge-btn {
-  @apply inline-flex items-center px-4 py-1 rounded-full bg-[#ff4d4f] text-white text-xs font-semibold no-underline hover:bg-[#ff7875] transition-colors;
+  @apply inline-flex items-center h-7 px-4 rounded-full bg-[#ff5a1f] text-white text-[12px] font-medium no-underline hover:bg-[#ff6b39] transition-colors;
 }
 .user-links-row {
-  @apply flex items-center gap-2 text-xs text-[#999];
+  @apply flex items-center justify-end gap-4 text-[12px] text-[#98a0ad] mt-0.5;
 }
 .user-links-row a {
   @apply hover:text-[#f84c4c];
 }
 .go-live-btn {
-  @apply inline-flex items-center gap-1.5 px-5 py-2 border border-[#ff4d4f] rounded-full text-[#ff4d4f] text-sm font-semibold hover:bg-[#fff5f5] transition-colors;
+  @apply inline-flex items-center gap-2 px-6 h-[48px] border border-[#ff5a3b] rounded-full text-[#ff5a3b] text-[14px] font-medium hover:bg-[#fff5f5] transition-colors mt-3;
 }
 .go-live-btn svg {
-  @apply w-4 h-4;
+  @apply w-5 h-5;
 }
 .user-tabs {
   @apply bg-white rounded-xl shadow-sm px-6 mb-5 flex items-center border-b border-[#f0f0f0];
@@ -991,6 +1054,105 @@ function onLogout() {
 .appointment-panel {
   @apply bg-white rounded-xl shadow-sm p-10 min-h-[400px] flex flex-col items-center justify-center;
 }
+.history-panel {
+  @apply bg-white px-8 pt-6 pb-8;
+}
+.history-toolbar {
+  @apply flex items-center justify-between mb-4;
+}
+.history-filter {
+  @apply flex items-center gap-2 text-[14px] text-[#666] cursor-pointer select-none;
+}
+.history-filter input {
+  @apply w-4 h-4 accent-[#ff4d4f] cursor-pointer;
+}
+.history-count {
+  @apply text-[12px] text-[#9ca3af];
+}
+.history-grid {
+  @apply grid grid-cols-3 gap-5;
+}
+.history-card {
+  @apply block relative w-full min-w-0 bg-white border border-[#efefef] rounded-[12px] overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.05)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.10)];
+}
+.history-card__cover {
+  @apply relative aspect-video bg-slate-100 overflow-hidden;
+}
+.history-card__image {
+  @apply w-full h-full object-cover;
+}
+.history-card__cover::after {
+  @apply content-[''] absolute left-0 right-0 bottom-0 h-20;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 100%);
+}
+.history-card__badge {
+  @apply absolute right-3 top-3 z-10 flex h-7 items-center gap-1.5 rounded-full px-2.5 pointer-events-none;
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.18);
+}
+.history-card__badge-bg {
+  @apply block h-2.5 w-2.5 rounded-full shrink-0;
+  background: radial-gradient(circle at 35% 35%, #ffb2aa 0%, #ff6a5d 45%, #ff4d3f 100%);
+  box-shadow: 0 0 0 3px rgba(255, 92, 76, 0.18), 0 0 12px rgba(255, 92, 76, 0.45);
+  animation: history-live-pulse 1.8s ease-out infinite;
+}
+.history-card__badge-text {
+  @apply relative text-[12px] leading-none text-white font-medium whitespace-nowrap;
+}
+.history-card__cover-meta {
+  @apply absolute left-0 right-0 bottom-0 z-10 flex items-center justify-between px-5 pb-4 text-white;
+}
+.history-card__cover-author {
+  @apply max-w-[240px] truncate text-[13px] font-medium;
+}
+.history-card__cover-viewers {
+  @apply flex shrink-0 items-center gap-1 text-[12px] text-white/90;
+}
+.history-card__cover-viewers svg {
+  @apply h-3.5 w-3.5;
+}
+.history-card__body {
+  @apply px-5 pt-3 pb-4;
+}
+.history-card__title {
+  @apply text-[15px] leading-[23px] font-semibold text-[#2f3440];
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 46px;
+}
+.history-card__footer {
+  @apply flex items-center gap-3 pt-3;
+}
+.history-card__avatar {
+  @apply w-9 h-9 rounded-full object-cover ring-1 ring-[#f1f1f1];
+}
+.history-card__meta {
+  @apply flex min-w-0 flex-1 flex-col;
+}
+.history-card__author {
+  @apply truncate text-[13px] text-[#5b6472];
+}
+.history-card__subline {
+  @apply mt-0.5 text-[11px] text-[#9ca3af];
+}
+
+@keyframes history-live-pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 92, 76, 0.28), 0 0 10px rgba(255, 92, 76, 0.35);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 6px rgba(255, 92, 76, 0), 0 0 16px rgba(255, 92, 76, 0.5);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 92, 76, 0), 0 0 10px rgba(255, 92, 76, 0.35);
+  }
+}
 .follow-panel {
   @apply bg-white rounded-xl shadow-sm p-6;
 }
@@ -1082,7 +1244,23 @@ function onLogout() {
   @apply py-6 px-4 text-[#666] border-b border-[#f0f0f0];
 }
 .guess-table .empty-row td {
-  @apply text-center text-[#999] py-8;
+  @apply py-8 px-4;
+}
+.guess-table .empty-row td,
+.room-table .empty-row td,
+.wealth-table .empty-row td,
+.order-table .empty-row td {
+  text-align: center;
+}
+.guess-table .empty-row td::before,
+.room-table .empty-row td::before,
+.wealth-table .empty-row td::before,
+.order-table .empty-row td::before {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 100%;
+  vertical-align: middle;
 }
 .medal-panel {
   @apply bg-white rounded-xl shadow-sm p-6;
@@ -1196,7 +1374,7 @@ function onLogout() {
   @apply py-6 px-4 text-[#666] border-b border-[#f0f0f0];
 }
 .room-table .empty-row td {
-  @apply text-center text-[#999] py-8;
+  @apply py-8 px-4 text-[#999];
 }
 .space-panel {
   @apply bg-white rounded-xl shadow-sm overflow-hidden;
@@ -1280,7 +1458,7 @@ function onLogout() {
   @apply py-6 px-4 text-[#666] border-b border-[#f0f0f0];
 }
 .wealth-table .empty-row td {
-  @apply text-center text-[#999];
+  @apply py-8 px-4 text-[#999];
 }
 .order-panel {
   @apply bg-white rounded-xl shadow-sm p-6;
@@ -1298,7 +1476,7 @@ function onLogout() {
   @apply py-6 px-4 text-[#666] border-b border-[#f0f0f0];
 }
 .order-table .empty-row td {
-  @apply text-center text-[#999];
+  @apply py-8 px-4 text-[#999];
 }
 
 @media (max-width: 1200px) {
@@ -1312,31 +1490,91 @@ function onLogout() {
     @apply pt-0;
   }
   .user-center-wrapper {
-    @apply flex-col py-4;
+    @apply w-full px-3 flex-col py-3 gap-0;
   }
   .user-sidebar {
-    @apply w-full;
+    @apply w-full rounded-2xl border border-[#efefef] overflow-hidden bg-white shadow-[0_8px_24px_rgba(15,23,42,0.06)] mb-4;
   }
   .user-menu {
-    @apply flex overflow-x-auto;
+    @apply grid grid-cols-4 gap-2 p-3;
   }
   .user-menu a {
-    @apply whitespace-nowrap;
+    @apply flex-col justify-center gap-1.5 min-h-[64px] rounded-xl px-2 py-3 text-[12px] text-[#7b8494] bg-[#f8fafc] border border-transparent;
+  }
+  .user-menu a span {
+    @apply leading-[1.2] text-center;
+  }
+  .user-menu a.active {
+    @apply bg-[#fff7f5] border-[#ffe1dc] text-[#ff5a4f] shadow-[0_4px_12px_rgba(255,90,79,0.08)];
   }
   .user-menu a.active::before {
-    @apply top-auto bottom-0 w-full h-0.5;
+    @apply hidden;
+  }
+  .menu-icon {
+    @apply w-[18px] h-[18px];
+  }
+  .apply-live-sidebar-btn {
+    @apply mx-3 mt-0 mb-3 w-[calc(100%-24px)] h-10 rounded-xl text-[13px];
+  }
+  .user-content {
+    @apply border border-[#efefef] rounded-2xl overflow-hidden mt-0 bg-[#fbfbfc] shadow-[0_10px_28px_rgba(15,23,42,0.05)];
   }
   .user-profile-card {
-    @apply flex-col gap-4;
+    @apply px-4 pt-4 pb-4 flex-col gap-4 bg-white border-b border-[#f1f3f5];
   }
   .user-profile-left {
-    @apply flex-col items-center text-center;
+    @apply flex-col items-center text-center gap-4;
+  }
+  .user-avatar {
+    @apply w-20 h-20;
   }
   .user-info {
-    @apply items-center;
+    @apply items-center gap-3;
+  }
+  .user-name {
+    @apply text-[16px];
   }
   .user-level-row {
     @apply flex-wrap justify-center;
+  }
+  .level-track {
+    @apply w-[160px];
+  }
+  .user-assets-row {
+    @apply flex-wrap justify-center gap-4 text-[13px];
+  }
+  .user-links-row {
+    @apply justify-center;
+  }
+  .go-live-btn {
+    @apply w-full justify-center h-10 text-[13px] mt-0;
+  }
+  .profile-panel,
+  .message-panel,
+  .wealth-panel,
+  .follow-panel,
+  .order-panel,
+  .history-panel,
+  .appointment-panel,
+  .guess-panel,
+  .medal-panel,
+  .contribute-panel,
+  .upload-panel,
+  .room-panel,
+  .space-panel {
+    @apply rounded-none shadow-none border-0;
+  }
+  .history-panel {
+    @apply px-4 pt-4 pb-5 bg-white;
+  }
+  .history-toolbar {
+    @apply mb-3;
+  }
+  .history-grid {
+    @apply grid-cols-1 gap-4;
+  }
+  .history-card__body {
+    @apply px-4 pt-3 pb-4;
   }
   .user-cards-grid {
     @apply grid-cols-1;
