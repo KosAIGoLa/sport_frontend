@@ -1,6 +1,6 @@
 # 857 Live Clone
 
-A clone of the 857 Live homepage built with Nuxt 4 + Vue 3.
+A clone of the 857 Live sports streaming platform built with Nuxt 4 + Vue 3.
 
 ## Project Structure
 
@@ -8,27 +8,52 @@ A clone of the 857 Live homepage built with Nuxt 4 + Vue 3.
 857zb92/
 ├── app/
 │   ├── components/        # Reusable Vue components
-│   │   ├── Carousel.vue     # Generic horizontal carousel
-│   │   ├── LiveCard.vue     # Generic live card
-│   │   ├── Icon.vue         # SVG icon component
-│   │   ├── FormInput.vue    # Form input
-│   │   ├── SocialLogin.vue  # Third-party login
-│   │   ├── HotAnchors.vue   # Popular anchors carousel
-│   │   ├── AppointmentList.vue  # Match booking carousel
-│   │   ├── LiveCategory.vue     # Categorized live list
-│   │   ├── HotLives.vue         # Popular live cards
-│   │   ├── HeroSection.vue      # Hero live area
-│   │   ├── LoginModal.vue       # Login / register modal
-│   │   ├── SiteHeader.vue       # Top navigation
-│   │   ├── SiteFooter.vue       # Footer
-│   │   └── RightFix.vue         # Right-side fixed toolbar
-│   ├── layouts/           # Layouts
-│   ├── pages/             # Routes
-│   └── app.vue            # App entry
-├── public/                # Static assets
-├── nuxt.config.ts         # Nuxt config
+│   │   ├── AppointmentList.vue    # Match booking carousel
+│   │   ├── Carousel.vue           # Generic horizontal carousel
+│   │   ├── DesktopOnly.vue        # Desktop-only visibility wrapper
+│   │   ├── EmptyState.vue         # Empty state placeholder
+│   │   ├── FormInput.vue          # Form input
+│   │   ├── HeaderAuth.vue         # Header auth / user follow panel
+│   │   ├── HeroSection.vue        # Hero live area
+│   │   ├── HotAnchors.vue         # Popular anchors carousel
+│   │   ├── HotLives.vue           # Popular live cards
+│   │   ├── Icon.vue               # SVG icon component
+│   │   ├── LiveCard.vue           # Generic live card
+│   │   ├── LiveCategory.vue       # Categorized live list
+│   │   ├── LoginModal.vue         # Login / register modal
+│   │   ├── MobileFollowPanel.vue  # Mobile follow panel
+│   │   ├── MobileOnly.vue         # Mobile-only visibility wrapper
+│   │   ├── MobileStickyBar.vue    # Mobile bottom navigation bar
+│   │   ├── PageHeader.vue         # Page header with back button
+│   │   ├── RightFix.vue           # Right-side fixed toolbar
+│   │   ├── SiteFooter.vue         # Footer
+│   │   ├── SiteHeader.vue         # Top navigation
+│   │   ├── SocialLogin.vue        # Third-party login
+│   │   ├── UserAvatar.vue         # User avatar
+│   │   ├── UserAvatarWithMenu.vue # User avatar with dropdown menu
+│   │   └── UserMenu.vue           # User dropdown menu
+│   ├── composables/
+│   │   └── useI18n.js             # Lightweight i18n composable
+│   ├── locales/                   # Locale files
+│   │   ├── en-US.js
+│   │   └── zh-CN.js
+│   ├── pages/                     # Routes
+│   │   ├── index.vue              # Homepage
+│   │   ├── liveType.html.vue      # Live type/category page
+│   │   ├── match.html.vue         # Match detail page
+│   │   ├── recharge.html.vue      # Recharge page
+│   │   ├── download.vue           # Download page
+│   │   ├── room/
+│   │   │   └── [id].vue           # Live room page
+│   │   └── user.html.vue          # User center page
+│   ├── app.vue                    # App entry
+│   └── assets/css/                # Global styles
+├── public/                        # Static assets
+├── nuxt.config.ts                 # Nuxt config
 ├── package.json
-├── LICENSE                # License
+├── tailwind.config.js
+├── tsconfig.json
+├── LICENSE                        # License
 └── README.md
 ```
 
@@ -41,7 +66,45 @@ A clone of the 857 Live homepage built with Nuxt 4 + Vue 3.
 - Categorized live list (football, basketball, others)
 - Right-side fixed toolbar (back to top, download app, feedback)
 - Login / register modal
+- Mobile bottom navigation bar (live, schedule, follow, profile)
+- Mobile follow panel
+- User dropdown menu with quick links
 - Dark footer
+- User center page
+
+## User Center
+
+The user center page is implemented in `app/pages/user.html.vue`. It supports the following sections and features:
+
+- Sidebar navigation with active state management
+- Profile card with avatar, level, assets, and quick links
+- **我的资料** (My Profile):
+  - 基本资料 (Basic info)
+  - 修改头像 (Change avatar with local preview)
+  - 修改昵称 (Change nickname with 5-30 char rule)
+  - 实名认证 (Real-name authentication)
+  - 绑定手机 (Bind phone with countdown verification)
+- **我的消息** (Messages)
+- **我的财富** (My Wealth) with dynamic table headers for:
+  - 鹅肝消费记录
+  - 鹅蛋记录
+  - 装备包使用记录
+  - 门票消费
+  - 卡券明细
+- **我的关注** (Followed streamers)
+- **视频订单** (Video orders)
+- **观看历史** (Watch history)
+- **赛事预约** (Match appointments)
+- **我的趣猜** (My guesses)
+- **我的奖牌** (Medals)
+- **我的投稿** (Contributions)
+- **视频收藏** (Video collections)
+- **房间管理** (Room management)
+- **上传视频** (Upload video) with format/size validation
+- **我的视频空间** (My video space) with stats and sortable tabs
+- Apply for live streaming shortcut that jumps to real-name authentication
+
+Navigation and conditional rendering use English keys (`activeMenu`, `activeTab`, `activeWealthTab`) for consistency, while UI labels remain in Chinese.
 
 ## Give a Star
 
