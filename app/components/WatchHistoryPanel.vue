@@ -62,3 +62,120 @@ function onAvatarError(event) {
   event.target.src = '/assets/avatar.png'
 }
 </script>
+
+<style scoped>
+.history-panel {
+  @apply bg-white px-8 pt-6 pb-8;
+}
+.history-toolbar {
+  @apply flex items-center justify-between mb-4;
+}
+.history-filter {
+  @apply flex items-center gap-2 text-[14px] text-[#666] cursor-pointer select-none;
+}
+.history-filter input {
+  @apply w-4 h-4 accent-[#ff4d4f] cursor-pointer;
+}
+.history-count {
+  @apply text-[12px] text-[#9ca3af];
+}
+.history-grid {
+  @apply grid grid-cols-3 gap-5;
+}
+.history-card {
+  @apply block relative w-full min-w-0 bg-white border border-[#efefef] rounded-[12px] overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.05)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.10)];
+}
+.history-card__cover {
+  @apply relative aspect-video bg-slate-100 overflow-hidden;
+}
+.history-card__image {
+  @apply w-full h-full object-cover;
+}
+.history-card__cover::after {
+  @apply content-[''] absolute left-0 right-0 bottom-0 h-20;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 100%);
+}
+.history-card__badge {
+  @apply absolute right-3 top-3 z-10 flex h-7 items-center gap-1.5 rounded-full px-2.5 pointer-events-none;
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.18);
+}
+.history-card__badge-bg {
+  @apply block h-2.5 w-2.5 rounded-full shrink-0;
+  background: radial-gradient(circle at 35% 35%, #ffb2aa 0%, #ff6a5d 45%, #ff4d3f 100%);
+  box-shadow: 0 0 0 3px rgba(255, 92, 76, 0.18), 0 0 12px rgba(255, 92, 76, 0.45);
+  animation: history-live-pulse 1.8s ease-out infinite;
+}
+.history-card__badge-text {
+  @apply relative text-[12px] leading-none text-white font-medium whitespace-nowrap;
+}
+.history-card__cover-meta {
+  @apply absolute left-0 right-0 bottom-0 z-10 flex items-center justify-between px-5 pb-4 text-white;
+}
+.history-card__cover-author {
+  @apply max-w-[240px] truncate text-[13px] font-medium;
+}
+.history-card__cover-viewers {
+  @apply flex shrink-0 items-center gap-1 text-[12px] text-white/90;
+}
+.history-card__cover-viewers svg {
+  @apply h-3.5 w-3.5;
+}
+.history-card__body {
+  @apply px-5 pt-3 pb-4;
+}
+.history-card__title {
+  @apply text-[15px] leading-[23px] font-semibold text-[#2f3440];
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 46px;
+}
+.history-card__footer {
+  @apply flex items-center gap-3 pt-3;
+}
+.history-card__avatar {
+  @apply w-9 h-9 rounded-full object-cover ring-1 ring-[#f1f1f1];
+}
+.history-card__meta {
+  @apply flex min-w-0 flex-1 flex-col;
+}
+.history-card__author {
+  @apply truncate text-[13px] text-[#5b6472];
+}
+.history-card__subline {
+  @apply mt-0.5 text-[11px] text-[#9ca3af];
+}
+
+@keyframes history-live-pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 92, 76, 0.28), 0 0 10px rgba(255, 92, 76, 0.35);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 6px rgba(255, 92, 76, 0), 0 0 16px rgba(255, 92, 76, 0.5);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 92, 76, 0), 0 0 10px rgba(255, 92, 76, 0.35);
+  }
+}
+
+@media (max-width: 768px) {
+  .history-panel {
+    @apply px-4 pt-4 pb-5 bg-white;
+  }
+  .history-toolbar {
+    @apply mb-3;
+  }
+  .history-grid {
+    @apply grid-cols-1 gap-4;
+  }
+  .history-card__body {
+    @apply px-4 pt-3 pb-4;
+  }
+}
+</style>
