@@ -349,7 +349,7 @@
 </template>
 
 <script setup>
-import Player, { Events } from 'xgplayer'
+import Player from 'xgplayer'
 const { t } = useI18n()
 import 'xgplayer/dist/index.min.css'
 
@@ -573,7 +573,7 @@ onMounted(() => {
     ignores: ['definition', 'test', 'volume', 'replay']
   })
   player.muted = true
-  player.on(Events.VOLUME_CHANGE, () => {
+  player.on('volumechange', () => {
     isMuted.value = player.muted
   })
 })

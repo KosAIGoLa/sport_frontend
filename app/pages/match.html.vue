@@ -142,7 +142,7 @@ const matchTab = computed(() => {
   return ['足球', '篮球', '分析'].includes(tab) ? tab : '全部'
 })
 
-const days = [
+const days = computed(() => [
   { day: t('page.today'), date: '07.05' },
   { day: t('page.mon'), date: '07.06' },
   { day: t('page.tue'), date: '07.07' },
@@ -150,7 +150,7 @@ const days = [
   { day: t('page.thu'), date: '07.09' },
   { day: t('page.fri'), date: '07.10' },
   { day: t('page.sat'), date: '07.11' }
-]
+])
 
 const matches = [
   {

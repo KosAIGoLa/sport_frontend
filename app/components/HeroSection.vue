@@ -47,7 +47,7 @@
 </template>
 
 <script setup>
-import Player, { Events } from 'xgplayer'
+import Player from 'xgplayer'
 import 'xgplayer/dist/index.min.css'
 
 const { t } = useI18n()
@@ -93,7 +93,7 @@ function initPlayer() {
     isLoading.value = false
   })
   player.muted = true
-  player.on(Events.VOLUME_CHANGE, () => {
+  player.on('volumechange', () => {
     isMuted.value = player.muted
   })
   setTimeout(() => {
