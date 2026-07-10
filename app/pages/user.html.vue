@@ -250,20 +250,44 @@
               </div>
               <div class="follow-card__body">
                 <a :href="item.liveLink" class="follow-card__live">
-                  <span class="follow-card__badge">直播中</span>
-                  <img :src="item.cover" :alt="item.title" @error="e => e.target.src = '/assets/banner-528.jpg'">
-                  <span class="follow-card__live-meta">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c0 0-7 4-7 11v8l7-3 7 3v-8C19 6 12 2 12 2z"/><path d="M12 14l2-2-2-2"/></svg>
-                    {{ item.viewers }}
-                    <span class="follow-card__tag">{{ item.tag }}</span>
+                  <img class="follow-card__cover-image" :src="item.cover" :alt="item.title" @error="e => e.target.src = '/assets/banner-528.jpg'">
+                  <span class="follow-card__badge">
+                    <span class="follow-card__badge-dot"></span>
+                    <span class="follow-card__badge-text">正在直播</span>
                   </span>
-                  <div class="follow-card__live-title">{{ item.title }}</div>
+                  <span class="follow-card__live-meta">
+                    <span class="follow-card__live-viewers">
+                      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5C21.27 7.61 17 4.5 12 4.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                      {{ item.viewers }}
+                    </span>
+                  </span>
+                  <div class="follow-card__live-body">
+                    <div class="follow-card__live-title">{{ item.title }}</div>
+                    <div class="follow-card__live-footer">
+                      <img class="follow-card__live-avatar" :src="item.avatar" :alt="item.name" @error="e => e.target.src = '/assets/avatar.png'">
+                      <div class="follow-card__live-footer-meta">
+                        <span class="follow-card__live-footer-name">{{ item.name }}</span>
+                        <span class="follow-card__live-footer-subline">{{ item.tag }} · 直播回放</span>
+                      </div>
+                    </div>
+                  </div>
                 </a>
                 <div class="follow-card__video">
-                  <span class="follow-card__video-label">视频</span>
-                  <div class="follow-card__video-placeholder">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
-                    <span>（暂未上传）</span>
+                  <div class="follow-card__video-cover">
+                    <div class="follow-card__video-placeholder">
+                      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+                      <span>暂未上传</span>
+                    </div>
+                  </div>
+                  <div class="follow-card__video-body">
+                    <div class="follow-card__video-title">视频内容</div>
+                    <div class="follow-card__video-footer">
+                      <img class="follow-card__video-avatar" :src="item.avatar" :alt="item.name" @error="e => e.target.src = '/assets/avatar.png'">
+                      <div class="follow-card__video-footer-meta">
+                        <span class="follow-card__video-footer-name">{{ item.name }}</span>
+                        <span class="follow-card__video-footer-subline">暂未上传视频</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1141,40 +1165,100 @@ function onLogout() {
   @apply text-[#ff4d4f];
 }
 .follow-card__body {
-  @apply flex gap-4;
+  @apply grid grid-cols-2 gap-5 items-stretch;
 }
 .follow-card__live {
-  @apply relative block w-[200px] rounded-lg overflow-hidden no-underline;
+  @apply relative block w-full min-w-0 rounded-[12px] overflow-hidden no-underline border border-[#efefef] bg-white shadow-[0_2px_10px_rgba(0,0,0,0.05)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.10)];
 }
-.follow-card__live img {
-  @apply w-full h-[112px] object-cover block;
+.follow-card__cover-image {
+  @apply w-full h-[136px] object-cover block;
 }
 .follow-card__badge {
-  @apply absolute top-2 left-2 px-1.5 py-0.5 text-xs text-white bg-[#ff4d4f] rounded z-10;
+  @apply absolute right-3 top-3 z-10 flex h-7 items-center gap-1.5 rounded-full px-2.5 pointer-events-none;
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.18);
+}
+.follow-card__badge-dot {
+  @apply block h-2.5 w-2.5 rounded-full shrink-0;
+  background: radial-gradient(circle at 35% 35%, #ffb2aa 0%, #ff6a5d 45%, #ff4d3f 100%);
+  box-shadow: 0 0 0 3px rgba(255, 92, 76, 0.18), 0 0 12px rgba(255, 92, 76, 0.45);
+}
+.follow-card__badge-text {
+  @apply relative text-[12px] leading-none text-white font-medium whitespace-nowrap;
 }
 .follow-card__live-meta {
-  @apply absolute bottom-0 left-0 right-0 h-7 px-2 flex items-center gap-2 text-xs text-white bg-gradient-to-t from-black/60 to-transparent;
+  @apply absolute bottom-0 left-0 right-0 z-10 flex items-center justify-end px-4 pb-3 text-white;
 }
 .follow-card__live-meta svg {
   @apply w-3.5 h-3.5;
 }
-.follow-card__tag {
-  @apply ml-auto px-1.5 py-0.5 text-[10px] text-white bg-black/30 rounded;
+.follow-card__live::after {
+  @apply content-[''] absolute left-0 right-0 bottom-[72px] h-20;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 100%);
+}
+.follow-card__live-viewers {
+  @apply flex shrink-0 items-center gap-1 whitespace-nowrap text-[12px] text-white/90;
+}
+.follow-card__live-body {
+  @apply px-4 pt-3 pb-4;
 }
 .follow-card__live-title {
-  @apply mt-2 text-sm text-[#333] truncate;
+  @apply text-[15px] leading-[23px] font-semibold text-[#2f3440];
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 46px;
+}
+.follow-card__live-footer {
+  @apply flex items-center gap-3 pt-3;
+}
+.follow-card__live-avatar {
+  @apply w-9 h-9 rounded-full object-cover ring-1 ring-[#f1f1f1];
+}
+.follow-card__live-footer-meta {
+  @apply flex min-w-0 flex-1 flex-col;
+}
+.follow-card__live-footer-name {
+  @apply truncate text-[13px] text-[#5b6472];
+}
+.follow-card__live-footer-subline {
+  @apply mt-0.5 text-[11px] text-[#9ca3af];
 }
 .follow-card__video {
-  @apply w-[200px];
+  @apply w-full min-w-0 rounded-[12px] overflow-hidden border border-[#efefef] bg-white shadow-[0_2px_10px_rgba(0,0,0,0.04)];
 }
-.follow-card__video-label {
-  @apply block text-xs text-[#999] mb-2;
+.follow-card__video-cover {
+  @apply h-[136px] p-3 bg-white;
 }
 .follow-card__video-placeholder {
-  @apply h-[112px] rounded-lg bg-[#f5f5f5] flex flex-col items-center justify-center gap-1 text-xs text-[#bbb];
+  @apply h-full rounded-[10px] bg-[#f5f5f5] flex flex-col items-center justify-center gap-1 text-xs text-[#bbb];
 }
 .follow-card__video-placeholder svg {
   @apply w-8 h-8 text-[#ddd];
+}
+.follow-card__video-body {
+  @apply px-4 pt-3 pb-4 border-t border-[#f5f5f5];
+}
+.follow-card__video-title {
+  @apply text-[15px] leading-[23px] font-semibold text-[#2f3440];
+  min-height: 46px;
+}
+.follow-card__video-footer {
+  @apply flex items-center gap-3 pt-3;
+}
+.follow-card__video-avatar {
+  @apply w-9 h-9 rounded-full object-cover ring-1 ring-[#f1f1f1];
+}
+.follow-card__video-footer-meta {
+  @apply flex min-w-0 flex-1 flex-col;
+}
+.follow-card__video-footer-name {
+  @apply truncate text-[13px] text-[#5b6472];
+}
+.follow-card__video-footer-subline {
+  @apply mt-0.5 text-[11px] text-[#9ca3af];
 }
 .guess-panel {
   @apply bg-white rounded-xl shadow-sm p-6;
@@ -1535,6 +1619,12 @@ function onLogout() {
   }
   .history-card__body {
     @apply px-4 pt-3 pb-4;
+  }
+  .follow-card__body {
+    @apply grid-cols-1 gap-3;
+  }
+  .follow-card__video {
+    @apply hidden;
   }
   .user-cards-grid {
     @apply grid-cols-1;
