@@ -76,7 +76,7 @@ const actions = [
   { label: '个人中心', icon: icons.user, to: '/user.html?menu=profile', active: false },
   { label: '我的关注', icon: icons.heart, to: '/user.html?menu=follow', active: false },
   { label: '我的消息', icon: icons.message, to: '/user.html?menu=message', active: false },
-  { label: '申请直播', icon: icons.camera, to: '/user.html', active: false }
+  { label: '申请直播', icon: icons.camera, to: '/user.html?menu=profile&tab=realname', active: false }
 ]
 
 const medals = [

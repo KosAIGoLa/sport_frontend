@@ -14,8 +14,8 @@
             v-for="item in menu"
             :key="item.key"
             href="javascript:;"
-            :class="{ active: activeMenu === item.key }"
-            @click.prevent="activeMenu = item.key"
+            :class="{ active: isMenuActive(item.key) }"
+            @click.prevent="handleMenuClick(item)"
           >
             <svg class="menu-icon" viewBox="0 0 24 24" fill="currentColor">
               <path :d="item.path" />
@@ -23,7 +23,7 @@
             <span>{{ item.label }}</span>
           </a>
         </nav>
-        <button type="button" class="apply-live-sidebar-btn">
+        <button type="button" class="apply-live-sidebar-btn" @click="goToRealname">
           <svg viewBox="0 0 24 24" fill="currentColor">
             <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z" />
           </svg>
@@ -32,7 +32,7 @@
       </aside>
 
       <section class="user-content">
-        <div class="user-profile-card">
+        <div v-if="activeMenu === 'profile'" class="user-profile-card">
           <div class="user-profile-left">
             <img class="user-avatar" src="https://uc2.qiecdn.com/avatar.php?uid=28030520&size=middle&force=1" alt="avatar" @error="e => e.target.src = '/assets/frog-avatar.png'">
             <div class="user-info">
@@ -72,9 +72,9 @@
                 <NuxtLink class="recharge-btn" to="/recharge.html">充值</NuxtLink>
               </div>
               <div class="user-links-row">
-                <a href="javascript:;">上传视频</a>
+                <a href="javascript:;" @click="activeMenu = 'upload'">上传视频</a>
                 <span class="sep">|</span>
-                <a href="javascript:;">我的视频空间</a>
+                <a href="javascript:;" @click="activeMenu = 'space'">我的视频空间</a>
               </div>
             </div>
           </div>
@@ -90,16 +90,16 @@
           <div class="user-tabs">
             <button
               v-for="tab in tabs"
-              :key="tab"
+              :key="tab.key"
               type="button"
-              :class="{ active: activeTab === tab }"
-              @click="activeTab = tab"
+              :class="{ active: activeTab === tab.key }"
+              @click="activeTab = tab.key"
             >
-              {{ tab }}
+              {{ tab.label }}
             </button>
           </div>
 
-          <div class="user-cards-grid">
+          <div v-if="activeTab === 'basic'" class="user-cards-grid">
             <div class="info-card">
               <div class="info-card-icon phone">
                 <svg viewBox="0 0 24 24" fill="currentColor">
@@ -109,7 +109,7 @@
               <div class="info-card-body">
                 <div class="info-card-title-row">
                   <h3>未绑定手机</h3>
-                  <a href="javascript:;" class="action-link">立即绑定</a>
+                  <a href="javascript:;" class="action-link" @click="activeTab = 'phone'">立即绑定</a>
                 </div>
                 <p>绑定手机后可以享受到手机相关的安全及提醒服务</p>
               </div>
@@ -123,10 +123,67 @@
               <div class="info-card-body">
                 <div class="info-card-title-row">
                   <h3>实名认证</h3>
-                  <a href="javascript:;" class="action-link">立即认证</a>
+                  <a href="javascript:;" class="action-link" @click="activeTab = 'realname'">立即认证</a>
                 </div>
                 <p>尚未实名认证，无法申请直播间</p>
               </div>
+            </div>
+          </div>
+
+          <div v-if="activeTab === 'avatar'" class="avatar-panel">
+            <p class="avatar-upload-title">请选择一个新照片点击上传</p>
+            <label class="avatar-upload-circle">
+              <input type="file" accept="image/*" class="avatar-upload-input" @change="handleAvatarUpload">
+              <img class="avatar-upload-preview" :src="avatarPreview" alt="avatar" @error="e => e.target.src = '/assets/frog-avatar.png'">
+              <div class="avatar-upload-overlay">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span>点击上传</span>
+              </div>
+            </label>
+          </div>
+
+          <div v-if="activeTab === 'nickname'" class="nickname-panel">
+            <div class="nickname-form">
+              <div class="nickname-row">
+                <label class="nickname-label">当前昵称：</label>
+                <span class="nickname-current">企鹅玩家Kc2hI9</span>
+              </div>
+              <div class="nickname-row">
+                <label class="nickname-label">新昵称：</label>
+                <input v-model="nicknameForm.newNickname" type="text" class="nickname-input" placeholder="请输入新的昵称" maxlength="30">
+                <button type="button" class="nickname-submit" @click="confirmNickname">确认修改</button>
+              </div>
+            </div>
+            <div class="nickname-rules">
+              <h4>说明：</h4>
+              <ol>
+                <li>修改昵称后，请用新昵称和原来的密码登录，旧的昵称将无法登录。</li>
+                <li>第一次可免费修改昵称，以后每次修改昵称需要50鹅肝。</li>
+                <li>新昵称需符合注册规范，可使用数字，字母，汉字，不超过5-30个字符。</li>
+                <li>如遇服务器更新或其它问题导致昵称修改失败，请 <a href="javascript:;" class="nickname-service">联系客服</a>。</li>
+              </ol>
+            </div>
+          </div>
+
+          <div v-if="activeTab === 'realname'" class="realname-tab-panel">
+            <img class="realname-tab-panel__img" src="/assets/appointment-penguin.png" alt="penguin">
+            <h3>请去企鹅体育APP实名认证</h3>
+            <p>非大陆用户认证，请联系企鹅体育客服QQ：800161087</p>
+          </div>
+
+          <div v-if="activeTab === 'phone'" class="phone-bind-panel">
+            <div class="phone-bind-form">
+              <div class="phone-bind-row">
+                <label class="phone-bind-label">手机号：</label>
+                <input v-model="phoneForm.phone" type="tel" class="phone-bind-input" placeholder="请输入手机号" maxlength="11">
+              </div>
+              <div class="phone-bind-row">
+                <label class="phone-bind-label">获取验证码：</label>
+                <input v-model="phoneForm.code" type="text" class="phone-bind-input phone-bind-input--code" placeholder="请输入验证码" maxlength="6">
+                <button type="button" class="phone-bind-send" :disabled="countdown > 0" @click="sendCode">{{ countdown > 0 ? `${countdown}s 后重发` : '发送验证码' }}</button>
+              </div>
+              <p class="phone-bind-tip">您将会收到一个验证码，验证码验证过程不收取任何费用</p>
+              <button type="button" class="phone-bind-submit" @click="confirmBind">确认绑定</button>
             </div>
           </div>
 
@@ -160,12 +217,12 @@
           <div class="wealth-tabs">
             <button
               v-for="tab in wealthTabs"
-              :key="tab"
+              :key="tab.key"
               type="button"
-              :class="{ active: activeWealthTab === tab }"
-              @click="activeWealthTab = tab"
+              :class="{ active: activeWealthTab === tab.key }"
+              @click="activeWealthTab = tab.key"
             >
-              {{ tab }}
+              {{ tab.label }}
             </button>
           </div>
           <div class="wealth-filter">
@@ -178,7 +235,31 @@
           <div class="wealth-table-wrap">
             <table class="wealth-table">
               <thead>
-                <tr>
+                <tr v-if="activeWealthTab === 'eggs'">
+                  <th>时间</th>
+                  <th>主播</th>
+                  <th>类型</th>
+                  <th>额度</th>
+                </tr>
+                <tr v-else-if="activeWealthTab === 'equipment'">
+                  <th>消费时间</th>
+                  <th>使用点</th>
+                  <th>物品</th>
+                  <th>数量</th>
+                </tr>
+                <tr v-else-if="activeWealthTab === 'tickets'">
+                  <th>消费时间</th>
+                  <th>直播间</th>
+                  <th>类型</th>
+                  <th>额度</th>
+                </tr>
+                <tr v-else-if="activeWealthTab === 'coupons'">
+                  <th>时间</th>
+                  <th>卡券名称</th>
+                  <th>方式</th>
+                  <th>数量</th>
+                </tr>
+                <tr v-else>
                   <th>消费时间</th>
                   <th>主播</th>
                   <th>礼物</th>
@@ -188,10 +269,43 @@
               </thead>
               <tbody>
                 <tr class="empty-row">
-                  <td colspan="5">--暂无消费记录--</td>
+                  <td :colspan="activeWealthTab === 'eggs' || activeWealthTab === 'equipment' || activeWealthTab === 'tickets' || activeWealthTab === 'coupons' ? 4 : 5">{{ activeWealthTab === 'equipment' ? '--暂无使用记录--' : activeWealthTab === 'tickets' ? '--暂无数据--' : activeWealthTab === 'coupons' ? '--暂无卡券明细--' : '--暂无消费记录--' }}</td>
                 </tr>
               </tbody>
             </table>
+          </div>
+        </div>
+
+        <div v-else-if="activeMenu === 'follow'" class="follow-panel">
+          <div class="follow-list">
+            <div v-for="item in followList" :key="item.id" class="follow-card">
+              <div class="follow-card__header">
+                <img class="follow-card__avatar" :src="item.avatar" :alt="item.name" @error="e => e.target.src = '/assets/avatar.png'">
+                <div class="follow-card__info">
+                  <div class="follow-card__name">{{ item.name }}</div>
+                  <div class="follow-card__status">直播间（<span class="living">开播中</span>）</div>
+                </div>
+              </div>
+              <div class="follow-card__body">
+                <a :href="item.liveLink" class="follow-card__live">
+                  <span class="follow-card__badge">直播中</span>
+                  <img :src="item.cover" :alt="item.title" @error="e => e.target.src = '/assets/banner-528.jpg'">
+                  <span class="follow-card__live-meta">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c0 0-7 4-7 11v8l7-3 7 3v-8C19 6 12 2 12 2z"/><path d="M12 14l2-2-2-2"/></svg>
+                    {{ item.viewers }}
+                    <span class="follow-card__tag">{{ item.tag }}</span>
+                  </span>
+                  <div class="follow-card__live-title">{{ item.title }}</div>
+                </a>
+                <div class="follow-card__video">
+                  <span class="follow-card__video-label">视频</span>
+                  <div class="follow-card__video-placeholder">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+                    <span>（暂未上传）</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -285,7 +399,27 @@
             <span class="contribute-divider">|</span>
             <button type="button" :class="{ active: contributeTab === 'unpublished' }" @click="contributeTab = 'unpublished'">未发布</button>
           </div>
-          <EmptyState image="/assets/appointment-penguin.png" text="您还没有上传视频，点击立即前往！" button-text="上传视频" />
+          <EmptyState image="/assets/appointment-penguin.png" text="您还没有上传视频，点击立即前往！" button-text="上传视频" @button-click="activeMenu = 'upload'" />
+        </div>
+
+        <div v-else-if="activeMenu === 'upload'" class="upload-panel">
+          <div class="upload-panel__inner">
+            <img class="upload-panel__mascot" src="/assets/appointment-penguin.png" alt="penguin">
+            <p class="upload-panel__text">
+              上传视频，即代表您已同意
+              <a href="javascript:;" class="upload-panel__link">企鹅视频服务条款</a>
+              。请勿上传违法、色情类视频!单个视频上传文件最大不能超过4G，目前仅支持mp4、rmvb、avi、wav、flv格式的视频上传。上传成功后，平台存储期限为一年
+            </p>
+            <p class="upload-panel__subtext">单个视频上传文件最大不能超过4G，目前仅支持mp4、rmvb、avi、wav、flv格式的视频上传</p>
+            <label class="upload-panel__btn">
+              <input type="file" accept="video/*" @change="handleVideoUpload">
+              上传视频
+            </label>
+            <div class="upload-panel__help">
+              <a href="javascript:;">哪些视频是禁止发布的？</a>
+              <a href="javascript:;">如何转码超清？</a>
+            </div>
+          </div>
         </div>
 
         <div v-else-if="activeMenu === 'room'" class="room-panel">
@@ -326,6 +460,34 @@
           </div>
         </div>
 
+        <div v-else-if="activeMenu === 'space'" class="space-panel">
+          <div class="space-header">
+            <img class="space-avatar" src="/assets/frog-avatar.png" alt="avatar">
+            <div class="space-header__info">
+              <h2 class="space-name">企鹅玩家Kc2hI9</h2>
+              <div class="space-stats">
+                <span>视频：<em>{{ userStats.videos }}</em></span>
+                <span>播放数：<em>{{ userStats.plays }}</em></span>
+                <span>粉丝：<em>{{ userStats.fans }}</em></span>
+                <a class="space-share" href="javascript:;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A3 3 0 1 0 12 6a3 3 0 1 0-6 5v1"/><path d="M12 6v13"/><path d="M18 14v3"/></svg>
+                  分享
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="space-tabs">
+            <button type="button" :class="{ active: spaceSort === 'latest' }" @click="spaceSort = 'latest'">最新</button>
+            <button type="button" :class="{ active: spaceSort === 'hottest' }" @click="spaceSort = 'hottest'">最热</button>
+          </div>
+          <div class="space-body">
+            <div class="space-empty">
+              <img src="/assets/appointment-penguin.png" alt="empty">
+              <span>--暂无视频--</span>
+            </div>
+          </div>
+        </div>
+
         <div v-else class="empty-panel">
           <img src="/assets/none.png" alt="">
           <span>--暂无数据--</span>
@@ -349,13 +511,146 @@ const { isLoggedIn, login: handleLogin, logout: handleLogout } = useAuth()
 const loginVisible = ref(false)
 const loginType = ref('login')
 const activeMenu = ref('profile')
-const activeTab = ref('基本资料')
-const activeWealthTab = ref('鹅肝消费记录')
+const activeTab = ref('basic')
+const spaceSort = ref('latest')
+const userStats = { videos: 0, plays: 0, fans: 0 }
+const phoneForm = reactive({ phone: '', code: '' })
+const countdown = ref(0)
+let phoneTimer = null
+const avatarPreview = ref('/assets/frog-avatar.png')
+const nicknameForm = reactive({ newNickname: '' })
+
+function handleAvatarUpload(event) {
+  const file = event.target.files?.[0]
+  if (!file) return
+  if (!file.type.startsWith('image/')) {
+    alert('请选择图片文件')
+    return
+  }
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    avatarPreview.value = e.target.result
+    alert('头像已更新，实际使用时应上传到服务器')
+  }
+  reader.readAsDataURL(file)
+}
+
+function handleVideoUpload(event) {
+  const file = event.target.files?.[0]
+  if (!file) return
+  const validTypes = ['video/mp4', 'video/x-msvideo', 'video/avi', 'video/x-flv', 'video/quicktime', 'video/mpeg']
+  const validExts = ['.mp4', '.rmvb', '.avi', '.wav', '.flv']
+  const ext = file.name.slice(file.name.lastIndexOf('.')).toLowerCase()
+  if (!validTypes.includes(file.type) && !validExts.includes(ext)) {
+    alert('仅支持 mp4、rmvb、avi、wav、flv 格式的视频上传')
+    return
+  }
+  if (file.size > 4 * 1024 * 1024 * 1024) {
+    alert('单个视频上传文件最大不能超过 4G')
+    return
+  }
+  alert(`已选择视频：${file.name}，实际使用时应上传到服务器`)
+}
+
+function sendCode() {
+  if (!phoneForm.phone || phoneForm.phone.length !== 11) {
+    alert('请输入正确的手机号')
+    return
+  }
+  countdown.value = 60
+  phoneTimer = setInterval(() => {
+    countdown.value--
+    if (countdown.value <= 0) {
+      clearInterval(phoneTimer)
+      phoneTimer = null
+    }
+  }, 1000)
+  alert(`验证码已发送至 ${phoneForm.phone}`)
+}
+
+function confirmBind() {
+  if (!phoneForm.phone || phoneForm.phone.length !== 11) {
+    alert('请输入正确的手机号')
+    return
+  }
+  if (!phoneForm.code) {
+    alert('请输入验证码')
+    return
+  }
+  alert(`手机号 ${phoneForm.phone} 绑定成功`)
+  phoneForm.phone = ''
+  phoneForm.code = ''
+  activeTab.value = 'basic'
+}
+
+function confirmNickname() {
+  const val = nicknameForm.newNickname.trim()
+  if (!val) {
+    alert('请输入新的昵称')
+    return
+  }
+  if (val.length < 5 || val.length > 30) {
+    alert('昵称长度需在5-30个字符之间')
+    return
+  }
+  alert(`昵称已修改为：${val}`)
+  nicknameForm.newNickname = ''
+  activeTab.value = 'basic'
+}
+
+function goToRealname() {
+  activeMenu.value = 'profile'
+  activeTab.value = 'realname'
+}
+
+function handleMenuClick(item) {
+  if (item.key === 'realname') {
+    activeMenu.value = 'profile'
+    activeTab.value = 'realname'
+  } else if (item.key === 'profile') {
+    activeMenu.value = 'profile'
+    activeTab.value = 'basic'
+  } else {
+    activeMenu.value = item.key
+  }
+}
+
+function isMenuActive(key) {
+  if (activeMenu.value === 'profile' && activeTab.value === 'realname') {
+    return key === 'realname'
+  }
+  return activeMenu.value === key
+}
+
+const activeWealthTab = ref('liver')
 const wealthMonth = ref('本月')
 const medalMainTab = ref('limited')
 const activeMedalFilter = ref('NBA球队热度榜')
 const contributeTab = ref('published')
 const medalFilters = ['NBA球队热度榜', 'NBA死忠粉丝榜', '首充活动', '锦旗', '2019春节活动', '商城专卖']
+const followList = [
+  {
+    id: 1,
+    name: '乔氏台球002',
+    avatar: '/assets/avatar.png',
+    cover: '/assets/teams/team1.png',
+    title: '乔氏台球002的直播间',
+    viewers: '1144',
+    tag: '台球',
+    liveLink: '/room/1'
+  },
+  {
+    id: 2,
+    name: '阿祖又收了',
+    avatar: '/assets/avatar.png',
+    cover: '/assets/teams/team2.png',
+    title: '【阿祖】U20 德国VS塞尔维亚',
+    viewers: '62012',
+    tag: '篮球',
+    liveLink: '/room/2'
+  }
+]
+
 const medals = [
   { name: '76人', icon: '🏀', color: '#ed1c24' },
   { name: '湖人', icon: '💛', color: '#552583' },
@@ -387,13 +682,44 @@ const route = useRoute()
 const menuKeys = menu.map(item => item.key)
 
 watch(() => route.query.menu, (val) => {
-  if (val && menuKeys.includes(val)) {
+  if (val === 'realname') {
+    activeMenu.value = 'profile'
+    activeTab.value = 'realname'
+  } else if (val === 'profile') {
+    activeMenu.value = 'profile'
+    if (!route.query.tab) {
+      activeTab.value = 'basic'
+    }
+  } else if (val && menuKeys.includes(val)) {
     activeMenu.value = val
   }
 }, { immediate: true })
 
-const tabs = ['基本资料', '修改头像', '修改昵称', '实名认证', '绑定手机']
-const wealthTabs = ['鹅肝消费记录', '鹅蛋记录', '装备包使用记录', '门票消费', '卡券明细']
+onBeforeUnmount(() => {
+  if (phoneTimer) clearInterval(phoneTimer)
+})
+
+const tabs = [
+  { key: 'basic', label: '基本资料' },
+  { key: 'avatar', label: '修改头像' },
+  { key: 'nickname', label: '修改昵称' },
+  { key: 'realname', label: '实名认证' },
+  { key: 'phone', label: '绑定手机' }
+]
+const wealthTabs = [
+  { key: 'liver', label: '鹅肝消费记录' },
+  { key: 'eggs', label: '鹅蛋记录' },
+  { key: 'equipment', label: '装备包使用记录' },
+  { key: 'tickets', label: '门票消费' },
+  { key: 'coupons', label: '卡券明细' }
+]
+
+const tabKeys = tabs.map(item => item.key)
+watch(() => route.query.tab, (val) => {
+  if (val && tabKeys.includes(val)) {
+    activeTab.value = val
+  }
+}, { immediate: true })
 
 const messages = [
   {
@@ -543,6 +869,102 @@ function onLogout() {
 .action-link {
   @apply text-sm text-[#ff4d4f] hover:underline;
 }
+.avatar-panel {
+  @apply bg-white rounded-xl shadow-sm p-10 mb-5;
+}
+.avatar-upload-title {
+  @apply text-sm text-[#333] mb-6;
+}
+.avatar-upload-circle {
+  @apply relative w-[180px] h-[180px] rounded-full overflow-hidden block cursor-pointer border border-dashed border-[#d9d9d9] hover:border-[#ff4d4f];
+}
+.avatar-upload-input {
+  @apply absolute inset-0 opacity-0 cursor-pointer z-20;
+}
+.avatar-upload-preview {
+  @apply w-full h-full object-cover;
+}
+.avatar-upload-overlay {
+  @apply absolute inset-0 flex flex-col items-center justify-center bg-black/30 text-white z-10;
+}
+.avatar-upload-overlay svg {
+  @apply w-10 h-10 mb-1;
+}
+.avatar-upload-overlay span {
+  @apply text-sm;
+}
+.nickname-panel {
+  @apply bg-white rounded-xl shadow-sm p-10 mb-5;
+}
+.nickname-form {
+  @apply mb-10;
+}
+.nickname-row {
+  @apply flex items-center gap-4 mb-5;
+}
+.nickname-label {
+  @apply w-24 text-sm text-[#666] text-right shrink-0;
+}
+.nickname-current {
+  @apply text-sm text-[#999];
+}
+.nickname-input {
+  @apply w-[280px] h-11 px-3 border border-gray-200 rounded text-sm text-[#333] outline-none focus:border-[#ff4d4f];
+}
+.nickname-submit {
+  @apply h-11 px-6 bg-[#ff4d4f] text-white text-sm font-medium rounded border-0 cursor-pointer hover:bg-[#ff7875] transition-colors;
+}
+.nickname-rules {
+  @apply text-sm text-[#666] leading-relaxed;
+}
+.nickname-rules h4 {
+  @apply text-base font-bold text-[#333] mb-3;
+}
+.nickname-rules ol {
+  @apply list-decimal pl-5 space-y-2;
+}
+.nickname-service {
+  @apply text-[#ff4d4f] hover:underline;
+}
+.realname-tab-panel {
+  @apply bg-white rounded-xl shadow-sm p-10 mb-5 flex flex-col items-center justify-center min-h-[360px];
+}
+.realname-tab-panel__img {
+  @apply w-24 h-24 mb-5 object-contain;
+}
+.realname-tab-panel h3 {
+  @apply text-lg font-bold text-[#333] mb-3;
+}
+.realname-tab-panel p {
+  @apply text-sm text-[#999];
+}
+.phone-bind-panel {
+  @apply bg-white rounded-xl shadow-sm p-10 mb-5;
+}
+.phone-bind-form {
+  @apply max-w-md;
+}
+.phone-bind-row {
+  @apply flex items-center gap-4 mb-5;
+}
+.phone-bind-label {
+  @apply w-24 text-sm text-[#666] text-right shrink-0;
+}
+.phone-bind-input {
+  @apply flex-1 h-11 px-3 border border-gray-200 rounded text-sm text-[#333] outline-none focus:border-[#ff4d4f];
+}
+.phone-bind-input--code {
+  @apply w-[160px] flex-none;
+}
+.phone-bind-send {
+  @apply h-11 px-4 bg-[#9ca3af] text-white text-sm rounded border-0 cursor-pointer hover:bg-[#6b7280] disabled:cursor-not-allowed disabled:opacity-70 transition-colors;
+}
+.phone-bind-tip {
+  @apply pl-28 text-xs text-[#9ca3af] mb-8;
+}
+.phone-bind-submit {
+  @apply ml-28 h-11 px-10 bg-[#ff4d4f] text-white text-base font-medium rounded border-0 cursor-pointer hover:bg-[#ff7875] transition-colors;
+}
 .info-card-body p {
   @apply text-xs text-[#999] leading-relaxed;
 }
@@ -599,6 +1021,69 @@ function onLogout() {
 }
 .appointment-panel {
   @apply bg-white rounded-xl shadow-sm p-10 min-h-[400px] flex flex-col items-center justify-center;
+}
+.follow-panel {
+  @apply bg-white rounded-xl shadow-sm p-6;
+}
+.follow-list {
+  @apply flex flex-col gap-6;
+}
+.follow-card {
+  @apply flex flex-col gap-3;
+}
+.follow-card__header {
+  @apply flex items-center gap-3;
+}
+.follow-card__avatar {
+  @apply w-10 h-10 rounded-full object-cover;
+}
+.follow-card__info {
+  @apply flex flex-col gap-0.5;
+}
+.follow-card__name {
+  @apply text-base font-bold text-[#333];
+}
+.follow-card__status {
+  @apply text-xs text-[#999];
+}
+.follow-card__status .living {
+  @apply text-[#ff4d4f];
+}
+.follow-card__body {
+  @apply flex gap-4;
+}
+.follow-card__live {
+  @apply relative block w-[200px] rounded-lg overflow-hidden no-underline;
+}
+.follow-card__live img {
+  @apply w-full h-[112px] object-cover block;
+}
+.follow-card__badge {
+  @apply absolute top-2 left-2 px-1.5 py-0.5 text-xs text-white bg-[#ff4d4f] rounded z-10;
+}
+.follow-card__live-meta {
+  @apply absolute bottom-0 left-0 right-0 h-7 px-2 flex items-center gap-2 text-xs text-white bg-gradient-to-t from-black/60 to-transparent;
+}
+.follow-card__live-meta svg {
+  @apply w-3.5 h-3.5;
+}
+.follow-card__tag {
+  @apply ml-auto px-1.5 py-0.5 text-[10px] text-white bg-black/30 rounded;
+}
+.follow-card__live-title {
+  @apply mt-2 text-sm text-[#333] truncate;
+}
+.follow-card__video {
+  @apply w-[200px];
+}
+.follow-card__video-label {
+  @apply block text-xs text-[#999] mb-2;
+}
+.follow-card__video-placeholder {
+  @apply h-[112px] rounded-lg bg-[#f5f5f5] flex flex-col items-center justify-center gap-1 text-xs text-[#bbb];
+}
+.follow-card__video-placeholder svg {
+  @apply w-8 h-8 text-[#ddd];
 }
 .guess-panel {
   @apply bg-white rounded-xl shadow-sm p-6;
@@ -693,6 +1178,39 @@ function onLogout() {
 .contribute-divider {
   @apply text-[#ddd] text-xs;
 }
+.upload-panel {
+  @apply bg-white rounded-xl shadow-sm p-6;
+}
+.upload-panel__inner {
+  @apply flex flex-col items-center justify-center py-10 text-center;
+}
+.upload-panel__mascot {
+  @apply w-[160px] h-auto object-contain mb-6;
+}
+.upload-panel__text {
+  @apply text-sm text-[#666] leading-7 mb-2 max-w-4xl;
+}
+.upload-panel__link {
+  @apply text-[#ff4d4f] hover:underline;
+}
+.upload-panel__subtext {
+  @apply text-sm text-[#666] mb-8;
+}
+.upload-panel__btn {
+  @apply relative inline-flex items-center justify-center px-10 py-2.5 rounded-full border border-[#ff4d4f] text-[#ff4d4f] text-sm cursor-pointer hover:bg-[#fff5f5] transition-colors mb-8;
+}
+.upload-panel__btn input {
+  @apply absolute inset-0 opacity-0 cursor-pointer;
+}
+.upload-panel__help {
+  @apply flex items-center gap-8 text-xs text-[#999];
+}
+.upload-panel__help a {
+  @apply hover:text-[#ff4d4f] transition-colors;
+}
+.upload-panel__help a::before {
+  @apply content-['ⓘ'] mr-1;
+}
 .room-panel {
   @apply bg-white rounded-xl shadow-sm p-6 min-h-[400px];
 }
@@ -714,20 +1232,68 @@ function onLogout() {
 .realname-panel {
   @apply bg-white rounded-xl shadow-sm p-6;
 }
+.space-panel {
+  @apply bg-white rounded-xl shadow-sm overflow-hidden;
+}
+.space-header {
+  @apply flex items-center gap-4 p-6 bg-[#f8f9fa];
+}
+.space-avatar {
+  @apply w-20 h-20 rounded-full object-cover;
+}
+.space-name {
+  @apply text-xl font-bold text-[#333] mb-3;
+}
+.space-stats {
+  @apply flex items-center gap-6 text-sm text-[#666];
+}
+.space-stats em {
+  @apply not-italic text-[#ff4d4f] font-medium;
+}
+.space-share {
+  @apply flex items-center gap-1 text-sm text-[#666] hover:text-[#ff4d4f] transition-colors;
+}
+.space-share svg {
+  @apply w-4 h-4;
+}
+.space-tabs {
+  @apply flex items-center gap-6 px-6 border-b border-[#f0f0f0];
+}
+.space-tabs button {
+  @apply relative pb-3 text-sm text-[#666] font-medium hover:text-[#333] transition-colors;
+}
+.space-tabs button.active {
+  @apply text-[#ff4d4f];
+}
+.space-tabs button.active::after {
+  @apply content-[''] absolute left-0 right-0 bottom-0 h-0.5 bg-[#ff4d4f];
+}
+.space-body {
+  @apply p-10 min-h-[360px];
+}
+.space-empty {
+  @apply flex flex-col items-center justify-center gap-4 h-full;
+}
+.space-empty img {
+  @apply w-[120px] h-auto object-contain;
+}
+.space-empty span {
+  @apply text-sm text-[#999];
+}
 .wealth-panel {
   @apply bg-white rounded-xl shadow-sm p-6;
 }
 .wealth-tabs {
-  @apply flex items-center flex-wrap gap-6 border-b border-[#f0f0f0] mb-5;
+  @apply flex items-center flex-wrap mb-5;
 }
 .wealth-tabs button {
-  @apply relative pb-3 text-sm text-[#666] font-medium hover:text-[#333] transition-colors;
+  @apply relative px-6 text-sm text-[#999] font-medium hover:text-[#666] transition-colors;
+}
+.wealth-tabs button:not(:last-child)::after {
+  @apply content-['|'] absolute right-0 top-1/2 -translate-y-1/2 text-[#e5e7eb];
 }
 .wealth-tabs button.active {
   @apply text-[#ff4d4f];
-}
-.wealth-tabs button.active::after {
-  @apply content-[''] absolute left-0 right-0 bottom-0 h-0.5 bg-[#ff4d4f];
 }
 .wealth-filter {
   @apply mb-4;

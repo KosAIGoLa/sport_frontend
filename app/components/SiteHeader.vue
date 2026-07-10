@@ -94,23 +94,51 @@
             <span>{{ t('nav.follow') }}</span>
             <div class="submenu concern-submenu">
               <div class="submenu-box concern-submenu-box">
-                <div class="concern-empty">
-                  <svg class="concern-empty__img" viewBox="0 0 160 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <ellipse cx="80" cy="85" rx="55" ry="60" fill="#cbd5e1"/>
-                    <ellipse cx="80" cy="95" rx="30" ry="38" fill="white"/>
-                    <circle cx="62" cy="70" r="5" fill="#334155"/>
-                    <circle cx="98" cy="70" r="5" fill="#334155"/>
-                    <path d="M75 82 L85 82 L80 92 Z" fill="#f59e0b"/>
-                    <path d="M58 76 Q52 88 58 100" stroke="#60a5fa" stroke-width="4" fill="none" stroke-linecap="round"/>
-                    <path d="M102 76 Q108 88 102 100" stroke="#60a5fa" stroke-width="4" fill="none" stroke-linecap="round"/>
-                    <path d="M25 85 Q12 105 25 120" stroke="#cbd5e1" stroke-width="12" fill="none" stroke-linecap="round"/>
-                    <path d="M135 85 Q148 105 135 120" stroke="#cbd5e1" stroke-width="12" fill="none" stroke-linecap="round"/>
-                    <path d="M50 40 Q60 30 70 40" stroke="#94a3b8" stroke-width="3" fill="none" stroke-linecap="round"/>
-                    <path d="M90 40 Q100 30 110 40" stroke="#94a3b8" stroke-width="3" fill="none" stroke-linecap="round"/>
-                  </svg>
-                  <p class="concern-empty__text">你的关注列表空空如也~</p>
-                </div>
-                <a class="concern-empty__footer" href="/user.html">查看全部</a>
+                <template v-if="followItems.length">
+                  <div class="concern-list">
+                    <a
+                      v-for="item in followItems"
+                      :key="item.id"
+                      :href="item.link"
+                      class="concern-item"
+                    >
+                      <div class="concern-item__title">{{ item.title }}</div>
+                      <div class="concern-item__meta">
+                        <span class="concern-item__meta-item">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                          已播 {{ item.days }} 天
+                        </span>
+                        <span class="concern-item__meta-item">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                          {{ item.author }}
+                        </span>
+                        <span class="concern-item__meta-item">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c0 0-7 4-7 11v8l7-3 7 3v-8C19 6 12 2 12 2z"/><path d="M12 14l2-2-2-2"/></svg>
+                          {{ item.heat }}
+                        </span>
+                      </div>
+                    </a>
+                  </div>
+                </template>
+                <template v-else>
+                  <div class="concern-empty">
+                    <svg class="concern-empty__img" viewBox="0 0 160 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <ellipse cx="80" cy="85" rx="55" ry="60" fill="#cbd5e1"/>
+                      <ellipse cx="80" cy="95" rx="30" ry="38" fill="white"/>
+                      <circle cx="62" cy="70" r="5" fill="#334155"/>
+                      <circle cx="98" cy="70" r="5" fill="#334155"/>
+                      <path d="M75 82 L85 82 L80 92 Z" fill="#f59e0b"/>
+                      <path d="M58 76 Q52 88 58 100" stroke="#60a5fa" stroke-width="4" fill="none" stroke-linecap="round"/>
+                      <path d="M102 76 Q108 88 102 100" stroke="#60a5fa" stroke-width="4" fill="none" stroke-linecap="round"/>
+                      <path d="M25 85 Q12 105 25 120" stroke="#cbd5e1" stroke-width="12" fill="none" stroke-linecap="round"/>
+                      <path d="M135 85 Q148 105 135 120" stroke="#cbd5e1" stroke-width="12" fill="none" stroke-linecap="round"/>
+                      <path d="M50 40 Q60 30 70 40" stroke="#94a3b8" stroke-width="3" fill="none" stroke-linecap="round"/>
+                      <path d="M90 40 Q100 30 110 40" stroke="#94a3b8" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    </svg>
+                    <p class="concern-empty__text">你的关注列表空空如也~</p>
+                  </div>
+                </template>
+                <a class="concern-empty__footer" href="/user.html?menu=follow">查看全部</a>
               </div>
             </div>
           </div>
@@ -137,6 +165,25 @@ const emit = defineEmits(['login', 'logout'])
 const isScrolled = ref(false)
 const msgCount = ref(4)
 const router = useRouter()
+
+const followItems = [
+  {
+    id: 1,
+    title: '【阿祖】U20 德国VS塞尔维亚',
+    days: 1,
+    author: '阿祖又收了',
+    heat: '61996',
+    link: '/room/1'
+  },
+  {
+    id: 2,
+    title: '乔氏台球002的直播间',
+    days: 10,
+    author: '乔氏台球002',
+    heat: '1105',
+    link: '/room/2'
+  }
+]
 const route = useRoute()
 
 onMounted(() => {
@@ -372,6 +419,24 @@ function goBack() {
 }
 .concern-empty__footer {
   @apply block w-full py-3 text-center text-sm text-[#333] bg-[#f8f9fa] border-t border-gray-100 no-underline hover:bg-[#f1f3f5];
+}
+.concern-list {
+  @apply py-2;
+}
+.concern-item {
+  @apply block px-5 py-3 no-underline border-b border-gray-100 last:border-b-0 hover:bg-[#f8f9fa] transition-colors;
+}
+.concern-item__title {
+  @apply text-sm text-[#333] font-medium truncate mb-2;
+}
+.concern-item__meta {
+  @apply flex items-center gap-4 text-xs text-[#999];
+}
+.concern-item__meta-item {
+  @apply flex items-center gap-1;
+}
+.concern-item__meta-item svg {
+  @apply w-3.5 h-3.5;
 }
 
 .avatar-wrap {
