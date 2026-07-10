@@ -21,6 +21,7 @@
           <span>{{ live.viewers }}</span>
         </span>
       </div>
+      <span v-if="variant === 'hot' && sport" class="live-card__sport-badge">{{ sport }}</span>
     </div>
     <div v-if="variant === 'category'" class="live-card__body">
       <h4 class="live-card__title ellipsis">{{ live.title }}</h4>
@@ -80,6 +81,15 @@ const tagClass = computed(() => {
   if (t === '热门') return 'live-card__tag--hot'
   if (t === '推荐') return 'live-card__tag--recommend'
   return 'live-card__tag--normal'
+})
+
+const sport = computed(() => {
+  if (props.live.sport) return props.live.sport
+  const title = (props.live.title || '').toLowerCase()
+  const anchor = props.live.anchor || ''
+  if (title.includes('篮') || title.includes('nba') || title.includes('cba') || anchor.includes('🏀')) return '篮球'
+  if (title.includes('电竞') || title.includes('电')) return '电竞'
+  return '足球'
 })
 </script>
 
@@ -185,6 +195,9 @@ const tagClass = computed(() => {
 }
 .live-card__info-meta strong {
   @apply text-red-500 font-bold;
+}
+.live-card__sport-badge {
+  @apply absolute bottom-2 right-2 z-[5] px-2 py-0.5 rounded text-xs not-italic text-white bg-black/60 pointer-events-none;
 }
 
 .live-card__body {
