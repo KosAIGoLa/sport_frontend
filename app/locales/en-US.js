@@ -113,6 +113,7 @@ export default {
     book: 'Book',
     loginToChat: 'Log in',
     chatPlaceholder: 'Log in to send messages',
+    chatPlaceholderActive: 'Join the discussion',
     send: 'Send',
     testGiftEffect: 'Test gift effect',
     anchorSchedule: 'Host Schedule',

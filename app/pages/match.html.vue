@@ -1,47 +1,6 @@
 <template>
   <div class="match-page" :style="{ '--match-title': `'${t('page.matchCenterTitle')}'`, '--match-subtitle': `'${t('page.matchCenterSubtitle')}'` }">
-    <header class="match-header">
-      <div class="match-header-inner">
-        <MobileOnly tag="div" class="match-mobile-head">
-          <div class="match-mobile-top">
-            <img class="match-mobile-logo" src="/assets/logo-mobile-wap.png" alt="857直播">
-            <a class="match-mobile-download" href="/download" target="_blank" rel="noopener noreferrer">{{ t('nav.downloadApp') }}</a>
-          </div>
-          <nav class="match-mobile-tabs" aria-label="赛程分类">
-            <NuxtLink :class="{ active: matchTab === '全部' }" to="/match.html">{{ t('nav.all') }}</NuxtLink>
-            <NuxtLink :class="{ active: matchTab === '足球' }" to="/match.html?tab=足球">{{ t('nav.football') }}</NuxtLink>
-            <NuxtLink :class="{ active: matchTab === '篮球' }" to="/match.html?tab=篮球">{{ t('nav.basketball') }}</NuxtLink>
-            <NuxtLink :class="{ active: matchTab === '分析' }" to="/match.html?tab=分析">{{ t('nav.analysis') }}</NuxtLink>
-          </nav>
-        </MobileOnly>
-        <DesktopOnly tag="a" class="match-logo" href="/">
-          <img src="/assets/logo2.png" alt="857直播">
-        </DesktopOnly>
-        <DesktopOnly tag="nav" class="match-nav">
-          <NuxtLink to="/">{{ t('nav.home') }}</NuxtLink>
-          <NuxtLink to="/liveType.html">{{ t('nav.allLive') }}</NuxtLink>
-          <NuxtLink class="active" to="/match.html">{{ t('nav.schedule') }}</NuxtLink>
-          <a class="download" href="/download" target="_blank" rel="noopener noreferrer">
-            <span>
-              下载APP
-              <img src="/assets/hot.png" alt="hot">
-            </span>
-          </a>
-        </DesktopOnly>
-        <DesktopOnly tag="div" class="match-auth">
-          <template v-if="!isLoggedIn">
-            <button type="button" class="login-btn" @click="openLogin('login')">{{ t('auth.login') }}</button>
-            <button type="button" @click="openLogin('register')">{{ t('auth.register') }}</button>
-          </template>
-          <div v-else class="user-avatar-trigger">
-            <UserAvatar :count="4" />
-            <div class="user-avatar-popup">
-              <UserMenu @logout="isLoggedIn = false" />
-            </div>
-          </div>
-        </DesktopOnly>
-      </div>
-    </header>
+    <PageHeader page="match" :is-logged-in="isLoggedIn" :count="4" :active-mobile-tab="matchTab" mobile-aria-label="赛程分类" @login="openLogin" @logout="isLoggedIn = false" />
 
     <main class="match-wrapper">
       <MobileOnly tag="div" class="match-mobile-day-title">{{ t('page.today') }}</MobileOnly>
@@ -370,67 +329,6 @@ function openMatchDetail(match) {
 .ellipsis {
   @apply overflow-hidden whitespace-nowrap text-ellipsis;
 }
-.match-header {
-  @apply sticky z-[100] top-0 w-full h-[72px] bg-white/[0.86] border-b border-slate-200/[0.9] shadow-[0_16px_40px_rgba(15,23,42,0.08)] backdrop-blur-[18px];
-}
-.match-header-inner {
-  @apply w-[1200px] h-full mx-auto flex items-center;
-}
-.match-logo {
-  @apply flex items-center w-[160px] mr-[58px];
-}
-.match-mobile-head {
-  @apply hidden;
-}
-.match-mobile-day-title {
-  @apply hidden;
-}
-.match-logo img {
-  @apply w-[160px] block;
-}
-.match-nav {
-  @apply flex items-center gap-4 h-full text-base font-[650];
-}
-.match-nav a {
-  @apply relative h-9 px-[18px] leading-9 text-[#111827] no-underline rounded-full whitespace-nowrap transition-all duration-200;
-}
-.match-nav a.active,
-.match-nav a:hover {
-  @apply text-[#111827] bg-[linear-gradient(135deg,#ffe178_0%,#ffc21c_100%)] shadow-[0_8px_18px_rgba(248,194,27,0.28)];
-}
-.match-nav a.download {
-  @apply text-amber-500;
-}
-.match-nav a.download:hover {
-  @apply bg-[#fff7d6];
-}
-.match-nav a.download span {
-  @apply relative;
-}
-.match-nav a.download img {
-  @apply absolute -top-[12px] -right-[32px] w-[29px] h-auto;
-}
-.match-auth {
-  @apply ml-auto flex items-center gap-2.5;
-}
-.match-auth button {
-  @apply appearance-none h-[34px] border border-slate-200/[0.9] rounded-full bg-white/[0.72] px-3.5 text-[#111827] text-sm font-bold cursor-pointer transition-all duration-200;
-}
-.match-auth button:hover {
-  @apply border-[rgba(255,194,28,0.8)] bg-[#fff7d6];
-}
-.match-auth .login-btn::before {
-  @apply content-[''] inline-block w-2 h-2 mr-1.5 bg-green-500 rounded-full align-[1px] shadow-[0_0_0_5px_rgba(34,197,94,0.12)];
-}
-.user-avatar-trigger {
-  @apply relative flex items-center h-full cursor-pointer;
-}
-.user-avatar-popup {
-  @apply hidden absolute top-full right-0 pt-2 z-[102];
-}
-.user-avatar-trigger:hover .user-avatar-popup {
-  @apply block;
-}
 .match-wrapper {
   @apply w-[1200px] min-h-[calc(100vh-312px)] mx-auto pt-[42px] pb-16;
 }
@@ -547,7 +445,6 @@ function openMatchDetail(match) {
 }
 
 @media screen and (max-width: 1400px) {
-  .match-header-inner,
   .match-wrapper {
     @apply w-[960px];
   }
@@ -568,38 +465,6 @@ function openMatchDetail(match) {
 @media (max-width: 768px) {
   .match-page {
     @apply bg-[linear-gradient(180deg,rgba(255,198,26,0.1)_0%,rgba(255,198,26,0)_120px),#f8fafc];
-  }
-  .match-header {
-    @apply h-auto bg-transparent border-b-0 shadow-none backdrop-blur-none;
-  }
-  .match-header-inner {
-    @apply w-full p-0;
-  }
-  .match-mobile-head {
-    @apply w-full block;
-  }
-  .match-mobile-top {
-    @apply h-[68px] px-4 bg-[rgba(32,33,36,0.9)] backdrop-blur-[10px] flex items-center justify-between;
-  }
-  .match-mobile-logo {
-    @apply w-[158px] h-auto block;
-  }
-  .match-mobile-tabs {
-    @apply h-[74px] px-4 bg-[rgba(255,198,26,0.8)] backdrop-blur-[10px] flex items-center gap-[38px] overflow-x-auto;
-  }
-  .match-mobile-tabs a {
-    @apply relative shrink-0 text-white no-underline text-[22px] font-extrabold leading-none;
-  }
-  .match-mobile-tabs a.active::after {
-    @apply content-[''] absolute left-1/2 -bottom-[14px] w-3 h-1.5 -ml-1.5 rounded-full bg-white;
-  }
-  .match-mobile-download {
-    @apply min-w-[108px] h-[42px] px-4 rounded-md bg-[#ffc61a] text-white no-underline text-base font-extrabold inline-flex items-center justify-center;
-  }
-  .match-logo,
-  .match-nav,
-  .match-auth {
-    @apply hidden;
   }
   .match-wrapper {
     @apply w-full min-h-0 py-4 px-3.5 pb-28;

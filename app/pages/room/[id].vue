@@ -243,8 +243,8 @@
           </div>
           <div class="chat-send">
             <div class="send-input-wrap">
-              <span class="send-login">{{ t('page.loginToChat') }}</span>
-              <input type="text" :placeholder="t('page.chatPlaceholder')">
+              <span v-if="!isLoggedIn" class="send-login">{{ t('page.loginToChat') }}</span>
+              <input type="text" :placeholder="isLoggedIn ? t('page.chatPlaceholderActive') : t('page.chatPlaceholder')">
             </div>
             <button type="button" class="send-btn">
               <img class="send-gift-icon" src="/assets/gift.png" alt="">

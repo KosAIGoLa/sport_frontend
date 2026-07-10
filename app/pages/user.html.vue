@@ -207,8 +207,7 @@
         </div>
 
         <div v-else-if="activeMenu === 'appointment'" class="appointment-panel">
-          <img src="/assets/appointment-penguin.png" alt="">
-          <span>你还没有预约任何比赛</span>
+          <EmptyState image="/assets/appointment-penguin.png" text="你还没有预约任何比赛" />
         </div>
 
         <div v-else-if="activeMenu === 'guess'" class="guess-panel">
@@ -274,11 +273,7 @@
             <span class="contribute-divider">|</span>
             <button type="button" :class="{ active: contributeTab === 'unpublished' }" @click="contributeTab = 'unpublished'">未发布</button>
           </div>
-          <div class="contribute-empty">
-            <img src="/assets/appointment-penguin.png" alt="">
-            <span>您还没有上传视频，点击立即前往！</span>
-            <button type="button" class="contribute-upload-btn">上传视频</button>
-          </div>
+          <EmptyState image="/assets/appointment-penguin.png" text="您还没有上传视频，点击立即前往！" button-text="上传视频" />
         </div>
 
         <div v-else-if="activeMenu === 'room'" class="room-panel">
@@ -590,9 +585,6 @@ function handleLogout() {
 .appointment-panel {
   @apply bg-white rounded-xl shadow-sm p-10 min-h-[400px] flex flex-col items-center justify-center;
 }
-.appointment-panel img {
-  @apply max-w-full h-auto object-contain;
-}
 .guess-panel {
   @apply bg-white rounded-xl shadow-sm p-6;
 }
@@ -682,18 +674,6 @@ function handleLogout() {
 }
 .contribute-divider {
   @apply text-[#ddd] text-xs;
-}
-.contribute-empty {
-  @apply min-h-[350px] flex flex-col items-center justify-center gap-4;
-}
-.contribute-empty img {
-  @apply w-[120px] h-auto object-contain;
-}
-.contribute-empty span {
-  @apply text-sm text-[#999];
-}
-.contribute-upload-btn {
-  @apply px-8 py-2 rounded-full border border-[#ff4d4f] text-[#ff4d4f] text-sm bg-white cursor-pointer hover:bg-[#fff5f5] transition-colors;
 }
 .room-panel {
   @apply bg-white rounded-xl shadow-sm p-6 min-h-[400px];

@@ -89,12 +89,7 @@
             </div>
           </div>
           <div class="header-avatar">
-            <div class="avatar-wrap">
-              <UserAvatar :count="msgCount" />
-            </div>
-            <div class="submenu avatar-submenu">
-              <UserMenu tail-align="center" @logout="logout" />
-            </div>
+            <UserAvatarWithMenu :count="msgCount" menu-align="center" @logout="logout" />
           </div>
         </div>
       </DesktopOnly>

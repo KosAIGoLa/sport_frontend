@@ -113,6 +113,7 @@ export default {
     book: '预约',
     loginToChat: '登录',
     chatPlaceholder: '登录后才可以发送消息哦~~',
+    chatPlaceholderActive: '快来参与讨论吧',
     send: '发送',
     testGiftEffect: '测试送礼特效',
     anchorSchedule: '主播日程',
