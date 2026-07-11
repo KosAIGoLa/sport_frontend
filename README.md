@@ -162,6 +162,8 @@ Local preview: `http://localhost:3000`
 
 ![Match Detail Preview](./screen/img_1.png)
 
+![Screen Preview](./screen/img.png)
+
 ## Page Transitions
 
 The project enables Nuxt View Transitions and a fade in/out fallback:
