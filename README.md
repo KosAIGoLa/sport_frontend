@@ -7,31 +7,53 @@ A clone of the 857 Live sports streaming platform built with Nuxt 4 + Vue 3.
 ```
 857zb92/
 ├── app/
+│   ├── app.vue                    # Root app component
 │   ├── components/                # Vue components (by domain)
 │   │   ├── layout/                # SiteHeader, Footer, Mobile*, RightFix…
 │   │   ├── home/                  # Hero, HotLives, HotAnchors…
 │   │   ├── common/                # Carousel, LiveCard, Empty*, DesktopOnly…
-│   │   ├── icon/ · auth/ · player/
-│   │   ├── room/ · user/ · match/ · news/ · download/ · recharge/
+│   │   ├── auth/                  # Login/Register modal pieces
+│   │   ├── icon/                  # SVG icon components
+│   │   ├── player/                # XgPlayer wrapper
+│   │   ├── room/                  # Chat, gift toolbar, room panels
+│   │   ├── user/                  # User center sections
+│   │   ├── match/                 # Match detail widgets
+│   │   ├── news/                  # News list/detail
+│   │   ├── download/              # Download page
+│   │   └── recharge/              # Recharge page
 │   ├── composables/               # Auto-imported (nested dirs scanned)
 │   │   ├── auth/                  # useAuth, useLoginModal
 │   │   ├── i18n/                  # useI18n
+│   │   ├── navigation/            # useAppNavigate
 │   │   ├── player/                # useXgPlayer
 │   │   └── room/                  # useRoomGifts
 │   ├── data/                      # Mock / static page data
+│   │   ├── lives.js
+│   │   ├── match.js
+│   │   ├── recharge.js
+│   │   ├── room.js
+│   │   └── user.js
 │   ├── layouts/                   # default · catalog · blank
 │   ├── locales/                   # zh-CN · en-US
+│   ├── middleware/                # Global route middleware
+│   │   └── view-transition.global.js
 │   ├── pages/                     # Routes
-│   ├── assets/css/
-│   │   ├── base/                  # tailwind, view-transitions, player-danmu
-│   │   └── pages/                 # home, room, user, match…
-│   └── app.vue
-├── public/assets/                 # Static media (by type)
-│   ├── logos/ · icons/ · brand/ · ui/
-│   ├── avatars/ · banners/ · media/
-│   └── covers/ · anchors/ · teams/
-├── server/api/proxy/              # Stream proxy
-├── design/screenshots/            # Local design dumps (gitignored)
+│   │   ├── index.vue
+│   │   ├── liveType.html.vue
+│   │   ├── match.html.vue
+│   │   ├── news.html.vue
+│   │   ├── recharge.html.vue
+│   │   ├── download.vue
+│   │   ├── user.html.vue
+│   │   └── room/[id].vue
+│   ├── plugins/                   # Client plugins
+│   │   └── view-transition-nav.client.js
+│   └── assets/css/                # Global styles
+│       ├── base/                  # tailwind, view-transitions, player-danmu
+│       └── pages/                 # home, room, user, match…
+├── public/assets/                 # Static media
+├── server/api/                    # API routes / stream proxy
+├── design/                        # Local design dumps (gitignored)
 ├── nuxt.config.ts
 ├── package.json
 ├── tailwind.config.js
