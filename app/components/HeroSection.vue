@@ -16,7 +16,17 @@
           <span class="meta-count">{{ rooms[currentRoom].viewers }}{{ t('common.watching') }}</span>
         </div>
         <div class="video-player">
-          <div id="hero-xgplayer" class="xgplayer-container"></div>
+          <XgPlayer
+            ref="playerRef"
+            container-id="hero-xgplayer"
+            :config="playerConfig"
+            :reload-key="currentRoom"
+            @play="showEnterRoomButton = false"
+            @pause="showEnterRoomButton = true"
+            @ended="showEnterRoomButton = true"
+            @muted-change="isMuted = $event"
+            @loading-change="isLoading = $event"
+          />
           <div class="video-mask"></div>
           <div v-if="isLoading" class="loading" id="videoLoading">
             <img class="imgRotate" src="/assets/loading.png" alt="">
@@ -25,7 +35,7 @@
           </div>
         </div>
         <div v-if="showEnterRoomButton" class="inLiveRoom" role="button" tabindex="0" @click="goRoom" @keydown.enter.prevent="goRoom">{{ t('common.enterLiveRoom') }}</div>
-        <div v-if="isMuted" class="unmute-btn" role="button" tabindex="0" @click="unmuteVideo" @keydown.enter.prevent="unmuteVideo">{{ t('common.unmute') }}</div>
+        <div v-if="isMuted" class="unmute-btn" role="button" tabindex="0" @click="playerRef?.unmute()" @keydown.enter.prevent="playerRef?.unmute()">{{ t('common.unmute') }}</div>
         <div class="live-title" aria-hidden="true">
           <img class="live-cover" :src="rooms[currentRoom].cover" alt="">
           <div class="info">
@@ -104,14 +114,11 @@ function createDanmuComments(room, roomIndex) {
   return comments
 }
 
-const {
-  isMuted,
-  isLoading,
-  init: initPlayerCore,
-  unmute: unmuteVideo
-} = useXgPlayer({
-  containerId: 'hero-xgplayer',
-  getConfig: () => {
+const playerRef = ref(null)
+const isMuted = ref(true)
+const isLoading = ref(true)
+
+const playerConfig = computed(() => {
     const room = rooms[currentRoom.value]
     return {
       url: PROXY_STREAM_URL,
@@ -139,34 +146,10 @@ const {
         switchConfig: { position: 'controlsRight', index: 6 }
       }
     }
-  }
-})
-
-async function initPlayer() {
-  const player = await initPlayerCore()
-  if (!player) return
-  player.on('play', () => {
-    showEnterRoomButton.value = false
-  })
-  player.on('pause', () => {
-    showEnterRoomButton.value = true
-  })
-  player.on('ended', () => {
-    showEnterRoomButton.value = true
-  })
-  // 兜底关闭 loading，避免流异常时一直转圈
-  setTimeout(() => {
-    isLoading.value = false
-  }, 1200)
-}
-
-onMounted(() => {
-  initPlayer()
 })
 
 watch(currentRoom, () => {
   showEnterRoomButton.value = true
-  initPlayer()
 })
 
 function goRoom() {

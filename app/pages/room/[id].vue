@@ -34,7 +34,13 @@
           <div class="match-player">
             <div class="video-stage">
               <div class="video-player-wrap" :style="{ 'view-transition-name': transitionName }">
-                <div id="xgplayer-container" class="xgplayer-container"></div>
+                <XgPlayer
+                  ref="roomPlayerRef"
+                  container-id="xgplayer-container"
+                  :config="roomPlayerConfig"
+                  :reload-key="roomId"
+                  @muted-change="isMuted = $event"
+                />
                 <div class="video-live-badge">
                   <span class="live-pulse"></span>
                   {{ t('page.liveNow') }}
@@ -44,7 +50,7 @@
                   <h2>瑞典超 埃尔夫斯堡-哈马比 主黄</h2>
                   <p>实时比分 <strong>2-0</strong></p>
                 </div>
-                <div v-if="isMuted" class="unmute-btn" role="button" tabindex="0" @click.stop="unmuteVideo" @keydown.enter.prevent.stop="unmuteVideo">{{ t('common.unmute') }}</div>
+                <div v-if="isMuted" class="unmute-btn" role="button" tabindex="0" @click.stop="roomPlayerRef?.unmute()" @keydown.enter.prevent.stop="roomPlayerRef?.unmute()">{{ t('common.unmute') }}</div>
               </div>
             </div>
             <DesktopOnly tag="div" class="score-board">
@@ -678,13 +684,9 @@ function createRoomDanmuComments() {
   return comments
 }
 
-const {
-  isMuted,
-  init: initRoomPlayer,
-  unmute: unmuteVideo
-} = useXgPlayer({
-  containerId: 'xgplayer-container',
-  getConfig: () => ({
+const roomPlayerRef = ref(null)
+const isMuted = ref(true)
+const roomPlayerConfig = computed(() => ({
     url: PROXY_STREAM_URL,
     poster: '/assets/covers/main-poster-bright.png',
     width: '100%',
@@ -716,8 +718,7 @@ const {
       mouseControl: false,
       switchConfig: { position: 'controlsRight', index: 5 }
     }
-  })
-})
+  }))
 
 onMounted(() => {
   if (route.query.vt) {
@@ -726,7 +727,6 @@ onMounted(() => {
     const queryString = Object.keys(query).length ? '?' + new URLSearchParams(query).toString() : ''
     window.history.replaceState(null, '', route.path + queryString)
   }
-  initRoomPlayer()
 })
 
 const scoreRows = [
