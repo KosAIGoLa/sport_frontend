@@ -7,21 +7,22 @@ A clone of the 857 Live sports streaming platform built with Nuxt 4 + Vue 3.
 ```
 857zb92/
 ├── app/
-│   ├── components/        # Reusable Vue components
+│   ├── components/                # Reusable Vue components
 │   │   ├── AppointmentList.vue    # Match booking carousel
 │   │   ├── Carousel.vue           # Generic horizontal carousel
 │   │   ├── DesktopOnly.vue        # Desktop-only visibility wrapper
 │   │   ├── EmptyState.vue         # Empty state placeholder
+│   │   ├── EmptyTableRow.vue      # Empty table row placeholder
 │   │   ├── FormInput.vue          # Form input
 │   │   ├── HeaderAuth.vue         # Header auth / user follow panel
 │   │   ├── HeroSection.vue        # Hero live area
 │   │   ├── HotAnchors.vue         # Popular anchors carousel
 │   │   ├── HotLives.vue           # Popular live cards
 │   │   ├── Icon.vue               # SVG icon component
-│   │   ├── IconLiver.vue          # Liver asset icon
 │   │   ├── IconEgg.vue            # Egg asset icon
 │   │   ├── IconFollow.vue         # Follow / heart icon
 │   │   ├── IconHistory.vue        # History icon
+│   │   ├── IconLiver.vue          # Liver asset icon
 │   │   ├── LiveCard.vue           # Generic live card
 │   │   ├── LiveCategory.vue       # Categorized live list
 │   │   ├── LoginModal.vue         # Login / register modal
@@ -30,14 +31,20 @@ A clone of the 857 Live sports streaming platform built with Nuxt 4 + Vue 3.
 │   │   ├── MobileStickyBar.vue    # Mobile bottom navigation bar
 │   │   ├── PageHeader.vue         # Page header with back button
 │   │   ├── RightFix.vue           # Right-side fixed toolbar
+│   │   ├── RoomImChat.vue         # Live room IM chat panel
 │   │   ├── SiteFooter.vue         # Footer
 │   │   ├── SiteHeader.vue         # Top navigation
 │   │   ├── SocialLogin.vue        # Third-party login
 │   │   ├── UserAvatar.vue         # User avatar
 │   │   ├── UserAvatarWithMenu.vue # User avatar with dropdown menu
-│   │   └── UserMenu.vue           # User dropdown menu
-│   ├── composables/
-│   │   └── useI18n.js             # Lightweight i18n composable
+│   │   ├── UserMenu.vue           # User dropdown menu
+│   │   ├── WatchHistoryPanel.vue  # Watch history panel
+│   │   └── XgPlayer.vue           # Video player wrapper
+│   ├── composables/               # Auto-imported composables
+│   │   ├── useAuth.js             # Auth state
+│   │   ├── useI18n.js             # Lightweight i18n composable
+│   │   ├── useLoginModal.js       # Login modal controller
+│   │   └── useXgPlayer.js         # XgPlayer integration
 │   ├── locales/                   # Locale files
 │   │   ├── en-US.js
 │   │   └── zh-CN.js
@@ -45,6 +52,7 @@ A clone of the 857 Live sports streaming platform built with Nuxt 4 + Vue 3.
 │   │   ├── index.vue              # Homepage
 │   │   ├── liveType.html.vue      # Live type/category page
 │   │   ├── match.html.vue         # Match detail page
+│   │   ├── news.html.vue          # News page
 │   │   ├── recharge.html.vue      # Recharge page
 │   │   ├── download.vue           # Download page
 │   │   ├── room/
@@ -109,6 +117,36 @@ The user center page is implemented in `app/pages/user.html.vue`. It supports th
 - Apply for live streaming shortcut that jumps to real-name authentication
 
 Navigation and conditional rendering use English keys (`activeMenu`, `activeTab`, `activeWealthTab`) for consistency, while UI labels remain in Chinese.
+
+## Additional Modules
+
+Beyond the homepage and user center, the project also includes:
+
+- **Live Room** (`app/pages/room/[id].vue`)
+  - Video player via `XgPlayer` component
+  - Live schedule / match info tabs
+  - Interactive gift and chat toolbar
+  - `RoomImChat.vue` IM chat panel with fake messages and quick-send buttons
+  - Mobile room layout with tabs for video, schedule, and chat
+- **Recharge** (`app/pages/recharge.html.vue`)
+  - Recharge amount selection and payment method tabs
+  - Recharge record table
+- **News** (`app/pages/news.html.vue`)
+  - News list and detail layout
+- **Match Detail** (`app/pages/match.html.vue`)
+  - Match statistics, lineups, and live text commentary
+- **Icon Components**
+  - `IconLiver.vue` / `IconEgg.vue` for user asset indicators
+  - `IconFollow.vue` for the user menu follow item
+  - `IconHistory.vue` for watch history
+- **Shared UI**
+  - `EmptyTableRow.vue` for empty table states
+  - `WatchHistoryPanel.vue` for the watch history grid with live status badges
+  - `RoomImChat.vue` for chat panels
+- **State Management**
+  - `useAuth.js` for login state
+  - `useLoginModal.js` for global login modal control
+  - `useXgPlayer.js` for video player lifecycle
 
 ## Give a Star
 
