@@ -53,7 +53,16 @@
         @click.prevent="appNavigate(item.to)"
       >
         <IconFollow v-if="item.iconComponent" icon-class="user-menu__action-icon" />
-        <svg v-else viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" v-html="item.icon"/>
+        <svg
+          v-else
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          v-html="item.icon"
+        ></svg>
         <span>{{ item.label }}</span>
       </a>
     </div>
@@ -99,20 +108,32 @@ defineEmits(['logout'])
 .user-menu {
   @apply relative w-[320px] bg-white rounded-[12px] shadow-[0_12px_40px_rgba(0,0,0,0.15)] p-4 text-[#333] select-none;
 }
+/* 四边 border 三角：贴住菜单顶部 */
 .user-menu::before {
-  @apply content-[''] absolute -top-2 w-0 h-0 border-l-[8px] border-r-[8px] border-b-[8px] border-l-transparent border-r-transparent border-b-white;
+  content: '';
+  display: block;
+  position: absolute;
+  top: -15px;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  border: 8px solid transparent;
+  border-bottom-color: #fff;
 }
 .user-menu--tail-right::before {
-  @apply right-5;
+  right: 20px;
+  left: auto;
 }
 .user-menu--tail-center::before {
-  @apply left-1/2 -translate-x-1/2;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .user-menu__top {
   @apply flex gap-3 pb-3 border-b border-gray-100;
 }
 .user-menu__avatar {
-  @apply w-[64px] h-[64px] rounded-full object-cover shrink-0 ring-2 ring-white shadow-md;
+  @apply block w-14 h-14 rounded-full object-cover shrink-0;
 }
 .user-menu__info {
   @apply flex-1 min-w-0;

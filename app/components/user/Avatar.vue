@@ -12,13 +12,14 @@ defineProps({
 </script>
 
 <style scoped>
+/* 顶栏登录后头像：对齐原站 40x40 圆头，避免被个人中心样式污染 */
 .user-avatar {
-  @apply relative inline-block;
+  @apply relative inline-flex items-center justify-center w-10 h-10 shrink-0;
 }
 .user-avatar__img {
-  @apply w-[48px] h-[48px] rounded-full object-cover ring-2 ring-white shadow-sm;
+  @apply block w-10 h-10 rounded-full object-cover;
 }
 .user-avatar__badge {
-  @apply absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-red-500 text-white text-xs font-bold flex items-center justify-center border-2 border-white z-10;
+  @apply absolute -top-0.5 -right-0.5 min-w-[16px] h-4 px-1 rounded-full bg-[#f50d2e] text-white text-[10px] font-bold leading-none flex items-center justify-center z-10;
 }
 </style>

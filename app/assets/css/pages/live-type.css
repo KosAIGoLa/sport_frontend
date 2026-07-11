@@ -1,3 +1,4 @@
+/* scoped under .live-type-page — prevent SPA cross-page style leakage */
 /* live type / catalog page shell */
 
 .live-type-page {
@@ -7,23 +8,23 @@
     radial-gradient(circle at 86% 12%, rgba(59, 130, 246, 0.09), transparent 30%),
     linear-gradient(180deg, var(--app-bg) 0%, var(--app-bg-soft) 52%, var(--app-bg) 100%);
 }
-.live-type-main {
+.live-type-page .live-type-main {
   @apply relative pt-5 px-0 pb-[72px];
 }
 
-.live-type-main::before {
+.live-type-page .live-type-main::before {
   content: var(--live-title);
   @apply block w-[1200px] mx-auto mb-2 text-slate-900 text-[24px] font-[800];
 }
 
-.live-type-main::after {
+.live-type-page .live-type-main::after {
   content: var(--live-subtitle);
   @apply block w-[1200px] -mt-0.5 mx-auto mb-1 text-slate-500 text-sm;
 }
 
 @media screen and (max-width: 1400px) {
-  .live-type-main::before,
-  .live-type-main::after {
+  .live-type-page .live-type-main::before,
+.live-type-page .live-type-main::after {
     @apply w-[960px];
   }
 }
@@ -32,11 +33,11 @@
   .live-type-page {
     background: #f4f6fa;
   }
-  .live-type-main::before,
-  .live-type-main::after {
+  .live-type-page .live-type-main::before,
+.live-type-page .live-type-main::after {
     @apply hidden;
   }
-  .live-type-main {
+  .live-type-page .live-type-main {
     @apply py-5 px-0 pb-[152px];
   }
 }

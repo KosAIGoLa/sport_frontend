@@ -165,7 +165,7 @@
             </div>
           </div>
           <div class="header-avatar">
-            <UserAvatarWithMenu :count="msgCount" menu-align="center" @logout="logout" />
+            <UserAvatarWithMenu :count="msgCount" menu-align="right" @logout="logout" />
           </div>
         </div>
       </DesktopOnly>
@@ -368,9 +368,12 @@ function goBack() {
   @apply flex items-center h-full;
 }
 .header-subscribe,
-.header-concern,
-.header-avatar {
+.header-concern {
   @apply relative h-full flex items-center cursor-pointer px-3;
+}
+/* 登录后大头：固定 40x40 容器，右对齐下拉，避免 flex 撑开变形 */
+.header-avatar {
+  @apply relative h-full w-10 flex items-center justify-center cursor-pointer ml-1 shrink-0;
 }
 .header-subscribe i,
 .header-concern i {
@@ -384,8 +387,20 @@ function goBack() {
 .concern-none img {
   @apply w-[60px] h-[60px] block mx-auto mb-2.5;
 }
+/* 四边 border 三角：贴住下拉弹窗顶部（三边写法会悬空） */
 .subscribe-submenu::before {
-  @apply content-[''] absolute top-[2px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[8px] border-r-[8px] border-b-[8px] border-l-transparent border-r-transparent border-b-white;
+  content: '';
+  display: block;
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  transform: translateX(-50%);
+  border: 8px solid transparent;
+  border-bottom-color: #fff;
 }
 .subscribe-submenu-box {
   @apply relative w-[360px] p-0 overflow-hidden border-0;
@@ -394,7 +409,18 @@ function goBack() {
   @apply left-auto right-0 -translate-x-0;
 }
 .concern-submenu::before {
-  @apply content-[''] absolute top-[2px] right-10 w-0 h-0 border-l-[8px] border-r-[8px] border-b-[8px] border-l-transparent border-r-transparent border-b-white;
+  content: '';
+  display: block;
+  position: absolute;
+  top: -6px;
+  right: 40px;
+  left: auto;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  border: 8px solid transparent;
+  border-bottom-color: #fff;
 }
 .concern-submenu-box {
   @apply relative w-[360px] p-0 overflow-hidden border-0;
@@ -432,9 +458,6 @@ function goBack() {
 
 .avatar-wrap {
   @apply relative;
-}
-.header-avatar img.avatar {
-  @apply w-[34px] h-[34px] rounded-full object-cover;
 }
 .newMsg {
   @apply absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-red-500 text-white text-xs font-bold flex items-center justify-center border-2 border-white z-10;

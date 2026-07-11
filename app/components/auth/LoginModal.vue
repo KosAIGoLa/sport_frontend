@@ -37,10 +37,10 @@
               <div v-if="showCountry" class="country-code-list">
                 <ul>
                   <li class="country-code-title"><h4>热门</h4></li>
-                  <li class="country-code-item" @click="selectCode('+86')"><span class="left">中国大陆</span><span class="right">+86</span></li>
-                  <li class="country-code-item" @click="selectCode('+852')"><span class="left">中国香港</span><span class="right">+852</span></li>
-                  <li class="country-code-item" @click="selectCode('+853')"><span class="left">中国澳门</span><span class="right">+853</span></li>
-                  <li class="country-code-item" @click="selectCode('+886')"><span class="left">中国台湾</span><span class="right">+886</span></li>
+                  <li class="country-code-item" @click="selectCode('+86')"><span class="country-name">中国大陆</span><span class="country-dial">+86</span></li>
+                  <li class="country-code-item" @click="selectCode('+852')"><span class="country-name">中国香港</span><span class="country-dial">+852</span></li>
+                  <li class="country-code-item" @click="selectCode('+853')"><span class="country-name">中国澳门</span><span class="country-dial">+853</span></li>
+                  <li class="country-code-item" @click="selectCode('+886')"><span class="country-name">中国台湾</span><span class="country-dial">+886</span></li>
                 </ul>
               </div>
             </div>

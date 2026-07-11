@@ -1,55 +1,56 @@
+/* scoped under .match-page — prevent SPA cross-page style leakage */
 /* extracted from match.html.vue */
 
 .match-page {
   @apply min-h-screen bg-[radial-gradient(circle_at_12%_0%,rgba(255,199,28,0.16),transparent_28%),radial-gradient(circle_at_88%_14%,rgba(33,138,255,0.14),transparent_30%),linear-gradient(180deg,#f8fafc_0%,#eef3f9_52%,#f8fafc_100%)] text-[#111827] font-sans;
 }
-.ellipsis {
+.match-page .ellipsis {
   @apply overflow-hidden whitespace-nowrap text-ellipsis;
 }
-.match-wrapper {
+.match-page .match-wrapper {
   @apply w-[1200px] min-h-[calc(100vh-312px)] mx-auto pt-5 pb-16;
 }
-.match-wrapper::before {
+.match-page .match-wrapper::before {
   content: var(--match-title);
   @apply block mb-2 text-slate-900 text-[24px] font-[800];
 }
-.match-wrapper::after {
+.match-page .match-wrapper::after {
   content: var(--match-subtitle);
   @apply block -mt-0.5 mb-5 text-slate-500 text-sm;
 }
-.date-list {
+.match-page .date-list {
   @apply h-20 mb-5 p-2 bg-white/[0.88] border border-white/[0.92] rounded-[20px] shadow-[0_18px_48px_rgba(15,23,42,0.08)] backdrop-blur-[14px] grid grid-cols-7 gap-2;
 }
-.date-item {
+.match-page .date-item {
   @apply relative appearance-none border-0 rounded-[14px] bg-transparent text-slate-500 cursor-pointer text-[15px] leading-none transition-all duration-[0.22s];
 }
-.date-item:hover {
+.match-page .date-item:hover {
   @apply bg-slate-50;
 }
-.date-item .day,
-.date-item .date {
+.match-page .date-item .day,
+.match-page .date-item .date {
   @apply block;
 }
-.date-item .day {
+.match-page .date-item .day {
   @apply mb-1.5 text-[15px] font-[750];
 }
-.date-item .date {
+.match-page .date-item .date {
   @apply text-[12px];
 }
-.date-item.active {
+.match-page .date-item.active {
   @apply bg-[linear-gradient(135deg,#ffe178_0%,#ffc21c_100%)] text-[#111827] shadow-[0_12px_26px_rgba(248,194,27,0.28)];
 }
-.match-box {
+.match-page .match-box {
   @apply relative;
 }
-.match-card {
+.match-page .match-card {
   @apply relative min-h-[124px] mb-3 bg-white/[0.92] border border-slate-200/[0.82] rounded-[18px] flex items-center overflow-hidden shadow-[0_12px_28px_rgba(15,23,42,0.07)] transition-[transform,box-shadow,border-color] duration-[0.22s];
 }
-.match-card:hover {
+.match-page .match-card:hover {
   @apply -translate-y-1 border-[rgba(255,194,28,0.55)] shadow-[0_24px_54px_rgba(15,23,42,0.14)];
 }
 /* 列表左下角分类角标：浅底 + 同色文字，对比清晰 */
-.match-card__category {
+.match-page .match-card__category {
   position: absolute;
   left: 10px;
   bottom: 10px;
@@ -68,121 +69,121 @@
   user-select: none;
   box-shadow: none;
 }
-.match-card__category-icon {
+.match-page .match-card__category-icon {
   width: 12px;
   height: 12px;
   flex-shrink: 0;
   opacity: 1;
   filter: none;
 }
-.match-card__category-text {
+.match-page .match-card__category-text {
   transform: translateY(0.5px);
 }
 /* 足球：翠绿字 + 淡绿底 */
-.match-card__category--football {
+.match-page .match-card__category--football {
   color: #15803d;
   background: #ecfdf5;
   border: 1px solid #a7f3d0;
 }
 /* 篮球：琥珀字 + 淡橙底 */
-.match-card__category--basketball {
+.match-page .match-card__category--basketball {
   color: #c2410c;
   background: #fff7ed;
   border: 1px solid #fed7aa;
 }
 /* 分析：靛蓝字 + 淡蓝底 */
-.match-card__category--analysis {
+.match-page .match-card__category--analysis {
   color: #1d4ed8;
   background: #eff6ff;
   border: 1px solid #bfdbfe;
 }
-.match-card .left {
+.match-page .match-card .left {
   @apply w-[410px] h-full min-h-[124px] flex items-center border-r border-slate-200/[0.9];
 }
-.info {
+.match-page .info {
   @apply w-[132px] pl-7;
 }
-.info .name {
+.match-page .info .name {
   @apply max-w-[95px] mb-2 text-slate-900 text-[14px] font-bold;
 }
-.info .time {
+.match-page .info .time {
   @apply inline-flex h-6 items-center px-2 rounded-full bg-slate-100 text-slate-500 text-[11px] font-bold;
 }
-.team {
+.match-page .team {
   @apply w-[236px] flex items-center justify-between gap-2;
 }
-.team-row {
+.match-page .team-row {
   @apply h-9 flex items-center text-[#111827] text-[14px] font-[650] min-w-0;
 }
-.team-row--host {
+.match-page .team-row--host {
   @apply justify-end flex-1;
 }
-.team-row--guest {
+.match-page .team-row--guest {
   @apply justify-start flex-1;
 }
-.team-vs {
+.match-page .team-vs {
   @apply shrink-0 text-red-500 text-[18px] font-black;
 }
-.match-cover {
+.match-page .match-cover {
   @apply w-[30px] h-[30px] mr-2.5 object-contain shrink-0 drop-shadow-[0_6px_10px_rgba(15,23,42,0.12)];
 }
-.team-row span {
+.match-page .team-row span {
   @apply max-w-[140px];
 }
-.match-card .right {
+.match-page .match-card .right {
   @apply flex-1 min-w-0 h-full min-h-[138px] flex items-center;
 }
-.anchor-list {
+.match-page .anchor-list {
   @apply flex-1 min-w-0 h-full flex items-center pl-[30px];
 }
-.avatar-list {
+.match-page .avatar-list {
   @apply flex items-center gap-[22px] min-w-0;
 }
-.avatar-box {
+.match-page .avatar-box {
   @apply relative w-[80px] text-center text-slate-700 text-[12px] font-[650];
 }
-.avatar-box .avatar {
+.match-page .avatar-box .avatar {
   @apply block w-12 h-12 mx-auto mb-1.5 border-[3px] border-white rounded-full object-cover shadow-[0_10px_24px_rgba(15,23,42,0.12)];
 }
-.avatar-box .anchor-name {
+.match-page .avatar-box .anchor-name {
   @apply w-[80px] h-5 leading-5;
 }
-.avatar-box .live {
+.match-page .avatar-box .live {
   @apply absolute top-10 left-[52px] w-7 h-[13px] object-contain;
 }
-.avatar-arrow {
+.match-page .avatar-arrow {
   @apply w-[18px] h-7 border-0 bg-transparent opacity-0 shrink-0;
 }
-.living-box {
+.match-page .living-box {
   @apply w-[118px] h-8 mr-7 rounded-full bg-[linear-gradient(135deg,#ffe178_0%,#ffc21c_100%)] shadow-[0_10px_24px_rgba(248,194,27,0.22)] flex items-center justify-center text-[#111827] text-[13px] font-bold shrink-0;
 }
-.living-box img {
+.match-page .living-box img {
   @apply w-[10px] h-[11px] mr-1 object-contain;
 }
-.living-box--pending {
+.match-page .living-box--pending {
   @apply w-auto bg-none bg-transparent text-[#9a9a9a] shadow-none rounded-none;
 }
-.match-none {
+.match-page .match-none {
   @apply h-[380px] bg-white/[0.92] border border-slate-200/[0.82] rounded-[24px] shadow-[0_14px_36px_rgba(15,23,42,0.08)] flex flex-col items-center justify-center text-slate-400 text-sm;
 }
-.match-none img {
+.match-page .match-none img {
   @apply w-[150px] h-auto mb-4;
 }
 
 @media screen and (max-width: 1400px) {
-  .match-wrapper {
+  .match-page .match-wrapper {
     @apply w-[960px];
   }
-  .match-card .left {
+  .match-page .match-card .left {
     @apply w-[390px];
   }
-  .info {
+  .match-page .info {
     @apply w-[128px] pl-6;
   }
-  .avatar-list {
+  .match-page .avatar-list {
     @apply gap-3;
   }
-  .living-box {
+  .match-page .living-box {
     @apply mr-6;
   }
 }
@@ -191,41 +192,41 @@
   .match-page {
     @apply bg-[linear-gradient(180deg,rgba(255,198,26,0.1)_0%,rgba(255,198,26,0)_120px),#f8fafc];
   }
-  .match-wrapper {
+  .match-page .match-wrapper {
     @apply w-full min-h-0 py-4 px-3.5 pb-28;
   }
-  .match-wrapper::before,
-  .match-wrapper::after {
+  .match-page .match-wrapper::before,
+.match-page .match-wrapper::after {
     @apply hidden;
   }
-  .match-mobile-day-title {
+  .match-page .match-mobile-day-title {
     @apply block mb-3 text-[#111827] text-2xl font-extrabold;
   }
-  .date-list {
+  .match-page .date-list {
     @apply flex gap-2.5 m-0 mb-3.5 p-0 pb-0.5 overflow-x-auto bg-transparent border-0 rounded-none shadow-none h-auto;
   }
-  .date-item {
+  .match-page .date-item {
     @apply min-w-[68px] h-16 p-2.5 px-3 rounded-2xl bg-white/[0.9] shadow-[0_8px_24px_rgba(15,23,42,0.08)] flex flex-col items-center justify-center shrink-0;
   }
-  .date-item .day {
+  .match-page .date-item .day {
     @apply mb-1.5 text-sm font-extrabold;
   }
-  .date-item .date {
+  .match-page .date-item .date {
     @apply text-xs;
   }
-  .date-item.active {
+  .match-page .date-item.active {
     @apply shadow-[0_10px_26px_rgba(248,194,27,0.28)];
   }
-  .match-box {
+  .match-page .match-box {
     @apply bg-transparent p-0;
   }
-  .match-data {
+  .match-page .match-data {
     @apply bg-transparent rounded-none;
   }
-  .match-card {
+  .match-page .match-card {
     @apply relative mb-3 p-4 px-3.5 pb-9 border border-slate-200/[0.9] rounded-[20px] shadow-[0_12px_30px_rgba(15,23,42,0.08)] block bg-white/[0.96] cursor-pointer [-webkit-tap-highlight-color:transparent];
   }
-  .match-card__category {
+  .match-page .match-card__category {
     left: 12px;
     bottom: 10px;
     height: 20px;
@@ -234,97 +235,97 @@
     gap: 4px;
     border-radius: 5px;
   }
-  .match-card__category-icon {
+  .match-page .match-card__category-icon {
     width: 11px;
     height: 11px;
   }
-  .match-card:last-child {
+  .match-page .match-card:last-child {
     @apply mb-0;
   }
-  .match-card:hover {
+  .match-page .match-card:hover {
     @apply transform-none border-slate-200/[0.9] shadow-[0_12px_30px_rgba(15,23,42,0.08)];
   }
-  .match-card .left {
+  .match-page .match-card .left {
     @apply w-full min-h-0 h-auto mb-3.5 block border-r-0;
   }
-  .info {
+  .match-page .info {
     @apply w-full pl-0 mb-3.5 flex items-center justify-start gap-2.5;
   }
-  .info .name {
+  .match-page .info .name {
     @apply max-w-none mb-0 text-[#8c8c8c] text-sm font-semibold;
   }
-  .info .time {
+  .match-page .info .time {
     @apply h-auto p-0 bg-transparent text-[#8c8c8c] text-sm font-medium;
   }
-  .mobile-bell {
+  .match-page .mobile-bell {
     @apply absolute left-3.5 top-14 w-[22px] h-[22px] p-0 border-0 bg-transparent text-[#111827] inline-flex items-center justify-center opacity-90;
   }
-  .mobile-bell svg {
+  .match-page .mobile-bell svg {
     @apply w-5 h-5 fill-none stroke-current stroke-2;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
-  .team {
+  .match-page .team {
     @apply w-full grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2.5 pl-7 pr-[72px];
   }
-  .team-row {
+  .match-page .team-row {
     @apply h-auto inline-flex items-center text-[17px] font-extrabold leading-[1.35] min-w-0;
   }
-  .team-row--host {
+  .match-page .team-row--host {
     @apply justify-end;
   }
-  .team-row--guest {
+  .match-page .team-row--guest {
     @apply justify-start;
   }
-  .team-row span {
+  .match-page .team-row span {
     @apply max-w-full overflow-hidden whitespace-nowrap text-ellipsis;
   }
-  .team-vs {
+  .match-page .team-vs {
     @apply text-[#ff2020] text-lg font-black;
   }
-  .match-cover {
+  .match-page .match-cover {
     @apply w-6 h-6 mr-2;
   }
-  .match-card .right {
+  .match-page .match-card .right {
     @apply w-full min-h-0 h-auto block flex-none;
   }
-  .anchor-list {
+  .match-page .anchor-list {
     @apply flex-none pl-0 w-full h-auto flex items-center justify-center;
   }
-  .avatar-arrow {
+  .match-page .avatar-arrow {
     @apply hidden;
   }
-  .avatar-list {
+  .match-page .avatar-list {
     @apply min-w-0 gap-3.5 overflow-x-auto pb-0.5 justify-center w-full max-w-full;
   }
-  .avatar-box {
+  .match-page .avatar-box {
     @apply w-[62px] shrink-0 text-[11px] text-[#8c8c8c];
   }
-  .avatar-box .avatar {
+  .match-page .avatar-box .avatar {
     @apply w-[50px] h-[50px] mb-1 border-0 shadow-none;
   }
-  .avatar-box .anchor-name {
+  .match-page .avatar-box .anchor-name {
     @apply w-[62px] h-[18px] leading-[18px];
   }
-  .avatar-box .live {
+  .match-page .avatar-box .live {
     @apply top-[34px] left-5 w-5 h-2.5;
   }
-  .living-box {
+  .match-page .living-box {
     @apply absolute top-3.5 right-3.5 w-auto min-w-[72px] h-7 m-0 px-[9px] rounded-full text-xs shrink-0 shadow-none;
   }
-  .living-box img {
+  .match-page .living-box img {
     @apply w-[9px] h-[9px] mr-1;
   }
-  .living-box--pending {
+  .match-page .living-box--pending {
     @apply bg-none bg-transparent text-[#9a9a9a] min-w-0 p-0;
   }
-  .living-box--pending img {
+  .match-page .living-box--pending img {
     @apply hidden;
   }
-  .match-none {
+  .match-page .match-none {
     @apply h-[280px] p-0 border-0 bg-white/[0.96] rounded-[20px] shadow-[0_12px_30px_rgba(15,23,42,0.08)];
   }
-  .match-none img {
+  .match-page .match-none img {
     @apply w-[120px];
   }
 }

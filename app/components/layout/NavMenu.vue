@@ -33,13 +33,14 @@
         {{ t('nav.downloadApp') }}
         <img class="nav-menu__hot" src="/assets/brand/hot.png" alt="hot">
       </span>
-      <span class="nav-menu__submenu" @click.stop>
-        <span class="nav-menu__submenu-box">
+      <!-- 使用 div：避免 span 内嵌 p 导致浏览器拆 DOM 使弹窗样式变形 -->
+      <div class="nav-menu__submenu" @click.stop>
+        <div class="nav-menu__submenu-box">
           <img src="/assets/ui/code.png" alt="857直播">
           <p>用手机浏览器扫一扫</p>
           <p>精彩马上呈现</p>
-        </span>
-      </span>
+        </div>
+      </div>
     </a>
   </nav>
 </template>
@@ -103,23 +104,44 @@ async function goHome() {
   @apply relative inline-block;
 }
 .nav-menu__hot {
-  @apply absolute -top-[12px] -right-[32px] w-[29px] h-auto pointer-events-none;
+  @apply absolute -top-0.5 -right-[30px] w-[29px] h-[19px] object-contain pointer-events-none;
 }
 
+/* 扫码弹窗：对齐原站尺寸（由内边距撑开，禁止定死窄宽导致文字折行变形） */
 .nav-menu__submenu {
-  @apply hidden absolute top-full left-1/2 -translate-x-1/2 pt-2.5 z-[102];
+  @apply hidden absolute left-1/2 top-full z-[102] -translate-x-1/2 pt-2.5
+    text-center cursor-default;
 }
 .nav-menu__item--download:hover .nav-menu__submenu {
   @apply block;
 }
 .nav-menu__submenu-box {
-  @apply w-[140px] p-[15px] text-center bg-white/[0.96] border border-gray-200/[0.9]
-    rounded-[14px] shadow-[0_22px_60px_rgba(15,23,42,0.14)] text-[#333];
+  @apply relative px-8 pt-[30px] pb-[22px] text-center bg-white rounded-lg
+    text-[#777] text-xs font-normal
+    shadow-[0_4px_15px_0_rgba(0,0,0,0.2)];
+}
+/* 顶部小三角：必须四边都设 border（同原站），底边贴住弹窗；只写三边会悬空约 7px */
+.nav-menu__submenu-box::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  transform: translateX(-50%);
+  border: 8px solid transparent;
+  border-bottom-color: #fff;
 }
 .nav-menu__submenu-box img {
-  @apply w-[100px] h-[100px] mb-1.5;
+  @apply block w-[100px] h-[100px] mx-auto mb-1;
 }
 .nav-menu__submenu-box p {
-  @apply text-xs text-[#666] leading-[1.6] m-0;
+  @apply m-0 text-xs font-normal leading-none whitespace-nowrap text-[#777];
+}
+.nav-menu__submenu-box p + p {
+  @apply mt-1.5;
 }
 </style>

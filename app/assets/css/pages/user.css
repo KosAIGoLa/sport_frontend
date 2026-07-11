@@ -1,343 +1,346 @@
+/* scoped under .user-center-page — prevent SPA cross-page style leakage */
 /* extracted from user.html.vue */
 
 .user-center-page {
   @apply min-h-screen bg-[#f7f7f7];
 }
-.user-center-wrapper {
+.user-center-page .user-center-wrapper {
   @apply w-[min(1200px,calc(100%-24px))] mx-auto py-3 flex gap-0;
 }
-.user-sidebar {
+.user-center-page .user-sidebar {
   @apply w-[182px] shrink-0 bg-white border border-[#efefef] overflow-hidden;
 }
-.user-menu a {
+/* 侧栏导航：勿用 .user-menu，会与顶栏登录下拉 UserMenu 类名冲突导致样式变形 */
+.user-center-page .user-sidebar-nav a {
   @apply flex items-center gap-3 px-6 py-7 text-[15px] text-[#9ca3af] font-normal transition-colors relative hover:text-[#ff5a4f];
 }
-.user-menu a.active {
+.user-center-page .user-sidebar-nav a.active {
   @apply text-[#ff5a4f] bg-[#fff8f7];
 }
-.user-menu a.active::before {
+.user-center-page .user-sidebar-nav a.active::before {
   @apply content-[''] absolute left-0 top-0 bottom-0 w-2 bg-[#ff4d3a];
 }
-.apply-live-sidebar-btn {
+.user-center-page .apply-live-sidebar-btn {
   @apply mx-5 mt-4 mb-5 w-[calc(100%-40px)] flex items-center justify-center gap-2 px-4 py-2.5 rounded-md bg-[#ff4d4f] text-white text-sm font-medium border-0 cursor-pointer hover:bg-[#ff7875] transition-colors;
 }
-.apply-live-sidebar-btn svg {
+.user-center-page .apply-live-sidebar-btn svg {
   @apply w-4 h-4;
 }
-.menu-icon {
+.user-center-page .menu-icon {
   @apply w-5 h-5;
 }
-.user-content {
+.user-center-page .user-content {
   @apply flex-1 min-w-0 bg-white border border-l-0 border-[#efefef];
 }
-.user-profile-card {
+.user-center-page .user-profile-card {
   @apply bg-white px-8 pt-7 pb-6 flex items-start justify-between mb-0 border-b border-[#efefef];
 }
-.user-profile-left {
+.user-center-page .user-profile-left {
   @apply flex gap-6;
 }
-.user-avatar {
+/* 个人中心大头：勿用 .user-avatar，会与顶栏 UserAvatar 冲突撑成 132 方形 */
+.user-center-page .user-profile-avatar {
   @apply w-[132px] h-[132px] rounded-none object-cover border border-[#efefef];
 }
-.user-info {
+.user-center-page .user-info {
   @apply flex flex-col gap-4 pt-1;
 }
-.user-name-row {
+.user-center-page .user-name-row {
   @apply flex items-center gap-2;
 }
-.user-name {
+.user-center-page .user-name {
   @apply text-[18px] leading-none font-medium text-[#444];
 }
-.edit-icon {
+.user-center-page .edit-icon {
   @apply w-4 h-4 text-[#9ca3af] cursor-pointer hover:text-[#ff5a4f];
 }
-.user-level-row {
+.user-center-page .user-level-row {
   @apply flex items-center gap-4 text-xs;
 }
-.level-badge {
+.user-center-page .level-badge {
   @apply px-3 py-0.5 rounded bg-[#b7efa2] text-white font-normal text-[11px] leading-5;
 }
-.level-track {
+.user-center-page .level-track {
   @apply w-[220px] h-3 bg-[#c8c8c8] rounded-full overflow-hidden;
 }
-.level-fill {
+.user-center-page .level-fill {
   @apply h-full bg-[#9bdc82] rounded-full;
 }
-.level-rule {
+.user-center-page .level-rule {
   @apply text-[12px] text-[#8d94a3] hover:text-[#ff5a4f];
 }
-.user-assets-row {
+.user-center-page .user-assets-row {
   @apply flex items-center gap-8 text-[14px] text-[#444];
 }
-.asset {
+.user-center-page .asset {
   @apply flex items-center gap-2;
 }
-.asset-icon {
+.user-center-page .asset-icon {
   @apply w-5 h-5;
 }
-.recharge-btn {
+.user-center-page .recharge-btn {
   @apply inline-flex items-center h-7 px-4 rounded-full bg-[#ff5a1f] text-white text-[12px] font-medium no-underline hover:bg-[#ff6b39] transition-colors;
 }
-.user-links-row {
+.user-center-page .user-links-row {
   @apply flex items-center justify-end gap-4 text-[12px] text-[#98a0ad] mt-0.5;
 }
-.user-links-row a {
+.user-center-page .user-links-row a {
   @apply hover:text-[#f84c4c];
 }
-.go-live-btn {
+.user-center-page .go-live-btn {
   @apply inline-flex items-center gap-2 px-6 h-[48px] border border-[#ff5a3b] rounded-full text-[#ff5a3b] text-[14px] font-medium hover:bg-[#fff5f5] transition-colors mt-3;
 }
-.go-live-btn svg {
+.user-center-page .go-live-btn svg {
   @apply w-5 h-5;
 }
-.user-tabs {
+.user-center-page .user-tabs {
   @apply bg-white rounded-xl shadow-sm px-6 mb-5 flex items-center border-b border-[#f0f0f0];
 }
-.user-tabs button {
+.user-center-page .user-tabs button {
   @apply relative px-4 py-4 text-sm text-[#666] font-medium hover:text-[#333] transition-colors;
 }
-.user-tabs button.active {
+.user-center-page .user-tabs button.active {
   @apply text-[#ff4d4f];
 }
-.user-tabs button.active::after {
+.user-center-page .user-tabs button.active::after {
   @apply content-[''] absolute left-0 right-0 bottom-0 h-0.5 bg-[#ff4d4f];
 }
-.user-cards-grid {
+.user-center-page .user-cards-grid {
   @apply grid grid-cols-2 gap-5 mb-5;
 }
-.info-card {
+.user-center-page .info-card {
   @apply bg-white rounded-xl shadow-sm p-5 flex gap-4;
 }
-.info-card-icon {
+.user-center-page .info-card-icon {
   @apply w-12 h-12 rounded-full bg-[#f5f5f5] flex items-center justify-center shrink-0 text-[#999];
 }
-.info-card-icon svg {
+.user-center-page .info-card-icon svg {
   @apply w-6 h-6;
 }
-.info-card-title-row {
+.user-center-page .info-card-title-row {
   @apply flex items-center gap-3 mb-2;
 }
-.info-card-title-row h3 {
+.user-center-page .info-card-title-row h3 {
   @apply text-base font-bold text-[#333];
 }
-.action-link {
+.user-center-page .action-link {
   @apply text-sm text-[#ff4d4f] hover:underline;
 }
-.avatar-panel {
+.user-center-page .avatar-panel {
   @apply bg-white rounded-xl shadow-sm p-10 mb-5;
 }
-.avatar-upload-title {
+.user-center-page .avatar-upload-title {
   @apply text-sm text-[#333] mb-6;
 }
-.avatar-upload-circle {
+.user-center-page .avatar-upload-circle {
   @apply relative w-[180px] h-[180px] rounded-full overflow-hidden block cursor-pointer border border-dashed border-[#d9d9d9] hover:border-[#ff4d4f];
 }
-.avatar-upload-input {
+.user-center-page .avatar-upload-input {
   @apply absolute inset-0 opacity-0 cursor-pointer z-20;
 }
-.avatar-upload-preview {
+.user-center-page .avatar-upload-preview {
   @apply w-full h-full object-cover;
 }
-.avatar-upload-overlay {
+.user-center-page .avatar-upload-overlay {
   @apply absolute inset-0 flex flex-col items-center justify-center bg-black/30 text-white z-10;
 }
-.avatar-upload-overlay svg {
+.user-center-page .avatar-upload-overlay svg {
   @apply w-10 h-10 mb-1;
 }
-.avatar-upload-overlay span {
+.user-center-page .avatar-upload-overlay span {
   @apply text-sm;
 }
-.nickname-panel {
+.user-center-page .nickname-panel {
   @apply bg-white rounded-xl shadow-sm p-10 mb-5;
 }
-.nickname-form {
+.user-center-page .nickname-form {
   @apply mb-10;
 }
-.nickname-row {
+.user-center-page .nickname-row {
   @apply flex items-center gap-4 mb-5;
 }
-.nickname-label {
+.user-center-page .nickname-label {
   @apply w-24 text-sm text-[#666] text-right shrink-0;
 }
-.nickname-current {
+.user-center-page .nickname-current {
   @apply text-sm text-[#999];
 }
-.nickname-input {
+.user-center-page .nickname-input {
   @apply w-[280px] h-11 px-3 border border-gray-200 rounded text-sm text-[#333] outline-none focus:border-[#ff4d4f];
 }
-.nickname-submit {
+.user-center-page .nickname-submit {
   @apply h-11 px-6 bg-[#ff4d4f] text-white text-sm font-medium rounded border-0 cursor-pointer hover:bg-[#ff7875] transition-colors;
 }
-.nickname-rules {
+.user-center-page .nickname-rules {
   @apply text-sm text-[#666] leading-relaxed;
 }
-.nickname-rules h4 {
+.user-center-page .nickname-rules h4 {
   @apply text-base font-bold text-[#333] mb-3;
 }
-.nickname-rules ol {
+.user-center-page .nickname-rules ol {
   @apply list-decimal pl-5 space-y-2;
 }
-.nickname-service {
+.user-center-page .nickname-service {
   @apply text-[#ff4d4f] hover:underline;
 }
-.realname-tab-panel {
+.user-center-page .realname-tab-panel {
   @apply bg-white rounded-xl shadow-sm p-10 mb-5 flex flex-col items-center justify-center min-h-[360px];
 }
-.realname-tab-panel__img {
+.user-center-page .realname-tab-panel__img {
   @apply w-24 h-24 mb-5 object-contain;
 }
-.realname-tab-panel h3 {
+.user-center-page .realname-tab-panel h3 {
   @apply text-lg font-bold text-[#333] mb-3;
 }
-.realname-tab-panel p {
+.user-center-page .realname-tab-panel p {
   @apply text-sm text-[#999];
 }
-.phone-bind-panel {
+.user-center-page .phone-bind-panel {
   @apply bg-white rounded-xl shadow-sm p-10 mb-5;
 }
-.phone-bind-form {
+.user-center-page .phone-bind-form {
   @apply max-w-md;
 }
-.phone-bind-row {
+.user-center-page .phone-bind-row {
   @apply flex items-center gap-4 mb-5;
 }
-.phone-bind-label {
+.user-center-page .phone-bind-label {
   @apply w-24 text-sm text-[#666] text-right shrink-0;
 }
-.phone-bind-input {
+.user-center-page .phone-bind-input {
   @apply flex-1 h-11 px-3 border border-gray-200 rounded text-sm text-[#333] outline-none focus:border-[#ff4d4f];
 }
-.phone-bind-input--code {
+.user-center-page .phone-bind-input--code {
   @apply w-[160px] flex-none;
 }
-.phone-bind-send {
+.user-center-page .phone-bind-send {
   @apply h-11 px-4 bg-[#9ca3af] text-white text-sm rounded border-0 cursor-pointer hover:bg-[#6b7280] disabled:cursor-not-allowed disabled:opacity-70 transition-colors;
 }
-.phone-bind-tip {
+.user-center-page .phone-bind-tip {
   @apply pl-28 text-xs text-[#9ca3af] mb-8;
 }
-.phone-bind-submit {
+.user-center-page .phone-bind-submit {
   @apply ml-28 h-11 px-10 bg-[#ff4d4f] text-white text-base font-medium rounded border-0 cursor-pointer hover:bg-[#ff7875] transition-colors;
 }
-.info-card-body p {
+.user-center-page .info-card-body p {
   @apply text-xs text-[#999] leading-relaxed;
 }
-.vip-banner {
+.user-center-page .vip-banner {
   @apply relative h-[120px] rounded-xl overflow-hidden flex items-center justify-between px-8;
   background: linear-gradient(90deg, #1a1a2e 0%, #2d1b4e 100%);
 }
-.vip-banner::before {
+.user-center-page .vip-banner::before {
   @apply content-[''] absolute inset-0 pointer-events-none;
   background: url('/assets/banners/banner.jpg') center/cover no-repeat;
   opacity: 0.35;
 }
-.vip-banner-text {
+.user-center-page .vip-banner-text {
   @apply relative z-10;
 }
-.vip-banner-text h2 {
+.user-center-page .vip-banner-text h2 {
   @apply text-xl font-bold text-white tracking-wider mb-1;
 }
-.vip-tag {
+.user-center-page .vip-tag {
   @apply inline-block px-2 py-0.5 rounded bg-[#ffd700] text-[#5a3d00] text-xs font-bold;
 }
-.vip-btn {
+.user-center-page .vip-btn {
   @apply relative z-10 px-5 py-2 rounded-full bg-[#c9a96e] text-white text-sm font-semibold hover:bg-[#b89760] transition-colors;
 }
-.message-panel {
+.user-center-page .message-panel {
   @apply bg-white rounded-xl shadow-sm p-6;
 }
-.message-item {
+.user-center-page .message-item {
   @apply flex gap-4 pb-5 mb-5 border-b border-[#f0f0f0] last:mb-0 last:pb-0 last:border-0;
 }
-.message-icon {
+.user-center-page .message-icon {
   @apply w-10 h-10 rounded-full bg-[#fff5f5] text-[#ff7a45] flex items-center justify-center shrink-0;
 }
-.message-icon svg {
+.user-center-page .message-icon svg {
   @apply w-5 h-5;
 }
-.message-header {
+.user-center-page .message-header {
   @apply flex items-center justify-between mb-2;
 }
-.message-title {
+.user-center-page .message-title {
   @apply text-base font-bold text-[#333];
 }
-.message-date {
+.user-center-page .message-date {
   @apply text-xs text-[#999];
 }
-.message-content {
+.user-center-page .message-content {
   @apply text-sm text-[#666] leading-relaxed;
 }
-.empty-panel {
+.user-center-page .empty-panel {
   @apply bg-white rounded-xl shadow-sm p-10 flex flex-col items-center justify-center text-sm text-[#999];
 }
-.empty-panel img {
+.user-center-page .empty-panel img {
   @apply w-[80px] h-[80px] mb-4;
 }
-.appointment-panel {
+.user-center-page .appointment-panel {
   @apply bg-white rounded-xl shadow-sm p-10 min-h-[400px] flex flex-col items-center justify-center;
 }
-.history-panel {
+.user-center-page .history-panel {
   @apply bg-white px-8 pt-6 pb-8;
 }
-.history-toolbar {
+.user-center-page .history-toolbar {
   @apply flex items-center justify-between mb-4;
 }
-.history-filter {
+.user-center-page .history-filter {
   @apply flex items-center gap-2 text-[14px] text-[#666] cursor-pointer select-none;
 }
-.history-filter input {
+.user-center-page .history-filter input {
   @apply w-4 h-4 accent-[#ff4d4f] cursor-pointer;
 }
-.history-count {
+.user-center-page .history-count {
   @apply text-[12px] text-[#9ca3af];
 }
-.history-grid {
+.user-center-page .history-grid {
   @apply grid grid-cols-3 gap-5;
 }
-.history-card {
+.user-center-page .history-card {
   @apply block relative w-full min-w-0 bg-white border border-[#efefef] rounded-[12px] overflow-hidden shadow-[0_2px_10px_rgba(0,0,0,0.05)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.10)];
 }
-.history-card__cover {
+.user-center-page .history-card__cover {
   @apply relative aspect-video bg-slate-100 overflow-hidden;
 }
-.history-card__image {
+.user-center-page .history-card__image {
   @apply w-full h-full object-cover;
 }
-.history-card__cover::after {
+.user-center-page .history-card__cover::after {
   @apply content-[''] absolute left-0 right-0 bottom-0 h-20;
   background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 100%);
 }
-.history-card__badge {
+.user-center-page .history-card__badge {
   @apply absolute right-3 top-3 z-10 flex h-7 items-center gap-1.5 rounded-full px-2.5 pointer-events-none;
   background: rgba(15, 23, 42, 0.72);
   backdrop-filter: blur(8px);
   box-shadow: 0 6px 18px rgba(15, 23, 42, 0.18);
 }
-.history-card__badge-bg {
+.user-center-page .history-card__badge-bg {
   @apply block h-2.5 w-2.5 rounded-full shrink-0;
   background: radial-gradient(circle at 35% 35%, #ffb2aa 0%, #ff6a5d 45%, #ff4d3f 100%);
   box-shadow: 0 0 0 3px rgba(255, 92, 76, 0.18), 0 0 12px rgba(255, 92, 76, 0.45);
   animation: history-live-pulse 1.8s ease-out infinite;
 }
-.history-card__badge-text {
+.user-center-page .history-card__badge-text {
   @apply relative text-[12px] leading-none text-white font-medium whitespace-nowrap;
 }
-.history-card__cover-meta {
+.user-center-page .history-card__cover-meta {
   @apply absolute left-0 right-0 bottom-0 z-10 flex items-center justify-between px-5 pb-4 text-white;
 }
-.history-card__cover-author {
+.user-center-page .history-card__cover-author {
   @apply max-w-[240px] truncate text-[13px] font-medium;
 }
-.history-card__cover-viewers {
+.user-center-page .history-card__cover-viewers {
   @apply flex shrink-0 items-center gap-1 text-[12px] text-white/90;
 }
-.history-card__cover-viewers svg {
+.user-center-page .history-card__cover-viewers svg {
   @apply h-3.5 w-3.5;
 }
-.history-card__body {
+.user-center-page .history-card__body {
   @apply px-5 pt-3 pb-4;
 }
-.history-card__title {
+.user-center-page .history-card__title {
   @apply text-[15px] leading-[23px] font-semibold text-[#2f3440];
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -345,19 +348,19 @@
   overflow: hidden;
   min-height: 46px;
 }
-.history-card__footer {
+.user-center-page .history-card__footer {
   @apply flex items-center gap-3 pt-3;
 }
-.history-card__avatar {
+.user-center-page .history-card__avatar {
   @apply w-9 h-9 rounded-full object-cover ring-1 ring-[#f1f1f1];
 }
-.history-card__meta {
+.user-center-page .history-card__meta {
   @apply flex min-w-0 flex-1 flex-col;
 }
-.history-card__author {
+.user-center-page .history-card__author {
   @apply truncate text-[13px] text-[#5b6472];
 }
-.history-card__subline {
+.user-center-page .history-card__subline {
   @apply mt-0.5 text-[11px] text-[#9ca3af];
 }
 
@@ -375,73 +378,73 @@
     box-shadow: 0 0 0 0 rgba(255, 92, 76, 0), 0 0 10px rgba(255, 92, 76, 0.35);
   }
 }
-.follow-panel {
+.user-center-page .follow-panel {
   @apply bg-white rounded-xl shadow-sm p-6;
 }
-.follow-list {
+.user-center-page .follow-list {
   @apply flex flex-col gap-6;
 }
-.follow-card {
+.user-center-page .follow-card {
   @apply flex flex-col gap-3;
 }
-.follow-card__header {
+.user-center-page .follow-card__header {
   @apply flex items-center gap-3;
 }
-.follow-card__avatar {
+.user-center-page .follow-card__avatar {
   @apply w-10 h-10 rounded-full object-cover;
 }
-.follow-card__info {
+.user-center-page .follow-card__info {
   @apply flex flex-col gap-0.5;
 }
-.follow-card__name {
+.user-center-page .follow-card__name {
   @apply text-base font-bold text-[#333];
 }
-.follow-card__status {
+.user-center-page .follow-card__status {
   @apply text-xs text-[#999];
 }
-.follow-card__status .living {
+.user-center-page .follow-card__status .living {
   @apply text-[#ff4d4f];
 }
-.follow-card__body {
+.user-center-page .follow-card__body {
   @apply grid grid-cols-2 gap-5 items-stretch;
 }
-.follow-card__live {
+.user-center-page .follow-card__live {
   @apply relative block w-full min-w-0 rounded-[12px] overflow-hidden no-underline border border-[#efefef] bg-white shadow-[0_2px_10px_rgba(0,0,0,0.05)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(0,0,0,0.10)];
 }
-.follow-card__cover-image {
+.user-center-page .follow-card__cover-image {
   @apply w-full h-[136px] object-cover block;
 }
-.follow-card__badge {
+.user-center-page .follow-card__badge {
   @apply absolute right-3 top-3 z-10 flex h-7 items-center gap-1.5 rounded-full px-2.5 pointer-events-none;
   background: rgba(15, 23, 42, 0.72);
   backdrop-filter: blur(8px);
   box-shadow: 0 6px 18px rgba(15, 23, 42, 0.18);
 }
-.follow-card__badge-dot {
+.user-center-page .follow-card__badge-dot {
   @apply block h-2.5 w-2.5 rounded-full shrink-0;
   background: radial-gradient(circle at 35% 35%, #ffb2aa 0%, #ff6a5d 45%, #ff4d3f 100%);
   box-shadow: 0 0 0 3px rgba(255, 92, 76, 0.18), 0 0 12px rgba(255, 92, 76, 0.45);
 }
-.follow-card__badge-text {
+.user-center-page .follow-card__badge-text {
   @apply relative text-[12px] leading-none text-white font-medium whitespace-nowrap;
 }
-.follow-card__live-meta {
+.user-center-page .follow-card__live-meta {
   @apply absolute bottom-0 left-0 right-0 z-10 flex items-center justify-end px-4 pb-3 text-white;
 }
-.follow-card__live-meta svg {
+.user-center-page .follow-card__live-meta svg {
   @apply w-3.5 h-3.5;
 }
-.follow-card__live::after {
+.user-center-page .follow-card__live::after {
   @apply content-[''] absolute left-0 right-0 bottom-[72px] h-20;
   background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 100%);
 }
-.follow-card__live-viewers {
+.user-center-page .follow-card__live-viewers {
   @apply flex shrink-0 items-center gap-1 whitespace-nowrap text-[12px] text-white/90;
 }
-.follow-card__live-body {
+.user-center-page .follow-card__live-body {
   @apply px-4 pt-3 pb-4;
 }
-.follow-card__live-title {
+.user-center-page .follow-card__live-title {
   @apply text-[15px] leading-[23px] font-semibold text-[#2f3440];
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -449,320 +452,320 @@
   overflow: hidden;
   min-height: 46px;
 }
-.follow-card__live-footer {
+.user-center-page .follow-card__live-footer {
   @apply flex items-center gap-3 pt-3;
 }
-.follow-card__live-avatar {
+.user-center-page .follow-card__live-avatar {
   @apply w-9 h-9 rounded-full object-cover ring-1 ring-[#f1f1f1];
 }
-.follow-card__live-footer-meta {
+.user-center-page .follow-card__live-footer-meta {
   @apply flex min-w-0 flex-1 flex-col;
 }
-.follow-card__live-footer-name {
+.user-center-page .follow-card__live-footer-name {
   @apply truncate text-[13px] text-[#5b6472];
 }
-.follow-card__live-footer-subline {
+.user-center-page .follow-card__live-footer-subline {
   @apply mt-0.5 text-[11px] text-[#9ca3af];
 }
-.follow-card__video {
+.user-center-page .follow-card__video {
   @apply w-full min-w-0 rounded-[12px] overflow-hidden border border-[#efefef] bg-white shadow-[0_2px_10px_rgba(0,0,0,0.04)];
 }
-.follow-card__video-cover {
+.user-center-page .follow-card__video-cover {
   @apply h-[136px] p-3 bg-white;
 }
-.follow-card__video-placeholder {
+.user-center-page .follow-card__video-placeholder {
   @apply h-full rounded-[10px] bg-[#f5f5f5] flex flex-col items-center justify-center gap-1 text-xs text-[#bbb];
 }
-.follow-card__video-placeholder svg {
+.user-center-page .follow-card__video-placeholder svg {
   @apply w-8 h-8 text-[#ddd];
 }
-.follow-card__video-body {
+.user-center-page .follow-card__video-body {
   @apply px-4 pt-3 pb-4 border-t border-[#f5f5f5];
 }
-.follow-card__video-title {
+.user-center-page .follow-card__video-title {
   @apply text-[15px] leading-[23px] font-semibold text-[#2f3440];
   min-height: 46px;
 }
-.follow-card__video-footer {
+.user-center-page .follow-card__video-footer {
   @apply flex items-center gap-3 pt-3;
 }
-.follow-card__video-avatar {
+.user-center-page .follow-card__video-avatar {
   @apply w-9 h-9 rounded-full object-cover ring-1 ring-[#f1f1f1];
 }
-.follow-card__video-footer-meta {
+.user-center-page .follow-card__video-footer-meta {
   @apply flex min-w-0 flex-1 flex-col;
 }
-.follow-card__video-footer-name {
+.user-center-page .follow-card__video-footer-name {
   @apply truncate text-[13px] text-[#5b6472];
 }
-.follow-card__video-footer-subline {
+.user-center-page .follow-card__video-footer-subline {
   @apply mt-0.5 text-[11px] text-[#9ca3af];
 }
-.guess-panel {
+.user-center-page .guess-panel {
   @apply bg-white rounded-xl shadow-sm p-6;
 }
-.guess-header {
+.user-center-page .guess-header {
   @apply flex items-center justify-between mb-5;
 }
-.guess-header h3 {
+.user-center-page .guess-header h3 {
   @apply text-base font-bold text-[#333];
 }
-.complaint-btn {
+.user-center-page .complaint-btn {
   @apply inline-flex items-center gap-1 px-3 py-1.5 border border-[#e5e7eb] rounded text-sm text-[#666] bg-white cursor-pointer hover:border-[#ff4d4f] hover:text-[#ff4d4f] transition-colors;
 }
-.complaint-btn::before {
+.user-center-page .complaint-btn::before {
   @apply content-['i'] w-4 h-4 rounded-full border border-current flex items-center justify-center text-xs;
 }
-.guess-table-wrap {
+.user-center-page .guess-table-wrap {
   @apply overflow-x-auto rounded border border-[#f0f0f0];
 }
-.guess-table {
+.user-center-page .guess-table {
   @apply w-full text-sm text-left border-collapse;
 }
-.guess-table thead th {
+.user-center-page .guess-table thead th {
   @apply bg-[#f8f9fa] text-[#666] font-medium py-3 px-4 border-b border-[#f0f0f0] whitespace-nowrap text-center;
 }
-.guess-table tbody td {
+.user-center-page .guess-table tbody td {
   @apply py-6 px-4 text-[#666] border-b border-[#f0f0f0];
 }
-.guess-table .empty-row td {
+.user-center-page .guess-table .empty-row td {
   @apply py-8 px-4;
 }
-.guess-table .empty-row td,
-.room-table .empty-row td,
-.wealth-table .empty-row td,
-.order-table .empty-row td {
+.user-center-page .guess-table .empty-row td,
+.user-center-page .room-table .empty-row td,
+.user-center-page .wealth-table .empty-row td,
+.user-center-page .order-table .empty-row td {
   text-align: center;
 }
-.guess-table .empty-row td::before,
-.room-table .empty-row td::before,
-.wealth-table .empty-row td::before,
-.order-table .empty-row td::before {
+.user-center-page .guess-table .empty-row td::before,
+.user-center-page .room-table .empty-row td::before,
+.user-center-page .wealth-table .empty-row td::before,
+.user-center-page .order-table .empty-row td::before {
   content: '';
   display: inline-block;
   width: 0;
   height: 100%;
   vertical-align: middle;
 }
-.medal-panel {
+.user-center-page .medal-panel {
   @apply bg-white rounded-xl shadow-sm p-6;
 }
-.medal-tabs {
+.user-center-page .medal-tabs {
   @apply flex items-center gap-6 border-b border-[#f0f0f0] mb-4 relative;
 }
-.medal-tabs button {
+.user-center-page .medal-tabs button {
   @apply relative pb-3 text-sm text-[#666] font-medium hover:text-[#333] transition-colors;
 }
-.medal-tabs button.active {
+.user-center-page .medal-tabs button.active {
   @apply text-[#ff4d4f];
 }
-.medal-tabs button.active::after {
+.user-center-page .medal-tabs button.active::after {
   @apply content-[''] absolute left-0 right-0 bottom-0 h-0.5 bg-[#ff4d4f];
 }
-.medal-rule {
+.user-center-page .medal-rule {
   @apply ml-auto text-xs text-[#999] hover:text-[#ff4d4f];
 }
-.medal-filters {
+.user-center-page .medal-filters {
   @apply flex flex-wrap items-center gap-3 mb-5;
 }
-.medal-filters button {
+.user-center-page .medal-filters button {
   @apply px-4 py-1.5 rounded-full text-xs text-[#666] bg-white border border-[#e5e7eb] cursor-pointer hover:border-[#ff4d4f] hover:text-[#ff4d4f] transition-colors;
 }
-.medal-filters button.active {
+.user-center-page .medal-filters button.active {
   @apply text-white bg-[#ff4d4f] border-[#ff4d4f];
 }
-.medal-grid {
+.user-center-page .medal-grid {
   @apply grid grid-cols-4 gap-4;
 }
-.medal-card {
+.user-center-page .medal-card {
   @apply border border-[#f0f0f0] rounded-lg p-4 flex flex-col items-center justify-center gap-2 hover:shadow-md transition-shadow;
 }
-.medal-icon {
+.user-center-page .medal-icon {
   @apply relative w-16 h-20 flex items-center justify-center text-gray-400;
 }
-.medal-icon svg {
+.user-center-page .medal-icon svg {
   @apply w-full h-full;
 }
-.medal-icon-emoji {
+.user-center-page .medal-icon-emoji {
   @apply absolute top-8 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xl leading-none;
 }
-.medal-icon-label {
+.user-center-page .medal-icon-label {
   @apply absolute bottom-[18px] left-1/2 -translate-x-1/2 text-[10px] text-white font-medium;
 }
-.medal-guide {
+.user-center-page .medal-guide {
   @apply text-xs text-[#ff4d4f] hover:underline;
 }
-.contribute-panel {
+.user-center-page .contribute-panel {
   @apply bg-white rounded-xl shadow-sm p-6;
 }
-.contribute-tabs {
+.user-center-page .contribute-tabs {
   @apply flex items-center gap-3 border-b border-[#f0f0f0] pb-3 mb-6;
 }
-.contribute-tabs button {
+.user-center-page .contribute-tabs button {
   @apply text-sm text-[#666] bg-transparent border-0 cursor-pointer hover:text-[#ff4d4f] transition-colors;
 }
-.contribute-tabs button.active {
+.user-center-page .contribute-tabs button.active {
   @apply text-[#ff4d4f] font-medium;
 }
-.contribute-divider {
+.user-center-page .contribute-divider {
   @apply text-[#ddd] text-xs;
 }
-.upload-panel {
+.user-center-page .upload-panel {
   @apply bg-white rounded-xl shadow-sm p-6;
 }
-.upload-panel__inner {
+.user-center-page .upload-panel__inner {
   @apply flex flex-col items-center justify-center py-10 text-center;
 }
-.upload-panel__mascot {
+.user-center-page .upload-panel__mascot {
   @apply w-[160px] h-auto object-contain mb-6;
 }
-.upload-panel__text {
+.user-center-page .upload-panel__text {
   @apply text-sm text-[#666] leading-7 mb-2 max-w-4xl;
 }
-.upload-panel__link {
+.user-center-page .upload-panel__link {
   @apply text-[#ff4d4f] hover:underline;
 }
-.upload-panel__subtext {
+.user-center-page .upload-panel__subtext {
   @apply text-sm text-[#666] mb-8;
 }
-.upload-panel__btn {
+.user-center-page .upload-panel__btn {
   @apply relative inline-flex items-center justify-center px-10 py-2.5 rounded-full border border-[#ff4d4f] text-[#ff4d4f] text-sm cursor-pointer hover:bg-[#fff5f5] transition-colors mb-8;
 }
-.upload-panel__btn input {
+.user-center-page .upload-panel__btn input {
   @apply absolute inset-0 opacity-0 cursor-pointer;
 }
-.upload-panel__help {
+.user-center-page .upload-panel__help {
   @apply flex items-center gap-8 text-xs text-[#999];
 }
-.upload-panel__help a {
+.user-center-page .upload-panel__help a {
   @apply hover:text-[#ff4d4f] transition-colors;
 }
-.upload-panel__help a::before {
+.user-center-page .upload-panel__help a::before {
   @apply content-['ⓘ'] mr-1;
 }
-.room-panel {
+.user-center-page .room-panel {
   @apply bg-white rounded-xl shadow-sm p-6 min-h-[400px];
 }
-.room-table-wrap {
+.user-center-page .room-table-wrap {
   @apply overflow-x-auto rounded border border-[#f0f0f0];
 }
-.room-table {
+.user-center-page .room-table {
   @apply w-full text-sm text-left border-collapse;
 }
-.room-table thead th {
+.user-center-page .room-table thead th {
   @apply bg-[#f8f9fa] text-[#666] font-medium py-3 px-4 border-b border-[#f0f0f0] whitespace-nowrap text-center;
 }
-.room-table tbody td {
+.user-center-page .room-table tbody td {
   @apply py-6 px-4 text-[#666] border-b border-[#f0f0f0];
 }
-.room-table .empty-row td {
+.user-center-page .room-table .empty-row td {
   @apply py-8 px-4 text-[#999];
 }
-.space-panel {
+.user-center-page .space-panel {
   @apply bg-white rounded-xl shadow-sm overflow-hidden;
 }
-.space-header {
+.user-center-page .space-header {
   @apply flex items-center gap-4 p-6 bg-[#f8f9fa];
 }
-.space-avatar {
+.user-center-page .space-avatar {
   @apply w-20 h-20 rounded-full object-cover;
 }
-.space-name {
+.user-center-page .space-name {
   @apply text-xl font-bold text-[#333] mb-3;
 }
-.space-stats {
+.user-center-page .space-stats {
   @apply flex items-center gap-6 text-sm text-[#666];
 }
-.space-stats em {
+.user-center-page .space-stats em {
   @apply not-italic text-[#ff4d4f] font-medium;
 }
-.space-share {
+.user-center-page .space-share {
   @apply flex items-center gap-1 text-sm text-[#666] hover:text-[#ff4d4f] transition-colors;
 }
-.space-share svg {
+.user-center-page .space-share svg {
   @apply w-4 h-4;
 }
-.space-tabs {
+.user-center-page .space-tabs {
   @apply flex items-center gap-6 px-6 border-b border-[#f0f0f0];
 }
-.space-tabs button {
+.user-center-page .space-tabs button {
   @apply relative pb-3 text-sm text-[#666] font-medium hover:text-[#333] transition-colors;
 }
-.space-tabs button.active {
+.user-center-page .space-tabs button.active {
   @apply text-[#ff4d4f];
 }
-.space-tabs button.active::after {
+.user-center-page .space-tabs button.active::after {
   @apply content-[''] absolute left-0 right-0 bottom-0 h-0.5 bg-[#ff4d4f];
 }
-.space-body {
+.user-center-page .space-body {
   @apply p-10 min-h-[360px];
 }
-.space-empty {
+.user-center-page .space-empty {
   @apply flex flex-col items-center justify-center gap-4 h-full;
 }
-.space-empty img {
+.user-center-page .space-empty img {
   @apply w-[120px] h-auto object-contain;
 }
-.space-empty span {
+.user-center-page .space-empty span {
   @apply text-sm text-[#999];
 }
-.wealth-panel {
+.user-center-page .wealth-panel {
   @apply bg-white rounded-xl shadow-sm p-6;
 }
-.wealth-tabs {
+.user-center-page .wealth-tabs {
   @apply flex items-center flex-wrap mb-5;
 }
-.wealth-tabs button {
+.user-center-page .wealth-tabs button {
   @apply relative px-6 text-sm text-[#999] font-medium hover:text-[#666] transition-colors;
 }
-.wealth-tabs button:not(:last-child)::after {
+.user-center-page .wealth-tabs button:not(:last-child)::after {
   @apply content-['|'] absolute right-0 top-1/2 -translate-y-1/2 text-[#e5e7eb];
 }
-.wealth-tabs button.active {
+.user-center-page .wealth-tabs button.active {
   @apply text-[#ff4d4f];
 }
-.wealth-filter {
+.user-center-page .wealth-filter {
   @apply mb-4;
 }
-.wealth-month-select {
+.user-center-page .wealth-month-select {
   @apply h-9 px-3 rounded border border-[#e5e7eb] bg-white text-sm text-[#333] outline-none;
 }
-.wealth-table-wrap {
+.user-center-page .wealth-table-wrap {
   @apply overflow-x-auto rounded border border-[#f0f0f0];
 }
-.wealth-table {
+.user-center-page .wealth-table {
   @apply w-full text-sm text-left border-collapse;
 }
-.wealth-table thead th {
+.user-center-page .wealth-table thead th {
   @apply bg-[#f8f9fa] text-[#666] font-medium py-3 px-4 border-b border-[#f0f0f0] whitespace-nowrap;
 }
-.wealth-table tbody td {
+.user-center-page .wealth-table tbody td {
   @apply py-6 px-4 text-[#666] border-b border-[#f0f0f0];
 }
-.wealth-table .empty-row td {
+.user-center-page .wealth-table .empty-row td {
   @apply py-8 px-4 text-[#999];
 }
-.order-panel {
+.user-center-page .order-panel {
   @apply bg-white rounded-xl shadow-sm p-6;
 }
-.order-table-wrap {
+.user-center-page .order-table-wrap {
   @apply overflow-x-auto rounded border border-[#f0f0f0];
 }
-.order-table {
+.user-center-page .order-table {
   @apply w-full text-sm text-left border-collapse;
 }
-.order-table thead th {
+.user-center-page .order-table thead th {
   @apply bg-[#f8f9fa] text-[#666] font-medium py-3 px-4 border-b border-[#f0f0f0] whitespace-nowrap;
 }
-.order-table tbody td {
+.user-center-page .order-table tbody td {
   @apply py-6 px-4 text-[#666] border-b border-[#f0f0f0];
 }
-.order-table .empty-row td {
+.user-center-page .order-table .empty-row td {
   @apply py-8 px-4 text-[#999];
 }
 
 @media (max-width: 1200px) {
-  .user-center-wrapper {
+  .user-center-page .user-center-wrapper {
     @apply w-full px-4;
   }
 }
@@ -771,100 +774,100 @@
   .user-center-page {
     @apply pt-0;
   }
-  .user-center-wrapper {
+  .user-center-page .user-center-wrapper {
     @apply w-full px-3 flex-col py-3 gap-0;
   }
-  .user-sidebar {
+  .user-center-page .user-sidebar {
     @apply w-full rounded-2xl border border-[#efefef] overflow-hidden bg-white shadow-[0_8px_24px_rgba(15,23,42,0.06)] mb-4;
   }
-  .user-menu {
+  .user-center-page .user-sidebar-nav {
     @apply grid grid-cols-4 gap-2 p-3;
   }
-  .user-menu a {
+  .user-center-page .user-sidebar-nav a {
     @apply flex-col justify-center gap-1.5 min-h-[64px] rounded-xl px-2 py-3 text-[12px] text-[#7b8494] bg-[#f8fafc] border border-transparent;
   }
-  .user-menu a span {
+  .user-center-page .user-sidebar-nav a span {
     @apply leading-[1.2] text-center;
   }
-  .user-menu a.active {
+  .user-center-page .user-sidebar-nav a.active {
     @apply bg-[#fff7f5] border-[#ffe1dc] text-[#ff5a4f] shadow-[0_4px_12px_rgba(255,90,79,0.08)];
   }
-  .user-menu a.active::before {
+  .user-center-page .user-sidebar-nav a.active::before {
     @apply hidden;
   }
-  .menu-icon {
+  .user-center-page .menu-icon {
     @apply w-[18px] h-[18px];
   }
-  .apply-live-sidebar-btn {
+  .user-center-page .apply-live-sidebar-btn {
     @apply mx-3 mt-0 mb-3 w-[calc(100%-24px)] h-10 rounded-xl text-[13px];
   }
-  .user-content {
+  .user-center-page .user-content {
     @apply border border-[#efefef] rounded-2xl overflow-hidden mt-0 bg-[#fbfbfc] shadow-[0_10px_28px_rgba(15,23,42,0.05)];
   }
-  .user-profile-card {
+  .user-center-page .user-profile-card {
     @apply px-4 pt-4 pb-4 flex-col gap-4 bg-white border-b border-[#f1f3f5];
   }
-  .user-profile-left {
+  .user-center-page .user-profile-left {
     @apply flex-col items-center text-center gap-4;
   }
-  .user-avatar {
+  .user-center-page .user-profile-avatar {
     @apply w-20 h-20;
   }
-  .user-info {
+  .user-center-page .user-info {
     @apply items-center gap-3;
   }
-  .user-name {
+  .user-center-page .user-name {
     @apply text-[16px];
   }
-  .user-level-row {
+  .user-center-page .user-level-row {
     @apply flex-wrap justify-center;
   }
-  .level-track {
+  .user-center-page .level-track {
     @apply w-[160px];
   }
-  .user-assets-row {
+  .user-center-page .user-assets-row {
     @apply flex-wrap justify-center gap-4 text-[13px];
   }
-  .user-links-row {
+  .user-center-page .user-links-row {
     @apply justify-center;
   }
-  .go-live-btn {
+  .user-center-page .go-live-btn {
     @apply w-full justify-center h-10 text-[13px] mt-0;
   }
-  .profile-panel,
-  .message-panel,
-  .wealth-panel,
-  .follow-panel,
-  .order-panel,
-  .history-panel,
-  .appointment-panel,
-  .guess-panel,
-  .medal-panel,
-  .contribute-panel,
-  .upload-panel,
-  .room-panel,
-  .space-panel {
+  .user-center-page .profile-panel,
+.user-center-page .message-panel,
+.user-center-page .wealth-panel,
+.user-center-page .follow-panel,
+.user-center-page .order-panel,
+.user-center-page .history-panel,
+.user-center-page .appointment-panel,
+.user-center-page .guess-panel,
+.user-center-page .medal-panel,
+.user-center-page .contribute-panel,
+.user-center-page .upload-panel,
+.user-center-page .room-panel,
+.user-center-page .space-panel {
     @apply rounded-none shadow-none border-0;
   }
-  .history-panel {
+  .user-center-page .history-panel {
     @apply px-4 pt-4 pb-5 bg-white;
   }
-  .history-toolbar {
+  .user-center-page .history-toolbar {
     @apply mb-3;
   }
-  .history-grid {
+  .user-center-page .history-grid {
     @apply grid-cols-1 gap-4;
   }
-  .history-card__body {
+  .user-center-page .history-card__body {
     @apply px-4 pt-3 pb-4;
   }
-  .follow-card__body {
+  .user-center-page .follow-card__body {
     @apply grid-cols-1 gap-3;
   }
-  .follow-card__video {
+  .user-center-page .follow-card__video {
     @apply hidden;
   }
-  .user-cards-grid {
+  .user-center-page .user-cards-grid {
     @apply grid-cols-1;
   }
 }

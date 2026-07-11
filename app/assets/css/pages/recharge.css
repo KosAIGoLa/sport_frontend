@@ -1,156 +1,157 @@
+/* scoped under .recharge-page — prevent SPA cross-page style leakage */
 /* extracted from recharge.html.vue */
 
 .recharge-page {
   @apply min-h-screen bg-[#f8f9fc];
   background-image: radial-gradient(circle at 8% 0%, rgba(255, 77, 79, 0.04), transparent 30%), radial-gradient(circle at 92% 0%, rgba(22, 119, 255, 0.04), transparent 30%);
 }
-.recharge-main {
+.recharge-page .recharge-main {
   @apply w-[1200px] mx-auto mt-6 mb-12 flex gap-6;
 }
-.recharge-sidebar {
+.recharge-page .recharge-sidebar {
   @apply w-[180px] bg-white rounded-xl shadow-sm overflow-hidden shrink-0;
 }
-.recharge-sidebar__item {
+.recharge-page .recharge-sidebar__item {
   @apply h-12 px-5 flex items-center text-sm text-[#555] font-medium cursor-pointer border-l-4 border-transparent transition-colors;
 }
-.recharge-sidebar__item.active,
-.recharge-sidebar__item:hover {
+.recharge-page .recharge-sidebar__item.active,
+.recharge-page .recharge-sidebar__item:hover {
   @apply bg-[#fff5f5] text-[#ff4d4f] border-[#ff4d4f];
 }
-.recharge-content {
+.recharge-page .recharge-content {
   @apply flex-1 bg-white rounded-xl shadow-sm p-8;
 }
-.recharge-title {
+.recharge-page .recharge-title {
   @apply text-2xl font-extrabold text-[#111827] mb-2;
 }
-.recharge-section {
+.recharge-page .recharge-section {
   @apply py-6 border-b border-gray-100;
 }
-.recharge-section:first-of-type {
+.recharge-page .recharge-section:first-of-type {
   @apply pt-0;
 }
-.recharge-section:last-of-type {
+.recharge-page .recharge-section:last-of-type {
   @apply border-b-0 pb-0;
 }
-.recharge-label {
+.recharge-page .recharge-label {
   @apply inline-block text-sm text-[#666] font-medium w-20 shrink-0;
 }
-.recharge-account {
+.recharge-page .recharge-account {
   @apply flex items-center flex-wrap gap-3;
 }
-.recharge-account__box {
+.recharge-page .recharge-account__box {
   @apply h-9 px-3 flex items-center gap-2 border border-gray-200 rounded-lg text-sm bg-[#fafafa];
 }
-.recharge-account__name {
+.recharge-page .recharge-account__name {
   @apply text-[#333];
 }
-.recharge-account__balance {
+.recharge-page .recharge-account__balance {
   @apply text-[#999];
 }
-.recharge-account__tip {
+.recharge-page .recharge-account__tip {
   @apply text-sm text-[#999];
 }
-.recharge-account__tip a {
+.recharge-page .recharge-account__tip a {
   @apply text-[#ff4d4f] no-underline hover:underline;
 }
-.recharge-row {
+.recharge-page .recharge-row {
   @apply flex items-start gap-4;
 }
-.recharge-options {
+.recharge-page .recharge-options {
   @apply flex flex-wrap gap-3;
 }
-.recharge-option {
+.recharge-page .recharge-option {
   @apply relative w-[120px] h-[78px] border border-gray-200 rounded-xl flex flex-col items-center justify-center cursor-pointer transition-all hover:border-[#ff4d4f] hover:shadow-[0_4px_12px_rgba(255,77,79,0.08)];
 }
-.recharge-option--active {
+.recharge-page .recharge-option--active {
   @apply border-[#ff4d4f] bg-[#fff5f5] shadow-[0_4px_12px_rgba(255,77,79,0.12)];
 }
-.recharge-option--active::before {
+.recharge-page .recharge-option--active::before {
   @apply content-[''] absolute right-2 top-2 w-3.5 h-3.5 rounded-full bg-[#ff4d4f];
 }
-.recharge-option--active::after {
+.recharge-page .recharge-option--active::after {
   @apply content-[''] absolute right-[11px] top-[11px] w-1.5 h-2.5 border-r-2 border-b-2 border-white rotate-45;
 }
-.recharge-option__tag {
+.recharge-page .recharge-option__tag {
   @apply absolute -top-px -right-px px-1.5 py-0.5 text-[10px] text-white bg-[#ff4d4f] rounded-bl-lg rounded-tr-lg;
 }
-.recharge-option__amount {
+.recharge-page .recharge-option__amount {
   @apply text-xl font-extrabold text-[#333];
 }
-.recharge-option__amount small {
+.recharge-page .recharge-option__amount small {
   @apply text-xs font-medium text-[#666] ml-0.5;
 }
-.recharge-option__price {
+.recharge-page .recharge-option__price {
   @apply text-xs text-[#999] mt-1 font-medium;
 }
-.recharge-option--custom {
+.recharge-page .recharge-option--custom {
   @apply flex-row gap-2 px-3;
 }
-.recharge-option--custom input {
+.recharge-page .recharge-option--custom input {
   @apply w-20 h-8 text-right text-sm font-bold border border-gray-200 rounded-lg px-2 outline-none focus:border-[#ff4d4f] focus:shadow-[0_0_0_3px_rgba(255,77,79,0.1)];
 }
-.recharge-option--custom.recharge-option--active input {
+.recharge-page .recharge-option--custom.recharge-option--active input {
   @apply border-[#ff4d4f];
 }
-.recharge-option__unit {
+.recharge-page .recharge-option__unit {
   @apply text-sm text-[#333];
 }
-.recharge-methods {
+.recharge-page .recharge-methods {
   @apply flex gap-3;
 }
-.recharge-method {
+.recharge-page .recharge-method {
   @apply h-11 px-4 flex items-center gap-2.5 border border-gray-200 rounded-xl text-sm text-[#333] cursor-pointer transition-all hover:border-[#ff4d4f] hover:bg-[#fff5f5];
 }
-.recharge-method--active {
+.recharge-page .recharge-method--active {
   @apply border-[#ff4d4f] bg-[#fff5f5] font-semibold;
 }
-.recharge-method__icon {
+.recharge-page .recharge-method__icon {
   @apply w-6 h-6;
 }
-.recharge-payable {
+.recharge-page .recharge-payable {
   @apply flex items-baseline gap-1;
 }
-.recharge-payable__amount {
+.recharge-page .recharge-payable__amount {
   @apply text-3xl text-[#ff4d4f] font-extrabold tracking-tight;
 }
-.recharge-payable__unit {
+.recharge-page .recharge-payable__unit {
   @apply text-sm text-[#333] font-medium;
 }
-.recharge-submit {
+.recharge-page .recharge-submit {
   @apply h-12 px-10 rounded-xl bg-[#ff4d4f] text-white text-base font-bold border-0 cursor-pointer shadow-[0_8px_20px_rgba(255,77,79,0.3)] hover:bg-[#ff7875] hover:shadow-[0_10px_24px_rgba(255,77,79,0.38)] transition-all;
 }
-.recharge-reward {
+.recharge-page .recharge-reward {
   @apply mt-6 p-5 flex items-center gap-4 bg-[#fff8e8] border border-[#ffe4a1] rounded-xl;
 }
-.recharge-reward__icon {
+.recharge-page .recharge-reward__icon {
   @apply w-12 h-12 shrink-0 drop-shadow-[0_4px_8px_rgba(212,160,23,0.2)];
 }
-.recharge-reward__text {
+.recharge-page .recharge-reward__text {
   @apply text-sm text-[#d4a017] font-medium;
 }
-.recharge-reward__badge {
+.recharge-page .recharge-reward__badge {
   @apply inline-flex w-4 h-4 items-center justify-center rounded-full bg-[#d4a017] text-white text-xs font-bold mr-1;
 }
-.recharge-reward__desc {
+.recharge-page .recharge-reward__desc {
   @apply mt-1 text-xs text-[#b8860b];
 }
 @media (max-width: 768px) {
-  .recharge-main {
+  .recharge-page .recharge-main {
     @apply w-full mt-4 px-4 flex-col;
   }
-  .recharge-sidebar {
+  .recharge-page .recharge-sidebar {
     @apply w-full;
   }
-  .recharge-content {
+  .recharge-page .recharge-content {
     @apply p-4;
   }
-  .recharge-row {
+  .recharge-page .recharge-row {
     @apply flex-col gap-2;
   }
-  .recharge-options {
+  .recharge-page .recharge-options {
     @apply w-full;
   }
-  .recharge-option {
+  .recharge-page .recharge-option {
     @apply flex-1 min-w-[100px];
   }
 }

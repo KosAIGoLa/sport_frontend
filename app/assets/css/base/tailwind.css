@@ -37,3 +37,12 @@
     background: rgba(243, 182, 31, 0.28);
   }
 }
+
+/* 跨页面共用工具类（勿放在 pages/*.css，避免 SPA 串页） */
+@layer utilities {
+  .ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}

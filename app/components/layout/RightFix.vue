@@ -8,9 +8,10 @@
       <a class="code group flex flex-col items-center justify-center mb-2.5 bg-white border border-[#dadada] rounded-lg text-[#999] px-2.5 no-underline relative hover:text-[#f8c21b] hover:border-[#f8c21b]">
         <img class="w-5 h-5 mt-2 mb-2" src="/assets/icons/icon-code.png" alt="">
         <div class="mb-2 text-xs align-middle">下载APP</div>
-        <div class="hidden fixed bottom-[238px] right-[100px] w-[140px] px-5 py-2.5 bg-white shadow-[0_3px_10px_0_rgba(43,58,73,0.1)] rounded-md text-center group-hover:block">
-          <p class="mb-2.5 text-xs text-[#333]">扫码下载 857直播</p>
-          <img class="mx-auto w-[100px] h-[100px]" src="/assets/ui/code.png" alt="logo">
+        <!-- 扫码浮层：定宽 140 + 左右 20 padding，与原站 sao-code 一致 -->
+        <div class="sao-code hidden group-hover:block">
+          <p>扫码下载 857直播</p>
+          <img src="/assets/ui/code.png" alt="logo">
         </div>
       </a>
       <a class="feedback flex flex-col items-center justify-center mb-2.5 bg-white border border-[#dadada] rounded-lg text-[#999] px-2.5 no-underline relative hover:text-[#f8c21b] hover:border-[#f8c21b]" href="javascript:;" @click.prevent="handleFeedback">
@@ -50,4 +51,19 @@ function scrollToTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 </script>
+
+<style scoped>
+/* 右侧「下载APP」扫码弹窗，对齐原站 .sao-code */
+.sao-code {
+  @apply fixed bottom-[238px] right-[100px] z-[100] w-[140px] box-border
+    px-5 py-2.5 bg-white rounded-md text-center
+    shadow-[0_3px_10px_0_rgba(43,58,73,0.1)];
+}
+.sao-code p {
+  @apply m-0 mb-2.5 text-xs leading-none text-[#333] whitespace-nowrap;
+}
+.sao-code img {
+  @apply mx-auto block w-[100px] h-[100px];
+}
+</style>
 

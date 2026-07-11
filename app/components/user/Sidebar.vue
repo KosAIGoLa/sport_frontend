@@ -1,6 +1,6 @@
 <template>
   <aside class="user-sidebar">
-    <nav class="user-menu">
+    <nav class="user-sidebar-nav">
       <a
         v-for="item in menu"
         :key="item.key"

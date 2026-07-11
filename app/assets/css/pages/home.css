@@ -1,25 +1,6 @@
-/* homepage shell styles */
+/* scoped under .index-wrapper — prevent SPA cross-page style leakage */
+/* homepage shell styles（不再写 body/* 全局选择器，避免 SPA 串页污染） */
 
-body {
-  @apply font-sans antialiased;
-}
-* {
-  @apply box-border;
-}
-a {
-  @apply text-inherit;
-}
-ul,
-ol,
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  @apply m-0 p-0;
-}
 .index-wrapper {
   @apply min-h-screen overflow-x-hidden pb-8;
 }
@@ -27,10 +8,7 @@ h6 {
   @apply pt-0;
 }
 @media (max-width: 768px) {
-  body {
-    background: #f4f6fa;
-  }
   .index-wrapper {
-    @apply pb-[152px];
+    @apply pb-[152px] bg-[#f4f6fa];
   }
 }

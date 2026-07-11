@@ -2,7 +2,7 @@
   <div class="user-profile-card">
     <div class="user-profile-left">
       <img
-        class="user-avatar"
+        class="user-profile-avatar"
         :src="avatar"
         alt="avatar"
         @error="e => e.target.src = '/assets/avatars/frog-avatar.png'"

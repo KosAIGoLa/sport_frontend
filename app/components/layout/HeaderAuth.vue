@@ -199,11 +199,25 @@ defineEmits(['login', 'logout'])
 .header-auth__concern:hover .header-auth__submenu {
   @apply block;
 }
+/* 四边 border 三角：贴住下拉弹窗顶部 */
 .header-auth__submenu::before {
-  @apply content-[''] absolute top-[2px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[8px] border-r-[8px] border-b-[8px] border-l-transparent border-r-transparent border-b-white;
+  content: '';
+  display: block;
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  transform: translateX(-50%);
+  border: 8px solid transparent;
+  border-bottom-color: #fff;
 }
 .header-auth__submenu--right::before {
-  @apply left-auto right-10 -translate-x-0;
+  left: auto;
+  right: 40px;
+  transform: none;
 }
 .header-auth__box {
   @apply relative w-[360px] p-0 overflow-hidden bg-white/[0.96] border-0 rounded-[14px] shadow-[0_22px_60px_rgba(15,23,42,0.14)] text-[#333];
