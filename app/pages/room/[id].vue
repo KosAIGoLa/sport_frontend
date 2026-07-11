@@ -136,67 +136,13 @@
               {{ t('page.rank') }}
             </button>
           </DesktopOnly>
-          <div v-show="activeChatTab === 'chat'" ref="chatListRef" class="chat-list">
-            <div class="chat-topic">
-              <span class="topic-dot"></span>
-              {{ t('page.liveInteraction') }}
-            </div>
-            <div
-              v-for="(item, idx) in chatMessages"
-              :key="idx"
-              class="chat-msg"
-              :class="{ self: item.self, [`chat-lv-${item.lv}`]: item.lv }"
-            >
-              <img class="msg-avatar" :src="item.self ? roomInfo.avatar : '/assets/avatar.png'" alt="">
-              <div class="msg-content">
-                <div class="msg-head">
-                  <span class="msg-name">{{ item.name }}</span>
-                  <span v-if="item.name.includes('助理') || item.assistant" class="assistant-badge">{{ t('page.assistant') }}</span>
-                  <span class="msg-lv" :class="`lv-${item.lv}`">{{ item.name.includes('助理') || item.assistant ? t('page.assistant') : t('page.level') + item.lv }}</span>
-                  <span class="msg-time">{{ item.time || t('page.justNow') }}</span>
-                </div>
-                <div v-if="item.type === 'announcement'" class="announcement-card">
-                  <div class="announcement-icon">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                  </div>
-                  <div class="announcement-info">
-                    <div class="announcement-title">{{ item.title || t('page.adminNotice') }}</div>
-                    <div class="announcement-text">{{ item.text }}</div>
-                  </div>
-                </div>
-                <a v-else-if="item.type === 'activity'" class="activity-card" :href="safeLink(item.link)" target="_blank" rel="noopener noreferrer">
-                  <div class="activity-icon">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-                  </div>
-                  <div class="activity-info">
-                    <div class="activity-title">{{ item.title || t('page.activity') }}</div>
-                    <div class="activity-text">{{ item.text }}</div>
-                    <div class="activity-link">{{ item.linkText || t('page.participate') }} →</div>
-                  </div>
-                </a>
-                <div v-else-if="item.type === 'redpacket'" class="redpacket-card" :class="{ opened: item.opened }" @click="openRedPacket(item)">
-                  <div class="redpacket-icon">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 6h-2.18c.11-.31.18-.65.18-1a2.996 2.996 0 0 0-5.5-1.65l-.5.67-.5-.68C10.96 2.18 9.54 1.85 8.35 2.29 7.11 2.75 6.25 3.88 6.05 5.2 6.02 5.43 6 5.66 6 6H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-13 5c-1.11 0-2-.89-2-2s.89-2 2-2 2 .89 2 2-.89 2-2 2zm6 7c-2.21 0-4-1.79-4-4h2c0 1.1.9 2 2 2s2-.9 2-2h2c0 2.21-1.79 4-4 4z"/></svg>
-                  </div>
-                  <div class="redpacket-info">
-                    <div class="redpacket-title">{{ item.text }}</div>
-                    <div class="redpacket-label">{{ item.opened ? t('page.opened') : t('page.grabRedPacket') }}</div>
-                  </div>
-                </div>
-                <div v-else-if="item.type === 'entry'" class="entry-card" :class="`entry-lv-${item.lv}`">
-                  <span class="entry-icon">{{ entryIcon(item.lv) }}</span>
-                  <span class="entry-text">{{ item.name }} {{ item.text }}</span>
-                </div>
-                <div v-else-if="item.type === 'image'" class="msg-image-card">
-                  <img :src="item.image" alt="">
-                  <div v-if="item.text" class="msg-image-text">{{ item.text }}</div>
-                </div>
-                <div v-else class="msg-bubble">
-                  <div class="msg-text">{{ item.text }}</div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <RoomImChat
+            v-show="activeChatTab === 'chat'"
+            ref="imChatRef"
+            :messages="chatMessages"
+            :self-avatar="roomInfo.avatar"
+            @open-red-packet="openRedPacket"
+          />
           <div v-show="activeChatTab === 'rank'" class="rank-list">
             <div class="rank-header">
               <span>🏆 {{ t('page.rankTitle') }}</span>
@@ -512,18 +458,11 @@ const levelStats = computed(() => {
     .sort((a, b) => b.lv - a.lv)
 })
 
-const chatListRef = ref(null)
-
-function scrollChatToBottom() {
-  nextTick(() => {
-    const list = chatListRef.value
-    if (list) list.scrollTop = list.scrollHeight
-  })
-}
+const imChatRef = ref(null)
 
 function pushChatMessage(message) {
   chatMessages.value.push(message)
-  scrollChatToBottom()
+  imChatRef.value?.scrollToBottom()
 }
 
 function spawnGiftEffects({ count, delay, minDuration, durationRange, minScale, scaleRange, leftMin, leftMax, text, icon }) {
@@ -602,11 +541,6 @@ function sendImage() {
   })
 }
 
-function entryIcon(lv) {
-  const map = { 1: '🌱', 2: '🌟', 3: '💎', 4: '🚀', 5: '👑', 6: '💜', 7: '🌹', 8: '🔥' }
-  return map[lv] || '✨'
-}
-
 function liveStatusText(status) {
   if (status === '直播') return t('page.live')
   if (status === '动画') return t('page.animation')
@@ -615,16 +549,6 @@ function liveStatusText(status) {
 
 function scheduleStatusText(date) {
   return date === '今天' ? t('page.startingSoon') : t('page.waitingToLive')
-}
-
-function safeLink(link) {
-  if (!link) return 'javascript:;'
-  try {
-    const url = new URL(link)
-    return url.protocol === 'http:' || url.protocol === 'https:' ? link : 'javascript:;'
-  } catch {
-    return 'javascript:;'
-  }
 }
 
 function openRedPacket(item) {
