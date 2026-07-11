@@ -127,7 +127,7 @@ Local preview: `http://localhost:3000`
 
 ## Page Preview
 
-![Home Preview](./screen/img.png)
+![Home Preview](./screen/img_2.png)
 
 ![Match Detail Preview](./screen/img_1.png)
 
