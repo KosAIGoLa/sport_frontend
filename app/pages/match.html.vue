@@ -79,10 +79,11 @@
 
     <SiteFooter />
 
-    <LoginModal
+    <LazyLoginModal
+      v-if="loginVisible"
       v-model:visible="loginVisible"
       :type="loginType"
-      @success="handleLogin(); loginVisible = false"
+      @success="handleLogin"
     />
     <MobileStickyBar active-tab="schedule" hide-ad @login="openLogin" />
   </div>
@@ -99,9 +100,14 @@ useHead(() => ({
 }))
 const route = useRoute()
 const activeDay = ref(0)
-const { isLoggedIn, login: handleLogin, logout: handleLogout } = useAuth()
-const loginVisible = ref(false)
-const loginType = ref('login')
+const {
+  isLoggedIn,
+  loginVisible,
+  loginType,
+  openLogin,
+  handleLogin,
+  handleLogout
+} = useLoginModal()
 
 const matchTab = computed(() => {
   const tab = typeof route.query.tab === 'string' ? route.query.tab : ''
@@ -306,10 +312,6 @@ const matches = [
   }
 ]
 
-function openLogin(type) {
-  loginType.value = type
-  loginVisible.value = true
-}
 
 function statusText(status) {
   if (status === '开始') return t('page.statusStarted')

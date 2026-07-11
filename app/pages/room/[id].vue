@@ -404,13 +404,8 @@
 </template>
 
 <script setup>
-import Player from 'xgplayer'
-import Danmu from 'xgplayer/es/plugins/danmu/index.js'
-import FlvPlugin from 'xgplayer-flv'
 const { t } = useI18n()
-import 'xgplayer/dist/index.min.css'
-import 'xgplayer/es/plugins/danmu/index.css'
-const TEST_STREAM_URL = 'https://hwplay.zoxo5.com/live/66210_1783707587.flv?auth_key=1783721091-0-0-99f8e337138da7eb73dd3203845ec9cb'
+const TEST_STREAM_URL = 'https://hwplay.zoxo5.com/live/245090_1783733418.flv?auth_key=1783751112-0-0-dc1dfac32fff622c05a33be48a665a54'
 const PROXY_STREAM_URL = `/api/proxy?url=${encodeURIComponent(TEST_STREAM_URL)}`
 
 const route = useRoute()
@@ -423,15 +418,14 @@ const pageTitle = computed(() => `${t('page.titleRoom')} ${roomId.value}`)
 useHead(() => ({
   title: pageTitle.value
 }))
-const { isLoggedIn, login: handleLogin, logout: handleLogout } = useAuth()
-const loginVisible = ref(false)
-const loginType = ref('login')
-const isMuted = ref(true)
-
-function openLogin(type) {
-  loginType.value = type
-  loginVisible.value = true
-}
+const {
+  isLoggedIn,
+  loginVisible,
+  loginType,
+  openLogin,
+  handleLogin,
+  handleLogout
+} = useLoginModal()
 
 function setMobilePanel(panel) {
   activeMobilePanel.value = panel
@@ -644,12 +638,6 @@ function openRedPacket(item) {
   })
 }
 
-function unmuteVideo() {
-  if (!player) return
-  player.muted = false
-  if (player.paused) player.play()
-}
-
 function createRoomDanmuComments() {
   const baseStyle = {
     color: '#ffffff',
@@ -690,19 +678,15 @@ function createRoomDanmuComments() {
   return comments
 }
 
-let player = null
-onMounted(() => {
-  if (route.query.vt) {
-    const query = { ...route.query }
-    delete query.vt
-    const queryString = Object.keys(query).length ? '?' + new URLSearchParams(query).toString() : ''
-    window.history.replaceState(null, '', route.path + queryString)
-  }
-  player = new Player({
-    id: 'xgplayer-container',
+const {
+  isMuted,
+  init: initRoomPlayer,
+  unmute: unmuteVideo
+} = useXgPlayer({
+  containerId: 'xgplayer-container',
+  getConfig: () => ({
     url: PROXY_STREAM_URL,
     poster: '/assets/covers/main-poster-bright.png',
-    plugins: [FlvPlugin, Danmu],
     width: '100%',
     height: '100%',
     autoplay: true,
@@ -720,7 +704,7 @@ onMounted(() => {
     rotate: false,
     download: false,
     keyShortcut: 'off',
-    ignores: ['definition', 'test', 'volume', 'replay'],
+    ignores: ['definition', 'test', 'replay'],
     danmu: {
       comments: createRoomDanmuComments(),
       defaultOpen: true,
@@ -728,28 +712,21 @@ onMounted(() => {
       panel: false,
       opacity: 1,
       fontSize: 15,
-      area: {
-        start: 0.08,
-        end: 0.76
-      },
+      area: { start: 0.08, end: 0.76 },
       mouseControl: false,
-      switchConfig: {
-        position: 'controlsRight',
-        index: 5
-      }
+      switchConfig: { position: 'controlsRight', index: 5 }
     }
-  })
-  player.muted = true
-  player.on('volumechange', () => {
-    isMuted.value = player.muted
   })
 })
 
-onUnmounted(() => {
-  if (player) {
-    player.destroy()
-    player = null
+onMounted(() => {
+  if (route.query.vt) {
+    const query = { ...route.query }
+    delete query.vt
+    const queryString = Object.keys(query).length ? '?' + new URLSearchParams(query).toString() : ''
+    window.history.replaceState(null, '', route.path + queryString)
   }
+  initRoomPlayer()
 })
 
 const scoreRows = [
@@ -914,31 +891,7 @@ const recommendedLives = [
 .xgplayer-container :deep(.xgplayer-controls .xgplayer-icon[data-state='active']) {
   background: rgba(255, 92, 76, 0.18);
 }
-.xgplayer-container :deep(.xgplayer-controls .danmu-icon) {
-  @apply min-w-[36px] h-9 px-2.5 rounded-full;
-}
-.xgplayer-container :deep(.xgplayer-controls .danmu-icon .xgplayer-icon) {
-  @apply flex items-center justify-center w-full h-full;
-}
-.xgplayer-container :deep(.xgplayer-controls .danmu-icon .danmu-switch-open) {
-  display: none;
-}
-.xgplayer-container :deep(.xgplayer-controls .danmu-icon .danmu-switch-closed) {
-  display: inline-flex;
-}
-.xgplayer-container :deep(.xgplayer-controls .danmu-icon[data-state='active'] .danmu-switch-open) {
-  display: inline-flex;
-}
-.xgplayer-container :deep(.xgplayer-controls .danmu-icon[data-state='active'] .danmu-switch-closed) {
-  display: none;
-}
-.xgplayer-container :deep(.xgplayer-controls .danmu-switch) {
-  @apply inline-flex items-center justify-center w-7 h-7 rounded-full border border-white/15 bg-white/10 text-white text-[13px] font-semibold;
-  backdrop-filter: blur(8px);
-}
-.xgplayer-container :deep(.xgplayer-controls .xgplayer-icon[data-state='active'] .danmu-switch) {
-  @apply border-[#ff8d82]/40 bg-[#ff5c4c]/20 text-white;
-}
+/* 弹幕开关样式见 assets/css/player-danmu.css */
 .xgplayer-container :deep(.xgplayer-controls .xgplayer-icon .xg-tips) {
   @apply text-[12px];
 }

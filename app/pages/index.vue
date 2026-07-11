@@ -6,36 +6,50 @@
       @logout="handleLogout"
     />
     <main>
+      <!-- 首屏关键：Header + Hero 同步加载 -->
       <HeroSection id="living-room" />
-      <AppointmentList id="schedule" />
-      <HotLives />
-      <HotAnchors />
-      <LiveCategory id="football-live" title-image="/assets/football-live.png" :title-alt="t('page.footballLive')" :lives="footballLives" />
-      <LiveCategory id="all-live" title-image="/assets/hot-live.png" :title-alt="t('page.allLive')" more-link="/liveType.html" :lives="allLives" />
+      <!-- 首屏下方：异步分包，降低初始 JS 解析成本 -->
+      <LazyAppointmentList id="schedule" />
+      <LazyHotLives />
+      <LazyHotAnchors />
+      <LazyLiveCategory id="football-live" title-image="/assets/football-live.png" :title-alt="t('page.footballLive')" :lives="footballLives" />
+      <LazyLiveCategory id="all-live" title-image="/assets/hot-live.png" :title-alt="t('page.allLive')" more-link="/liveType.html" :lives="allLives" />
     </main>
-    <RightFix :is-logged-in="isLoggedIn" @login="openLogin" />
+    <ClientOnly>
+      <LazyRightFix :is-logged-in="isLoggedIn" @login="openLogin" />
+    </ClientOnly>
     <SiteFooter />
-    <MobileStickyBar
+    <LazyMobileStickyBar
       :is-logged-in="isLoggedIn"
       @login="openLogin"
     />
-    <LoginModal
-      v-model:visible="loginVisible"
-      :type="loginType"
-      @success="handleLogin"
-    />
+    <ClientOnly>
+      <LazyLoginModal
+        v-if="loginVisible"
+        v-model:visible="loginVisible"
+        :type="loginType"
+        @success="handleLogin"
+      />
+    </ClientOnly>
   </div>
 </template>
 
 <script setup>
-const { t, locale } = useI18n()
+const { t } = useI18n()
 useHead(() => ({
   title: t('page.titleHome')
 }))
-const { isLoggedIn, login: handleLogin, logout: handleLogout } = useAuth()
-const loginVisible = ref(false)
-const loginType = ref('login')
 
+const {
+  isLoggedIn,
+  loginVisible,
+  loginType,
+  openLogin,
+  handleLogin,
+  handleLogout
+} = useLoginModal()
+
+// 静态列表后续可抽到 server API / useAsyncData
 const footballLives = [
   { title: '欧青U19 乌克兰U19 VS 意大利U19', cover: 'https://sta.ncctrials.com/file/common/20260627/f41c9604ab224cf5c9daeaff94356933_wh320.jpg', avatar: 'https://sta.ncctrials.com/file/head/20240224/100ce75e32ce79c21e3baa33db3c9220.jpg', anchor: '大熊', viewers: '5.35w', tag: '' },
   { title: '哈萨超 奥达巴斯 VS 乌利塔哲', cover: 'https://sta.ncctrials.com/file/common/20260303/774b2c98662ad80b7ac079e3662dc605_wh320.png', avatar: 'https://sta.ncctrials.com/file/head/20260228/1d35c871f0eae83d76dc1c6c7e30e174.jpg', anchor: '蓝狐', viewers: '5.16w', tag: '推荐' },
@@ -56,11 +70,6 @@ const allLives = [
   { title: '今日足篮大势分析', cover: 'https://sta.ncctrials.com/file/common/20230903/2e26b7c3627616ee952f2c64268762d8_wh320.jpg', avatar: 'https://sta.ncctrials.com/file/head/20230902/b6105a741b54f02e02fc3b707e0e45f9.jpg', anchor: '伊布', viewers: '1.80w', tag: '分析' },
   { title: '粉丝连麦互动分析', cover: 'https://sta.ncctrials.com/file/common/20260617/05cbb9832bf92bb680f116b1627b38fd_wh320.png', avatar: 'https://sta.ncctrials.com/file/head/20260505/ec8e8b84c119776b0cd89ee656926636.png', anchor: '蓝狐', viewers: '0.90w', tag: '分析' }
 ]
-
-function openLogin(type) {
-  loginType.value = type
-  loginVisible.value = true
-}
 </script>
 
 <style>

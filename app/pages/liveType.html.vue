@@ -13,10 +13,11 @@
       />
     </main>
     <SiteFooter />
-    <LoginModal
+    <LazyLoginModal
+      v-if="loginVisible"
       v-model:visible="loginVisible"
       :type="loginType"
-      @success="handleLogin(); loginVisible = false"
+      @success="handleLogin"
     />
     <MobileStickyBar :is-logged-in="isLoggedIn" active-tab="live" @login="openLogin" />
   </div>
@@ -31,9 +32,14 @@ const { t } = useI18n()
 useHead(() => ({
   title: t('page.titleLive')
 }))
-const { isLoggedIn, login: handleLogin, logout: handleLogout } = useAuth()
-const loginVisible = ref(false)
-const loginType = ref('login')
+const {
+  isLoggedIn,
+  loginVisible,
+  loginType,
+  openLogin,
+  handleLogin,
+  handleLogout
+} = useLoginModal()
 const route = useRoute()
 const isMobileView = ref(false)
 
@@ -55,11 +61,6 @@ onMounted(() => {
   window.addEventListener('resize', updateViewport, { passive: true })
   onBeforeUnmount(() => window.removeEventListener('resize', updateViewport))
 })
-
-function openLogin(type) {
-  loginType.value = type
-  loginVisible.value = true
-}
 
 const allLives = [
   { title: '爱沙甲 潭美卡VS哈留足球学院', cover: 'https://sta.ncctrials.com/file/common/20251112/0ad9a7fd9d4860c0380a068d29e284db_wh320.jpg', avatar: 'https://sta.ncctrials.com/file/head/20240222/23a0fd3943d7d814ba5f46a3c316dd25.png', anchor: '司马老贼', viewers: '5.20w', tag: '足球' },

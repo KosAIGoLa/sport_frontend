@@ -50,14 +50,8 @@
 </template>
 
 <script setup>
-import Player from 'xgplayer'
-import 'xgplayer/dist/index.min.css'
-import 'xgplayer/es/plugins/danmu/index.css'
-import Danmu from 'xgplayer/es/plugins/danmu/index.js'
-import FlvPlugin from 'xgplayer-flv'
-
 const { t } = useI18n()
-const TEST_STREAM_URL = 'https://hwplay.zoxo5.com/live/66210_1783707587.flv?auth_key=1783721091-0-0-99f8e337138da7eb73dd3203845ec9cb'
+const TEST_STREAM_URL = 'https://hwplay.zoxo5.com/live/245090_1783733418.flv?auth_key=1783751112-0-0-dc1dfac32fff622c05a33be48a665a54'
 const PROXY_STREAM_URL = `/api/proxy?url=${encodeURIComponent(TEST_STREAM_URL)}`
 
 const rooms = [
@@ -68,8 +62,6 @@ const rooms = [
   { title: '世亚预 叙利亚 VS 伊朗', cover: '/assets/covers/hot5.jpg', poster: '/assets/covers/hot5.jpg', anchor: '高圆圆', viewers: '8.57w', roomId: '5435118' }
 ]
 const currentRoom = ref(0)
-const isLoading = ref(false)
-const isMuted = ref(true)
 const showEnterRoomButton = ref(true)
 
 function createDanmuComments(room, roomIndex) {
@@ -112,54 +104,49 @@ function createDanmuComments(room, roomIndex) {
   return comments
 }
 
-let player = null
-
-function initPlayer() {
-  if (player) {
-    player.destroy()
-    player = null
-  }
-  isLoading.value = true
-  player = new Player({
-    id: 'hero-xgplayer',
-    url: PROXY_STREAM_URL,
-    poster: rooms[currentRoom.value].poster,
-    plugins: [FlvPlugin, Danmu],
-    width: '100%',
-    height: '100%',
-    autoplay: true,
-    autoplayMuted: true,
-    playsinline: true,
-    cssFullscreen: true,
-    fluid: false,
-    fitVideoSize: 'cover',
-    lang: 'zh-cn',
-    controls: true,
-    controlsMode: 'bottom',
-    danmu: {
-      comments: createDanmuComments(rooms[currentRoom.value], currentRoom.value),
-      defaultOpen: true,
-      closeDefaultBtn: false,
-      panel: false,
-      opacity: 1,
-      fontSize: 16,
-      area: {
-        start: 0.08,
-        end: 0.74
-      },
-      mouseControl: false,
-      switchConfig: {
-        position: 'controlsRight',
-        index: 6
+const {
+  isMuted,
+  isLoading,
+  init: initPlayerCore,
+  unmute: unmuteVideo
+} = useXgPlayer({
+  containerId: 'hero-xgplayer',
+  getConfig: () => {
+    const room = rooms[currentRoom.value]
+    return {
+      url: PROXY_STREAM_URL,
+      poster: room.poster,
+      width: '100%',
+      height: '100%',
+      autoplay: true,
+      autoplayMuted: true,
+      playsinline: true,
+      cssFullscreen: true,
+      fluid: false,
+      fitVideoSize: 'cover',
+      lang: 'zh-cn',
+      controls: true,
+      controlsMode: 'bottom',
+      danmu: {
+        comments: createDanmuComments(room, currentRoom.value),
+        defaultOpen: true,
+        closeDefaultBtn: false,
+        panel: false,
+        opacity: 1,
+        fontSize: 16,
+        area: { start: 0.08, end: 0.74 },
+        mouseControl: false,
+        switchConfig: { position: 'controlsRight', index: 6 }
       }
     }
-  })
+  }
+})
+
+async function initPlayer() {
+  const player = await initPlayerCore()
+  if (!player) return
   player.on('play', () => {
-    isLoading.value = false
     showEnterRoomButton.value = false
-  })
-  player.on('canplay', () => {
-    isLoading.value = false
   })
   player.on('pause', () => {
     showEnterRoomButton.value = true
@@ -167,10 +154,7 @@ function initPlayer() {
   player.on('ended', () => {
     showEnterRoomButton.value = true
   })
-  player.muted = true
-  player.on('volumechange', () => {
-    isMuted.value = player.muted
-  })
+  // 兜底关闭 loading，避免流异常时一直转圈
   setTimeout(() => {
     isLoading.value = false
   }, 1200)
@@ -184,12 +168,6 @@ watch(currentRoom, () => {
   showEnterRoomButton.value = true
   initPlayer()
 })
-
-function unmuteVideo() {
-  if (!player) return
-  player.muted = false
-  if (player.paused) player.play()
-}
 
 function goRoom() {
   const roomId = rooms[currentRoom.value]?.roomId
@@ -298,31 +276,7 @@ function goRoom() {
 :deep(.xgplayer-controls .xgplayer-icon[data-state='active']) {
   background: rgba(255, 92, 76, 0.18);
 }
-:deep(.xgplayer-controls .danmu-icon) {
-  @apply min-w-[36px] h-9 px-2.5 rounded-full;
-}
-:deep(.xgplayer-controls .danmu-icon .xgplayer-icon) {
-  @apply flex items-center justify-center w-full h-full;
-}
-:deep(.xgplayer-controls .danmu-icon .danmu-switch-open) {
-  display: none;
-}
-:deep(.xgplayer-controls .danmu-icon .danmu-switch-closed) {
-  display: inline-flex;
-}
-:deep(.xgplayer-controls .danmu-icon[data-state='active'] .danmu-switch-open) {
-  display: inline-flex;
-}
-:deep(.xgplayer-controls .danmu-icon[data-state='active'] .danmu-switch-closed) {
-  display: none;
-}
-:deep(.xgplayer-controls .danmu-switch) {
-  @apply inline-flex items-center justify-center w-7 h-7 rounded-full border border-white/15 bg-white/10 text-white text-[13px] font-semibold;
-  backdrop-filter: blur(8px);
-}
-:deep(.xgplayer-controls .xgplayer-icon[data-state='active'] .danmu-switch) {
-  @apply border-[#ff8d82]/40 bg-[#ff5c4c]/20 text-white;
-}
+/* 弹幕开关样式见 assets/css/player-danmu.css */
 :deep(.xgplayer-controls .xgplayer-icon .xg-tips) {
   @apply text-[12px];
 }

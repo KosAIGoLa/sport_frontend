@@ -49,7 +49,11 @@ export default defineNuxtConfig({
       }
     }
   },
-  css: ['~/assets/css/tailwind.css', '~/assets/css/view-transitions.css'],
+  css: [
+    '~/assets/css/tailwind.css',
+    '~/assets/css/view-transitions.css',
+    '~/assets/css/player-danmu.css'
+  ],
   postcss: {
     plugins: {
       tailwindcss: {},
@@ -61,14 +65,26 @@ export default defineNuxtConfig({
   },
   vite: {
     optimizeDeps: {
+      // 开发态预构建，避免动态 import 触发页面 reload
       include: [
-        'xgplayer'
+        'xgplayer',
+        'xgplayer-flv',
+        'xgplayer/es/plugins/danmu/index.js'
       ]
     },
     build: {
       sourcemap: false,
       modulePreload: {
         polyfill: false
+      },
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules/xgplayer') || id.includes('node_modules/xgplayer-flv')) {
+              return 'xgplayer'
+            }
+          }
+        }
       }
     },
     plugins: fastBuild
