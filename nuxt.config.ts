@@ -10,15 +10,53 @@ const fastBuild = process.env.FAST_BUILD === '1'
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: false },
+  /**
+   * 组件目录约定：
+   * - layout / home / common / icon / auth / player：扁平命名（无前缀）
+   * - room / user / match / news / download / recharge：显式前缀（如 RoomPlayer）
+   */
+  components: [
+    { path: '~/components/layout', pathPrefix: false },
+    { path: '~/components/home', pathPrefix: false },
+    { path: '~/components/common', pathPrefix: false },
+    { path: '~/components/icon', pathPrefix: false },
+    { path: '~/components/auth', pathPrefix: false },
+    { path: '~/components/player', pathPrefix: false },
+    { path: '~/components/room', prefix: 'Room', pathPrefix: false },
+    { path: '~/components/user', prefix: 'User', pathPrefix: false },
+    { path: '~/components/match', prefix: 'Match', pathPrefix: false },
+    { path: '~/components/news', prefix: 'News', pathPrefix: false },
+    { path: '~/components/download', prefix: 'Download', pathPrefix: false },
+    { path: '~/components/recharge', prefix: 'Recharge', pathPrefix: false }
+  ],
+  /** 嵌套 composables 目录需显式扫描（auth / player / room / i18n / navigation） */
+  imports: {
+    dirs: [
+      'composables',
+      'composables/**'
+    ]
+  },
   experimental: {
-    viewTransition: true
+    // 启用 Nuxt 内置 View Transitions 插件
+    viewTransition: true,
+    // 避免 dev 时 Vite 解析失败：Failed to resolve import "#app-manifest"
+    appManifest: false
   },
   sourcemap: {
     server: false,
     client: false
   },
   app: {
-    pageTransition: { name: 'page', mode: 'out-in' },
+    /**
+     * 注意：app.viewTransition 会导出为 appViewTransition。
+     * 插件读取的是 defaultViewTransition.enabled，必须是对象形态。
+     * 'always' 忽略 prefers-reduced-motion，确保导览点击一定有过渡。
+     * 关闭 Vue pageTransition，避免与 View Transitions API 抢动画。
+     */
+    pageTransition: false,
+    viewTransition: {
+      enabled: 'always'
+    },
     buildAssetsDir: '/build-assets/',
     head: {
       meta: [
@@ -50,9 +88,9 @@ export default defineNuxtConfig({
     }
   },
   css: [
-    '~/assets/css/tailwind.css',
-    '~/assets/css/view-transitions.css',
-    '~/assets/css/player-danmu.css'
+    '~/assets/css/base/tailwind.css',
+    '~/assets/css/base/view-transitions.css',
+    '~/assets/css/base/player-danmu.css'
   ],
   postcss: {
     plugins: {

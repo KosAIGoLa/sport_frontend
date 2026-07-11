@@ -7,65 +7,36 @@ A clone of the 857 Live sports streaming platform built with Nuxt 4 + Vue 3.
 ```
 857zb92/
 ├── app/
-│   ├── components/                # Reusable Vue components
-│   │   ├── AppointmentList.vue    # Match booking carousel
-│   │   ├── Carousel.vue           # Generic horizontal carousel
-│   │   ├── DesktopOnly.vue        # Desktop-only visibility wrapper
-│   │   ├── EmptyState.vue         # Empty state placeholder
-│   │   ├── EmptyTableRow.vue      # Empty table row placeholder
-│   │   ├── FormInput.vue          # Form input
-│   │   ├── HeaderAuth.vue         # Header auth / user follow panel
-│   │   ├── HeroSection.vue        # Hero live area
-│   │   ├── HotAnchors.vue         # Popular anchors carousel
-│   │   ├── HotLives.vue           # Popular live cards
-│   │   ├── Icon.vue               # SVG icon component
-│   │   ├── IconEgg.vue            # Egg asset icon
-│   │   ├── IconFollow.vue         # Follow / heart icon
-│   │   ├── IconHistory.vue        # History icon
-│   │   ├── IconLiver.vue          # Liver asset icon
-│   │   ├── LiveCard.vue           # Generic live card
-│   │   ├── LiveCategory.vue       # Categorized live list
-│   │   ├── LoginModal.vue         # Login / register modal
-│   │   ├── MobileFollowPanel.vue  # Mobile follow panel
-│   │   ├── MobileOnly.vue         # Mobile-only visibility wrapper
-│   │   ├── MobileStickyBar.vue    # Mobile bottom navigation bar
-│   │   ├── PageHeader.vue         # Page header with back button
-│   │   ├── RightFix.vue           # Right-side fixed toolbar
-│   │   ├── RoomImChat.vue         # Live room IM chat panel
-│   │   ├── SiteFooter.vue         # Footer
-│   │   ├── SiteHeader.vue         # Top navigation
-│   │   ├── SocialLogin.vue        # Third-party login
-│   │   ├── UserAvatar.vue         # User avatar
-│   │   ├── UserAvatarWithMenu.vue # User avatar with dropdown menu
-│   │   ├── UserMenu.vue           # User dropdown menu
-│   │   ├── WatchHistoryPanel.vue  # Watch history panel
-│   │   └── XgPlayer.vue           # Video player wrapper
-│   ├── composables/               # Auto-imported composables
-│   │   ├── useAuth.js             # Auth state
-│   │   ├── useI18n.js             # Lightweight i18n composable
-│   │   ├── useLoginModal.js       # Login modal controller
-│   │   └── useXgPlayer.js         # XgPlayer integration
-│   ├── locales/                   # Locale files
-│   │   ├── en-US.js
-│   │   └── zh-CN.js
+│   ├── components/                # Vue components (by domain)
+│   │   ├── layout/                # SiteHeader, Footer, Mobile*, RightFix…
+│   │   ├── home/                  # Hero, HotLives, HotAnchors…
+│   │   ├── common/                # Carousel, LiveCard, Empty*, DesktopOnly…
+│   │   ├── icon/ · auth/ · player/
+│   │   ├── room/ · user/ · match/ · news/ · download/ · recharge/
+│   ├── composables/               # Auto-imported (nested dirs scanned)
+│   │   ├── auth/                  # useAuth, useLoginModal
+│   │   ├── i18n/                  # useI18n
+│   │   ├── player/                # useXgPlayer
+│   │   └── room/                  # useRoomGifts
+│   ├── data/                      # Mock / static page data
+│   ├── layouts/                   # default · catalog · blank
+│   ├── locales/                   # zh-CN · en-US
 │   ├── pages/                     # Routes
-│   │   ├── index.vue              # Homepage
-│   │   ├── liveType.html.vue      # Live type/category page
-│   │   ├── match.html.vue         # Match detail page
-│   │   ├── news.html.vue          # News page
-│   │   ├── recharge.html.vue      # Recharge page
-│   │   ├── download.vue           # Download page
-│   │   ├── room/
-│   │   │   └── [id].vue           # Live room page
-│   │   └── user.html.vue          # User center page
-│   ├── app.vue                    # App entry
-│   └── assets/css/                # Global styles
-├── public/                        # Static assets
-├── nuxt.config.ts                 # Nuxt config
+│   ├── assets/css/
+│   │   ├── base/                  # tailwind, view-transitions, player-danmu
+│   │   └── pages/                 # home, room, user, match…
+│   └── app.vue
+├── public/assets/                 # Static media (by type)
+│   ├── logos/ · icons/ · brand/ · ui/
+│   ├── avatars/ · banners/ · media/
+│   └── covers/ · anchors/ · teams/
+├── server/api/proxy/              # Stream proxy
+├── design/screenshots/            # Local design dumps (gitignored)
+├── nuxt.config.ts
 ├── package.json
 ├── tailwind.config.js
 ├── tsconfig.json
-├── LICENSE                        # License
+├── LICENSE
 └── README.md
 ```
 

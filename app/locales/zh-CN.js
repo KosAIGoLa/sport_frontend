@@ -59,6 +59,7 @@ export default {
     liveStream: '赛事直播'
   },
   page: {
+    anchorNotice: '主播公告',
     today: '今天',
     liveCenterTitle: '全部直播',
     liveCenterSubtitle: '精选赛事直播间，热门主播实时开播',
@@ -136,6 +137,8 @@ export default {
     titleSchedule: '赛程',
     titleRoom: '直播间',
     titleUserCenter: '个人中心',
-    titleDownload: '下载 857 直播 APP'
+    titleDownload: '下载 857 直播 APP',
+    titleNews: '新闻',
+    titleRecharge: '鹅肝充值'
   }
 }

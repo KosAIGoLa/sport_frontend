@@ -59,6 +59,7 @@ export default {
     liveStream: 'Live Match'
   },
   page: {
+    anchorNotice: 'Anchor Notice',
     today: 'Today',
     liveCenterTitle: 'All Live',
     liveCenterSubtitle: 'Selected live rooms and popular streamers',
@@ -136,6 +137,8 @@ export default {
     titleSchedule: 'Schedule',
     titleRoom: 'Live Room',
     titleUserCenter: 'User Center',
-    titleDownload: 'Download 857 Live APP'
+    titleDownload: 'Download 857 Live APP',
+    titleNews: 'News',
+    titleRecharge: 'Recharge'
   }
 }

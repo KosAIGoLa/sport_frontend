@@ -2,10 +2,12 @@
   <div class="app-root">
     <!-- 语系未就绪：不渲染页面，避免露出 t() key -->
     <div v-if="!isReady" class="locale-boot" aria-busy="true" aria-live="polite">
-      <img class="locale-boot__spin" src="/assets/loading.png" alt="">
-      <img class="locale-boot__logo" src="/assets/loading-logo.png" alt="">
+      <img class="locale-boot__spin" src="/assets/ui/loading.png" alt="">
+      <img class="locale-boot__logo" src="/assets/ui/loading-logo.png" alt="">
     </div>
-    <NuxtPage v-else />
+    <NuxtLayout v-else>
+      <NuxtPage />
+    </NuxtLayout>
   </div>
 </template>
 

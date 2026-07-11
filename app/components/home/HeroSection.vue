@@ -1,0 +1,458 @@
+<template>
+  <section class="living-room">
+    <div class="hero-effects" aria-hidden="true">
+      <span v-for="i in 16" :key="i" class="hero-particle" :class="`particle-${i}`"></span>
+    </div>
+    <div class="video-inner inner">
+      <div class="video-box">
+        <div class="hero-status">
+          <span class="live-dot"></span> {{ t('common.liveNow') }}
+        </div>
+        <div class="hero-meta">
+          <div>
+            <span class="meta-label">{{ t('common.liveStream') }}</span>
+            <strong>{{ rooms[currentRoom].title }}</strong>
+          </div>
+          <span class="meta-count">{{ rooms[currentRoom].viewers }}{{ t('common.watching') }}</span>
+        </div>
+        <div class="video-player">
+          <XgPlayer
+            ref="playerRef"
+            container-id="hero-xgplayer"
+            :config="playerConfig"
+            :reload-key="currentRoom"
+            @play="showEnterRoomButton = false"
+            @pause="showEnterRoomButton = true"
+            @ended="showEnterRoomButton = true"
+            @muted-change="isMuted = $event"
+            @loading-change="isLoading = $event"
+          />
+          <div class="video-mask"></div>
+          <div v-if="isLoading" class="loading" id="videoLoading">
+            <img class="imgRotate" src="/assets/ui/loading.png" alt="">
+            <img class="loading-logo" src="/assets/ui/loading-logo.png" alt="">
+            <p>{{ t('common.loading') }}</p>
+          </div>
+        </div>
+        <div v-if="showEnterRoomButton" class="inLiveRoom" role="button" tabindex="0" @click="goRoom" @keydown.enter.prevent="goRoom">{{ t('common.enterLiveRoom') }}</div>
+        <div v-if="isMuted" class="unmute-btn" role="button" tabindex="0" @click="playerRef?.unmute()" @keydown.enter.prevent="playerRef?.unmute()">{{ t('common.unmute') }}</div>
+        <div class="live-title" aria-hidden="true">
+          <img class="live-cover" :src="rooms[currentRoom].cover" alt="">
+          <div class="info">
+            <h4>{{ rooms[currentRoom].title }}</h4>
+            <p>{{ rooms[currentRoom].anchor }} · {{ rooms[currentRoom].viewers }}</p>
+          </div>
+        </div>
+      </div>
+      <aside class="hero-side-tabs" aria-label="推荐直播">
+        <ul class="hero-side-tabs__list">
+          <li
+            v-for="(room, idx) in rooms"
+            :key="idx"
+            class="hero-side-tabs__item"
+            :class="{ 'is-active': currentRoom === idx }"
+            @click="currentRoom = idx"
+          >
+            <button type="button" class="hero-side-tabs__btn">
+              <img :src="room.cover" :alt="room.title">
+              <span class="hero-side-tabs__title">{{ room.title }}</span>
+            </button>
+            <span v-if="currentRoom === idx" class="hero-side-tabs__arrow" aria-hidden="true"></span>
+          </li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+</template>
+
+<script setup>
+const { t } = useI18n()
+const TEST_STREAM_URL = 'https://hwplay.zoxo5.com/live/245090_1783733418.flv?auth_key=1783751112-0-0-dc1dfac32fff622c05a33be48a665a54'
+const PROXY_STREAM_URL = `/api/proxy?url=${encodeURIComponent(TEST_STREAM_URL)}`
+
+const rooms = [
+  { title: '🔥世欧预  丹麦  VS  乌克兰', cover: '/assets/covers/hot1.png', poster: '/assets/covers/main-poster-bright.png', anchor: '初六', viewers: '5.39w', roomId: '3150351' },
+  { title: '瑞典超 埃尔夫斯堡VS哈马比', cover: '/assets/covers/hot2.jpg', poster: '/assets/covers/hot2.jpg', anchor: '评述员阿虎', viewers: '9.63w', roomId: '506605' },
+  { title: '拉脱超：格洛比纳vs图库姆斯', cover: '/assets/covers/cover3.png', poster: '/assets/covers/cover3.png', anchor: '都教授', viewers: '8.38w', roomId: '896956' },
+  { title: '〖瑞典超〗埃尔夫斯堡 ▲ 哈马比', cover: '/assets/covers/cover1.jpg', poster: '/assets/covers/cover1.jpg', anchor: '八💥佰', viewers: '11.54w', roomId: '308116' },
+  { title: '世亚预 叙利亚 VS 伊朗', cover: '/assets/covers/hot5.jpg', poster: '/assets/covers/hot5.jpg', anchor: '高圆圆', viewers: '8.57w', roomId: '5435118' }
+]
+const currentRoom = ref(0)
+const showEnterRoomButton = ref(true)
+
+function createDanmuComments(room, roomIndex) {
+  const baseStyle = {
+    color: '#ffffff',
+    fontSize: '16px',
+    textShadow: '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 1px 4px rgba(0,0,0,0.8)'
+  }
+
+  const messages = [
+    `⚽ ${room.anchor} 开播了，今天重点讲讲战术`,
+    `🔥 ${room.title} 这节奏看着真过瘾`,
+    `👀 在线 ${room.viewers}，聊天室很热`,
+    '💪 主队这开场压迫给得足',
+    '📣 主播继续，节奏别断',
+    '⚡ 这波反击打得漂亮',
+    '🧤 门将这波扑救可以',
+    '🔄 下半场应该会变阵',
+    '🤔 裁判这判罚有点争议',
+    '✨ 前场配合越来越顺了',
+    '🎯 期待一个绝杀',
+    '🎙️ 这解说比官方频道带劲'
+  ]
+
+  const comments = []
+  const totalRounds = 5
+  for (let round = 0; round < totalRounds; round++) {
+    messages.forEach((txt, idx) => {
+      const globalIdx = round * messages.length + idx
+      comments.push({
+        id: `${roomIndex}-${globalIdx + 1}`,
+        start: globalIdx * 1000 + round * 200,
+        duration: 10000 + (idx % 4) * 1500,
+        txt,
+        style: baseStyle,
+        mode: idx % 5 === 2 ? 'top' : idx % 5 === 4 ? 'bottom' : 'scroll'
+      })
+    })
+  }
+  return comments
+}
+
+const playerRef = ref(null)
+const isMuted = ref(true)
+const isLoading = ref(true)
+
+const playerConfig = computed(() => {
+    const room = rooms[currentRoom.value]
+    return {
+      url: PROXY_STREAM_URL,
+      poster: room.poster,
+      width: '100%',
+      height: '100%',
+      autoplay: true,
+      autoplayMuted: true,
+      playsinline: true,
+      cssFullscreen: true,
+      fluid: false,
+      fitVideoSize: 'cover',
+      lang: 'zh-cn',
+      controls: true,
+      controlsMode: 'bottom',
+      danmu: {
+        comments: createDanmuComments(room, currentRoom.value),
+        defaultOpen: true,
+        closeDefaultBtn: false,
+        panel: false,
+        opacity: 1,
+        fontSize: 16,
+        area: { start: 0.08, end: 0.74 },
+        mouseControl: false,
+        switchConfig: { position: 'controlsRight', index: 6 }
+      }
+    }
+})
+
+watch(currentRoom, () => {
+  showEnterRoomButton.value = true
+})
+
+const { armRoomCover, appNavigate } = useAppNavigate()
+
+async function goRoom() {
+  const roomId = rooms[currentRoom.value]?.roomId
+  if (!roomId) return
+  // 进入直播间前挂上共享元素 name（与 RoomPlayer 的 transitionName 对齐）
+  if (import.meta.client) {
+    const poster = document.querySelector('#hero-xgplayer video, #hero-xgplayer img, #hero-xgplayer .xgplayer')
+    armRoomCover(poster, roomId)
+  }
+  await appNavigate(`/room/${roomId}`)
+}
+</script>
+
+<style scoped>
+.living-room {
+  /*
+   * 首页顶栏为 fixed（floatingHeader），不占文档流。
+   * 高度 = 顶栏 72 + 上间距 20 + 播放器 507 + 下间距 20 = 619
+   */
+  @apply h-[619px] relative overflow-hidden bg-transparent;
+}
+.living-room::before {
+  @apply content-[''] absolute inset-0 pointer-events-none;
+  background: url('/assets/media/player-bg.png') center 40% / cover no-repeat;
+  animation: heroZoom 24s infinite alternate ease-in-out;
+}
+.living-room::after {
+  @apply content-[''] absolute inset-0 pointer-events-none;
+  background: radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.16), transparent 55%);
+}
+@keyframes heroZoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.08); }
+}
+@keyframes floatUp {
+  0% { transform: translateY(0) scale(0.6); opacity: 0; }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.6; }
+  100% { transform: translateY(-620px) scale(1.2); opacity: 0; }
+}
+.hero-effects {
+  @apply absolute inset-0 pointer-events-none overflow-hidden z-[0];
+}
+.hero-particle {
+  @apply absolute bottom-0 rounded-full pointer-events-none;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 215, 0, 0.6) 40%, transparent 80%);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+  animation: floatUp 12s infinite linear;
+}
+.hero-particle.particle-1 { left: 6%; width: 4px; height: 4px; animation-duration: 14s; animation-delay: 0s; }
+.hero-particle.particle-2 { left: 12%; width: 6px; height: 6px; animation-duration: 11s; animation-delay: 1.2s; }
+.hero-particle.particle-3 { left: 18%; width: 3px; height: 3px; animation-duration: 16s; animation-delay: 2.5s; }
+.hero-particle.particle-4 { left: 24%; width: 5px; height: 5px; animation-duration: 13s; animation-delay: 0.8s; }
+.hero-particle.particle-5 { left: 30%; width: 4px; height: 4px; animation-duration: 15s; animation-delay: 3.2s; }
+.hero-particle.particle-6 { left: 36%; width: 6px; height: 6px; animation-duration: 10s; animation-delay: 2s; }
+.hero-particle.particle-7 { left: 42%; width: 3px; height: 3px; animation-duration: 17s; animation-delay: 4.5s; }
+.hero-particle.particle-8 { left: 48%; width: 5px; height: 5px; animation-duration: 12s; animation-delay: 1.5s; }
+.hero-particle.particle-9 { left: 54%; width: 4px; height: 4px; animation-duration: 14s; animation-delay: 3.8s; }
+.hero-particle.particle-10 { left: 60%; width: 6px; height: 6px; animation-duration: 11s; animation-delay: 0.5s; }
+.hero-particle.particle-11 { left: 66%; width: 3px; height: 3px; animation-duration: 16s; animation-delay: 2.8s; }
+.hero-particle.particle-12 { left: 72%; width: 5px; height: 5px; animation-duration: 13s; animation-delay: 4s; }
+.hero-particle.particle-13 { left: 78%; width: 4px; height: 4px; animation-duration: 15s; animation-delay: 1s; }
+.hero-particle.particle-14 { left: 84%; width: 6px; height: 6px; animation-duration: 10s; animation-delay: 3.5s; }
+.hero-particle.particle-15 { left: 90%; width: 3px; height: 3px; animation-duration: 17s; animation-delay: 5s; }
+.hero-particle.particle-16 { left: 96%; width: 5px; height: 5px; animation-duration: 12s; animation-delay: 2.2s; }
+.inner {
+  @apply w-[1200px] mx-auto;
+}
+.video-inner {
+  /* 仅预留 fixed 顶栏高度 + 20px 间距，避免与文档流顶栏重复占位 */
+  @apply h-full pt-[92px] pb-5 flex justify-center items-start relative z-[1] box-border;
+}
+.video-box {
+  @apply w-[1015px] h-[507px] bg-black border border-white/[0.16] border-r-0 rounded-l-3xl relative overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.42)];
+}
+.video-player {
+  @apply w-full h-full relative bg-black;
+}
+.hero-status {
+  @apply absolute top-[22px] left-6 z-[12] inline-flex items-center gap-2 h-[34px] px-3.5 border border-white/[0.22] rounded-full bg-[rgba(15,23,42,0.48)] text-white text-[13px] font-bold backdrop-blur-[12px];
+}
+.live-dot {
+  @apply w-2 h-2 rounded-full bg-green-500 shadow-[0_0_0_6px_rgba(34,197,94,0.16)];
+}
+.hero-meta {
+  @apply absolute right-6 bottom-[84px] left-6 z-[12] flex items-end justify-between gap-6 text-white pointer-events-none;
+}
+.hero-meta strong {
+  @apply block max-w-[600px] mt-2 text-[22px] leading-[1.3] tracking-[0.2px] drop-shadow-[0_4px_18px_rgba(0,0,0,0.36)];
+}
+.meta-label,
+.meta-count {
+  @apply inline-flex items-center h-[30px] px-3 rounded-full bg-white/[0.14] text-white/[0.9] text-xs font-bold backdrop-blur-[10px];
+}
+.meta-count {
+  @apply whitespace-nowrap;
+}
+.xgplayer-container {
+  @apply w-full h-full rounded-[18px] overflow-hidden;
+}
+.xgplayer-container video {
+  @apply object-cover brightness-[1.2] contrast-[1.1];
+}
+:deep(.xgplayer-controls) {
+  @apply px-4 pb-3;
+}
+:deep(.xgplayer-controls .xg-right-grid) {
+  @apply gap-2;
+}
+:deep(.xgplayer-controls .xgplayer-icon[data-state]) {
+  @apply rounded-full transition-all duration-200;
+}
+:deep(.xgplayer-controls .xgplayer-icon[data-state]:hover) {
+  background: rgba(255, 255, 255, 0.12);
+}
+:deep(.xgplayer-controls .xgplayer-icon[data-state='active']) {
+  background: rgba(255, 92, 76, 0.18);
+}
+/* 弹幕开关样式见 assets/css/player-danmu.css */
+:deep(.xgplayer-controls .xgplayer-icon .xg-tips) {
+  @apply text-[12px];
+}
+.video-mask {
+  @apply absolute top-0 left-0 w-full h-full bg-[linear-gradient(180deg,rgba(0,0,0,0.04)_0%,rgba(0,0,0,0.12)_42%,rgba(0,0,0,0.56)_100%)] z-[2] pointer-events-none transition-colors duration-300;
+}
+.video-box:hover .video-mask {
+  @apply bg-black/[0.3];
+}
+.play-btn {
+  @apply w-[70px] h-[70px] cursor-pointer transition-transform duration-300;
+}
+.play-btn:hover {
+  @apply scale-110;
+}
+.play-btn img {
+  @apply w-full h-full;
+}
+.loading {
+  @apply absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center bg-black/[0.7] text-white z-[5];
+}
+.loading .imgRotate {
+  @apply w-[50px] h-[50px] animate-[rotate_1.5s_linear_infinite];
+}
+.loading-logo {
+  @apply w-[60px] mt-2.5;
+}
+.loading p {
+  @apply mt-2.5 text-sm;
+}
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.inLiveRoom {
+  @apply absolute left-1/2 top-[44%] -translate-x-1/2 -translate-y-1/2 border border-white/[0.36] text-[#111827] h-[60px] leading-[60px] px-[30px] rounded-full bg-[linear-gradient(135deg,#fff2a8_0%,#ffc21c_100%)] shadow-[0_18px_42px_rgba(248,194,27,0.36)] text-xl font-semibold cursor-pointer transition-all duration-200 z-[13];
+}
+.inLiveRoom::after {
+  @apply content-['>'] ml-2.5 text-lg font-extrabold;
+}
+.inLiveRoom:hover {
+  @apply bg-[#f8c21b] text-white;
+}
+.unmute-btn {
+  @apply absolute left-1/2 top-[58%] -translate-x-1/2 -translate-y-1/2 border border-white/[0.36] text-white h-[44px] leading-[44px] px-5 rounded-full bg-white/[0.16] shadow-[0_12px_28px_rgba(0,0,0,0.24)] text-base font-semibold cursor-pointer transition-all duration-200 z-[13] backdrop-blur-[10px];
+}
+.unmute-btn:hover {
+  @apply bg-white text-[#111827];
+}
+.live-title {
+  @apply absolute left-2.5 bottom-2.5 flex items-center gap-2.5 text-white z-10 max-w-[60%];
+}
+.live-title .live-cover {
+  @apply w-12 h-12 rounded-md object-cover border-2 border-white/[0.3];
+}
+.live-title .info h4 {
+  @apply text-sm font-medium m-0 mb-1 overflow-hidden whitespace-nowrap text-ellipsis;
+}
+.live-title .info p {
+  @apply text-xs text-white/[0.8] m-0;
+}
+/* 右侧直播 tab：独立命名，避免与直播间页 .video-list 全局样式冲突 */
+.hero-side-tabs {
+  @apply w-[185px] h-[507px] overflow-hidden rounded-r-3xl shrink-0;
+}
+.hero-side-tabs__list {
+  @apply list-none m-0 h-full overflow-y-auto p-2 bg-[rgba(7,10,28,0.86)] backdrop-blur-[14px];
+}
+.hero-side-tabs__list::-webkit-scrollbar {
+  @apply w-1;
+}
+.hero-side-tabs__list::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+.hero-side-tabs__list::-webkit-scrollbar-thumb {
+  @apply bg-white/[0.3] rounded-sm;
+}
+.hero-side-tabs__item {
+  @apply relative pb-2.5 last:pb-0;
+}
+.hero-side-tabs__btn {
+  @apply appearance-none border-0 p-0 m-0 block w-[169px] h-[98px] relative rounded-[14px] overflow-hidden cursor-pointer bg-transparent text-left;
+}
+.hero-side-tabs__btn img {
+  @apply block w-full h-full object-cover rounded-[14px];
+}
+.hero-side-tabs__title {
+  @apply absolute bottom-0 left-0 w-full px-2 pt-[18px] pb-[7px] text-xs text-white bg-[linear-gradient(to_top,rgba(0,0,0,0.7),transparent)] overflow-hidden whitespace-nowrap text-ellipsis z-[2];
+}
+.hero-side-tabs__item.is-active .hero-side-tabs__btn::after,
+.hero-side-tabs__btn:hover::after {
+  @apply content-[''] absolute inset-0 border-2 border-[#f8c21b] rounded-[14px] box-border z-[3] pointer-events-none;
+}
+/* 箭头挂在 item 上，不被 button overflow 裁切 */
+.hero-side-tabs__arrow {
+  @apply absolute top-1/2 -translate-y-1/2 -left-1.5 w-0 h-0 z-[4]
+    border-y-[6px] border-y-transparent border-r-[6px] border-r-[#f8c21b]
+    pointer-events-none;
+}
+
+@media screen and (max-width: 1400px) {
+  .inner {
+    @apply w-[960px];
+  }
+  .living-room {
+    /* 72 + 20 + 454 + 20 = 566 */
+    @apply h-[566px];
+  }
+  .video-inner {
+    @apply h-full pt-[92px] pb-5 box-border;
+  }
+  .video-box {
+    @apply w-[810px] h-[454px];
+  }
+  .hero-side-tabs {
+    @apply w-[150px] h-[454px];
+  }
+  .hero-side-tabs__btn {
+    @apply w-[132px] h-20;
+  }
+  .hero-side-tabs__title {
+    @apply text-[11px];
+  }
+  .play-btn {
+    @apply w-14 h-14;
+  }
+  .live-title .live-cover {
+    @apply w-10 h-10;
+  }
+  .live-title .info h4 {
+    @apply text-[13px];
+  }
+  .hero-meta strong {
+    @apply text-lg max-w-[420px];
+  }
+  .hero-meta {
+    @apply bottom-[72px];
+  }
+  .inLiveRoom {
+    @apply top-[42%];
+  }
+  .unmute-btn {
+    @apply top-[56%];
+  }
+}
+
+@media (max-width: 768px) {
+  .living-room {
+    @apply h-auto bg-[#f5f5f5] pt-[180px];
+  }
+  .living-room::before,
+  .living-room::after,
+  .hero-effects,
+  .hero-side-tabs,
+  .hero-status,
+  .hero-meta,
+  .inLiveRoom,
+  .unmute-btn,
+  .live-title,
+  .video-mask,
+  .loading {
+    @apply hidden;
+  }
+  .inner,
+  .video-inner {
+    @apply w-full h-auto p-0 block;
+  }
+  .video-box {
+    @apply w-auto h-auto mx-4 border-0 rounded-[14px] shadow-none bg-transparent;
+  }
+  .video-player {
+    @apply aspect-[16/9] rounded-[14px] overflow-hidden bg-black;
+  }
+  .xgplayer-container {
+    @apply rounded-[14px];
+  }
+}
+</style>
